@@ -2,7 +2,8 @@ package Application;
 import java.io.File;
 import java.util.List;
 
-public class IPC {
+public class IPC 
+{
 	private File inputFolder;
 	private File outputFolder;
 	
@@ -10,7 +11,8 @@ public class IPC {
 	private List<String> outputDataBuffer;
 	
 	
-	public IPC(){
+	public IPC()
+	{
 		
 	}
 	
