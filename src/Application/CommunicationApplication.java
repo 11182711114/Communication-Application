@@ -8,6 +8,8 @@ import java.net.UnknownHostException;
 
 public class CommunicationApplication {
 	
+	private static final int MODE = -1;
+	private static final String TEST_STRING= "TEST TEST TEST";
 	private static final String[] OPTIONS = {"-IP", "-m"};
 		// "-m X" = X manual message to send, assumes -IP
 		// "-IP X:Y" = X IP, Y port to connect to in manual mode, assumes -m mode
@@ -56,7 +58,8 @@ public class CommunicationApplication {
 		try {
 			manualCon = new Connection(new Socket(adr, port));
 			manualCon.connect();
-			manualCon.send("TESTTEST");
+			if(MODE == -1)
+				manualCon.send(TEST_STRING);
 			manualCon.close();
 		} catch (IOException e) {e.printStackTrace();}
 		
