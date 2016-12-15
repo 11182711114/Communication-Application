@@ -10,8 +10,6 @@ public class CommunicationApplication {
 		// "-m X" = X manual message to send, assumes -IP
 		// "-IP X:Y" = X IP, Y port to connect to in manual mode, assumes -m mode
 		
-	
-	
 	public static void main(String[] args) {
 		if(args.length>0){
 			for(int i = 0; i<args.length;i++){
