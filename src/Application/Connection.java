@@ -31,7 +31,7 @@ public class Connection {
 		if(sSocket != null){
 			try {
 				System.out.println("Listening on port: " + sSocket.getLocalPort());
-				sSocket.accept();
+				iSocket = sSocket.accept();
 			} catch (IOException e) {e.printStackTrace();}
 		}
 		outputTestSocket();
