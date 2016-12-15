@@ -1,6 +1,8 @@
 package Application;
 
+import java.io.IOException;
 import java.net.InetAddress;
+import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class CommunicationApplication {
@@ -46,10 +48,13 @@ public class CommunicationApplication {
 	private String manualConnect(InetAddress adr, int port) {
 		String output = null;
 		
-		Connection manualCon = new Connection(adr, port);
-		manualCon.connect();
-		manualCon.send("TESTTEST");
-		manualCon.close();
+		Connection manualCon;
+		try {
+			manualCon = new Connection(new Socket(adr, port));
+			manualCon.connect();
+			manualCon.send("TESTTEST");
+			manualCon.close();
+		} catch (IOException e) {e.printStackTrace();}
 		
 		return output;
 	}
