@@ -1,6 +1,5 @@
 package Application;
 
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -31,22 +30,26 @@ public class CommunicationApplication {
 					} catch (UnknownHostException e) {
 						e.printStackTrace();
 					}
+					break;
+				case "-server":
+					manualListen(Integer.parseInt(args[i+1]));
+					break;
 				}
 			
 			}
 		}
 	}
+	private void manualListen(int port) {
+		Connection manualCon = new Connection(port);
+		manualCon.listenServerSocket();		
+	}
 	private String manualConnect(InetAddress adr, int port) {
 		String output = null;
 		
-		try {
-			Connection manualCon = new Connection(adr, port);
-			manualCon.connect();
-			manualCon.send("TESTTEST");
-			manualCon.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Connection manualCon = new Connection(adr, port);
+		manualCon.connect();
+		manualCon.send("TESTTEST");
+		manualCon.close();
 		
 		return output;
 	}
