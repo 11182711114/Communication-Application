@@ -39,11 +39,13 @@ public class Connection {
 	private void outputTestSocket() {
 		while(true){
 			try {
+				System.out.println(System.currentTimeMillis());
 				Thread.sleep(2000);
+				System.out.println(System.currentTimeMillis());
 			} catch (InterruptedException e) {e.printStackTrace();}
 			String toPrint = receive();
 			if(toPrint != null)
-				System.out.println();
+				System.out.println(toPrint);
 		}
 	}
 
@@ -57,6 +59,8 @@ public class Connection {
 		String output = "";
 		
 		try {
+			if(iSocket == null)
+				System.out.println("Null inputstream!");
 			BufferedReader input = new BufferedReader(new InputStreamReader(iSocket.getInputStream()));
 			System.out.println("Waiting for data on socket:" + iSocket.getLocalPort());
 			output = input.readLine();
@@ -67,8 +71,10 @@ public class Connection {
 
 	public void close() {
 		try{
-			sSocket.close();
-			iSocket.close();
+			if(sSocket != null)
+				sSocket.close();
+			if(iSocket != null)
+				iSocket.close();
 		}catch(IOException e){e.printStackTrace();}
 	}
 }
