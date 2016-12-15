@@ -15,10 +15,8 @@ public class Connection {
 		iSocket = s;
 	}
 
-	public Connection(int port) {
-		try {
-			sSocket = new ServerSocket(port);
-		} catch (IOException e) {e.printStackTrace();}
+	public Connection(ServerSocket s) {
+			sSocket = s;
 	}
 
 	public void connect() {

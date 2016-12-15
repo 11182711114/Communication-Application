@@ -2,6 +2,7 @@ package Application;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -42,8 +43,11 @@ public class CommunicationApplication {
 		}
 	}
 	private void manualListen(int port) {
-		Connection manualCon = new Connection(port);
-		manualCon.listenServerSocket();		
+		Connection manualCon;
+		try {
+			manualCon = new Connection(new ServerSocket(port));
+			manualCon.listenServerSocket();		
+		} catch (IOException e) {e.printStackTrace();}
 	}
 	private String manualConnect(InetAddress adr, int port) {
 		String output = null;
