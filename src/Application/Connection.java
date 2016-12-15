@@ -39,20 +39,17 @@ public class Connection {
 	private void outputTestSocket() {
 		while(true){
 			try {
-				System.out.println(System.currentTimeMillis());
-				Thread.sleep(2000);
-				System.out.println(System.currentTimeMillis());
+				Thread.sleep(5000);
 			} catch (InterruptedException e) {e.printStackTrace();}
 			String toPrint = receive();
-			if(toPrint != null)
-				System.out.println(toPrint);
+			System.out.println(toPrint);
 		}
 	}
 
 	public void send(String string) {
 		try {
 			PrintWriter output = new PrintWriter(iSocket.getOutputStream(),true);
-			output.write(string);
+			output.println(string);
 		} catch (IOException e) {e.printStackTrace();}
 	}
 	public String receive(){
