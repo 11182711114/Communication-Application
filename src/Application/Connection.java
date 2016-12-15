@@ -7,10 +7,24 @@ import java.net.Socket;
 public class Connection {
 	Socket iSocket;
 	
-	public Connection(byte[] adr) throws IOException {
-		InetAddress ip = InetAddress.getByAddress(adr);
-		iSocket = new Socket(ip,8080);
+	public Connection(InetAddress adr,int port) throws IOException {
+		iSocket = new Socket(adr,port);
 		iSocket.bind(null);
 		iSocket.close();
+	}
+
+	public void connect() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void send(String string) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void close() {
+		// TODO Auto-generated method stub
+		
 	}
 }
