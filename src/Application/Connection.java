@@ -21,7 +21,6 @@ public class Connection {
 	public Connection(int port) {
 		try {
 			sSocket = new ServerSocket(port);
-			iSocket = sSocket.accept();
 		} catch (IOException e) {e.printStackTrace();}
 	}
 
@@ -31,6 +30,7 @@ public class Connection {
 	public void listenServerSocket(){
 		if(sSocket != null){
 			try {
+				System.out.println("Listening on port: " + sSocket.getLocalPort());
 				sSocket.accept();
 			} catch (IOException e) {e.printStackTrace();}
 		}
@@ -41,7 +41,6 @@ public class Connection {
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {e.printStackTrace();}
-			
 			String toPrint = receive();
 			if(toPrint != null)
 				System.out.println();
@@ -59,6 +58,7 @@ public class Connection {
 		
 		try {
 			BufferedReader input = new BufferedReader(new InputStreamReader(iSocket.getInputStream()));
+			System.out.println("Waiting for data on socket:" + iSocket.getLocalPort());
 			output = input.readLine();
 		} catch (IOException e) {e.printStackTrace();}
 		
