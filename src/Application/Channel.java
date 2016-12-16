@@ -23,7 +23,6 @@ public class Channel implements Comparable<Channel>, Runnable{
 		while(running){
 			
 		}
-		
 	}
 	@Override
 	public int compareTo(Channel c) {

@@ -15,7 +15,7 @@ public class ChannelHandler {
 	}
 	public void addChannel(Channel c){
 		c.run();
-		channels.add(c);		
+		channels.add(c);
 	}
 	public void setPortListener(PortListener pl){
 		this.sListener = pl;
