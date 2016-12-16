@@ -16,8 +16,8 @@ public class Writer implements InOutPuttable{
 	
 	@Override
 	public void write() {
-		// TODO Auto-generated method stub
 		
+		// TODO Auto-generated method stub
 	}
 
 	@Override
