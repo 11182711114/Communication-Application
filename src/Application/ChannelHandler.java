@@ -1,12 +1,13 @@
 package Application;
 
+import java.util.List;
+
 public class ChannelHandler {
-	private Logger log;
 	
+	private List<Connection> cons;
 	
-	public ChannelHandler(Logger log){
-		this.log = log;
-		
+	public ChannelHandler(List<Connection> cons){
+		this.cons = cons;
 	}
 	
 

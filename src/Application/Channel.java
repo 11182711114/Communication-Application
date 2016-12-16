@@ -2,10 +2,17 @@ package Application;
 
 public class Channel {
 	private Connection comID;
-	private Logger log;
 	
-	public Channel(Logger log){
-		this.log = log;
+	private Connection con;
+	private IO inOut;
+	
+	/**
+	 * Desc desc desc.
+	 * @param  variable Description text text text.
+	 * @param  different_variable text text text.
+	 * @return Description text text text.
+	 */
+	public Channel(){
 		
 	}
 
