@@ -15,7 +15,17 @@ public class IO implements Runnable{
 	public IO(Channel channel){
 		myChannel = channel;
 		idCount = id;
-		this.id =id++;
+		id = id++;
+		
+	}
+	
+	public void createWriter(){
+		Writer writer = new Writer(this);
+		writerCollection.add(writer);
+	}
+	public void createReader(){
+		Reader reader = new Reader(this);
+		readerCollection.add(reader);
 		
 	}
 	
