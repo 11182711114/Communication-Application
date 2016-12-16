@@ -1,11 +1,22 @@
+
 package Application;
 
-public class Connection2 implements Runnable {
+import java.net.Socket;
 
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-
+public class Connection2 implements Runnable 
+{
+	private Socket socket;
+	private Channel channel;
+	
+	public Connection2(Socket s, Channel h)
+	{
+		socket = s;
+		channel = h;
 	}
-
+	
+	@Override
+	public void run() 
+	{
+		
+	}
 }
