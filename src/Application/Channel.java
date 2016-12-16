@@ -5,7 +5,7 @@ public class Channel {
 	private Logger log;
 	
 	public Channel(Logger log){
-		this.log =log;
+		this.log = log;
 		
 	}
 
