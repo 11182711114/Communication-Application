@@ -9,13 +9,15 @@ public class ChannelHandler {
 	private Set<Channel> channelsSet;
 	private PortListener sListener;
 	
-	public ChannelHandler(Set<Channel> channelsSet,List<Channel> cons,PortListener sListener){
+	public ChannelHandler(Set<Channel> channelsSet,List<Channel> cons){
 		this.channels = cons;
-		this.sListener = sListener;
 		this.channelsSet = channelsSet;
 	}
 	public void addChannel(Channel c){
 		c.startChannel();
 		channels.add(c);		
+	}
+	public void setPortListener(PortListener pl){
+		this.sListener = pl;
 	}
 }
