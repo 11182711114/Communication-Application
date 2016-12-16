@@ -11,6 +11,7 @@ public class Connection {
 	Socket iSocket;
 	ServerSocket sSocket;
 	
+	
 	public Connection(Socket s) {
 		iSocket = s;
 	}
