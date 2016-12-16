@@ -1,6 +1,7 @@
 
 package Application;
 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
@@ -11,6 +12,7 @@ public class Connection2 implements Runnable
 {
 	private Socket socket;
 	private Channel channel;
+	
 	private boolean run;
 	
 	public Connection2(Socket s, Channel h)
@@ -25,12 +27,27 @@ public class Connection2 implements Runnable
 		run = true;
 		do
 		{
-			
+			try 
+			{
+				DataInputStream input = new DataInputStream(socket.getInputStream());
+				
+				
+			} 
+			catch (IOException e) 
+			{
+				e.printStackTrace();
+				exitRun();
+			}
 		}
 		while(run);
 	}
 	
-	public void closeConnection()
+	public void changeSocket(Socket newSocket)
+	{
+		socket = newSocket;
+	}
+	
+	public void exitRun()
 	{
 		run = false;
 	}
