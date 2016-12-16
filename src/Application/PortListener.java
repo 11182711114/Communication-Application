@@ -3,7 +3,9 @@ package Application;
 
 import java.net.ServerSocket;
 
-public class PortListener 
+//OBS formatera!
+
+public class PortListener implements Runnable
 {
 	private final ChannelHandler HANDLER;
 	private final ServerSocket SOCKET;
@@ -13,4 +15,11 @@ public class PortListener
 		HANDLER = h;
 		SOCKET = s;
 	}
+
+	@Override
+	public void run() 
+	{
+		 
+	}
+	
 }
