@@ -14,6 +14,7 @@ public class CommunicationApplication {
 		// "-m X" = X manual message to send, assumes -IP
 		// "-IP X:Y" = X IP, Y port to connect to in manual mode, assumes -m mode
 		// "-server X" = app acts as server listening on port X
+	private Logger log;
 	private String[] args;
 	
 	public static void main(String[] args) {
