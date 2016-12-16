@@ -14,10 +14,13 @@ public class ChannelHandler {
 		this.channelsSet = channelsSet;
 	}
 	public void addChannel(Channel c){
-		c.startChannel();
+		c.run();
 		channels.add(c);		
 	}
 	public void setPortListener(PortListener pl){
 		this.sListener = pl;
+	}
+	public void continuousOperation() {
+		
 	}
 }

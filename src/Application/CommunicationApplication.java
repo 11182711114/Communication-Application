@@ -28,28 +28,23 @@ public class CommunicationApplication {
 	}
 	public CommunicationApplication(String[] args){
 		this.args = args;
-		cH = new ChannelHandler(new HashSet<Channel>(), new ArrayList<Channel>());
-		try {
-			cH.setPortListener(new PortListener(cH,new ServerSocket(listenPort)));
-		} catch (IOException e) {e.printStackTrace();}
 	}
 	private void run(){
 		if(args.length>0){
 			boolean continuous = false;
 			for(int i = 0; i<args.length;i++){
 				switch(args[i]){
+				
 				case "-IP":
 					try {
 						manualConnect(InetAddress.getByName(args[i+1]),Integer.parseInt(args[i+2]));
-					} catch (NumberFormatException e) {
-						e.printStackTrace();
-					} catch (UnknownHostException e) {
-						e.printStackTrace();
-					}
+					} catch (NumberFormatException e) {e.printStackTrace();} catch (UnknownHostException e) {e.printStackTrace();}
 					break;
+					
 				case "-server":
 					manualListen(Integer.parseInt(args[i+1]));
 					break;
+				
 				case "-c":
 					continuous = true;
 				}
@@ -58,9 +53,11 @@ public class CommunicationApplication {
 		}
 	}
 	private void startContinuousOp(){
-		while(true){
-			
-		}
+		cH = new ChannelHandler(new HashSet<Channel>(), new ArrayList<Channel>());
+		try {
+			cH.setPortListener(new PortListener(cH,new ServerSocket(listenPort)));
+		} catch (IOException e) {e.printStackTrace();}
+		cH.continuousOperation();
 	}
 	
 	

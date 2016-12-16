@@ -1,7 +1,8 @@
 package Application;
 
-public class Channel implements Comparable<Channel>{
+public class Channel implements Comparable<Channel>, Runnable{
 	private String comID;
+	private boolean running;
 	
 	private Connection2 con;
 	private IO inOut;
@@ -15,8 +16,14 @@ public class Channel implements Comparable<Channel>{
 		this.con = con;
 		this.inOut = inOut;		
 	}
-	public void startChannel(){
+	@Override
+	public void run() {
+		running = true;
 		con.run();
+		while(running){
+			
+		}
+		
 	}
 	@Override
 	public int compareTo(Channel c) {
@@ -24,5 +31,9 @@ public class Channel implements Comparable<Channel>{
 	}
 	public String getComID(){
 		return comID;
+	}
+	public void exit(){
+//		con.close();
+//		io.close();
 	}
 }
