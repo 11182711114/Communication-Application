@@ -25,5 +25,15 @@ public class Writer implements InOutPuttable{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public IO getIo(){
+		return myIo;
+	}
+	
+	@Override
+	public int getIOId() {
+		// TODO Auto-generated method stub
+		return writerId;
+	}
 
 }

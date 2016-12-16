@@ -25,8 +25,11 @@ public class IO implements Runnable{
 	}
 	public void createReader(){
 		Reader reader = new Reader(this);
-		readerCollection.add(reader);
-		
+		readerCollection.add(reader);	
+	}
+	
+	public int getId(){
+		return id;
 	}
 	
 	
