@@ -1,19 +1,23 @@
 
 package Application;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 //OBS formatera!
 
 public class Connection2 implements Runnable
 {
+	
 	private Socket socket;
 	private Channel channel;
+	
+	private List<DataPacket> data;
 	
 	private boolean run;
 	
@@ -21,6 +25,7 @@ public class Connection2 implements Runnable
 	{
 		socket = s;
 		channel = h;
+		data = new ArrayList<>();
 	}
 	
 	@Override
@@ -29,13 +34,24 @@ public class Connection2 implements Runnable
 		
 			try 
 			{
-				BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+				Scanner input = new Scanner(socket.getInputStream());
 				
 				run = true;
-				checkForInput(input);
+				
+				do
+				{
+					read(input);
+					Thread.sleep(100);
+				}
+				while(run);
+				
 				
 			}
-			catch (IOException e) 
+			catch (InterruptedException e) 
+			{
+				e.printStackTrace();
+				exitRun();
+			} catch (IOException e) 
 			{
 				e.printStackTrace();
 				exitRun();
@@ -66,40 +82,16 @@ public class Connection2 implements Runnable
 		} 
 		catch (IOException e)
 		{
-			//Tänk på felhantering!
 			e.printStackTrace();
 			return false;
 		}
 	}
 	
-	private void checkForInput(BufferedReader reader)
+	private void read(Scanner scanner)
 	{
-		try
+		while(scanner.hasNext())
 		{
-			do
-			{
-				if(reader.ready())
-				{
-					handleInput(reader);
-				}
-				Thread.sleep(100);
-			} 
-			while(run);
+			
 		}
-		catch(InterruptedException e)
-		{
-			e.printStackTrace();
-			run = false;
-		}
-		catch(IOException e)
-		{
-			e.printStackTrace();
-			run = false;
-		}
-	}
-	
-	public void handleInput(BufferedReader reader)
-	{
-		
 	}
 }
