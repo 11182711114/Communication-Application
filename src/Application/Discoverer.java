@@ -16,6 +16,8 @@ public class Discoverer implements Runnable{
 	
 	private String end = "Nmap done:";
 	
+	private List<String> routingTable = new ArrayList<>();
+	
 	
 	public Discoverer(){
 		
@@ -23,12 +25,13 @@ public class Discoverer implements Runnable{
 
 	@Override
 	public void run() {
+		//Make the ProcessBuilder
 		pb = new ProcessBuilder(command, arg1,network);
 		pb.redirectErrorStream(true);
 		
 		List<String> shellOutput = new ArrayList<String>();
 		
-		
+		//main loop
 		while(active){
 			
 			try {
@@ -37,6 +40,7 @@ public class Discoverer implements Runnable{
 				Scanner sc = new Scanner(new InputStreamReader(process.getInputStream()));
 				long startTime = System.currentTimeMillis();
 				while(true){
+					//kill the process if it takes longer than 100s
 					long currentTime = System.currentTimeMillis();
 					long timeDiff = currentTime-startTime;
 					if(timeDiff>(100*1000)){
@@ -44,9 +48,11 @@ public class Discoverer implements Runnable{
 						break;
 					}
 					
-					if(sc.hasNext()){
+					//read lines and add them to shellOutput, if the line contains Nmap end singal break the loop
+					while(sc.hasNext()){
 						String line = sc.nextLine();
 						
+						//no need to add the end signgl line
 						if(line.contains(end))
 							break;
 						
@@ -54,7 +60,11 @@ public class Discoverer implements Runnable{
 					}
 				}
 				
-				
+				//FIXME clean and add to routing table class
+				for(String s : shellOutput){
+					routingTable.add(s);
+				}
+			
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
