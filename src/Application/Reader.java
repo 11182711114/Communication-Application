@@ -6,14 +6,8 @@ import java.io.IOException;
 
 public class Reader implements InPuttable{
 	
-	
-	private int readerId = 1;
-	public static int readerCount;
-	
-	
 	public Reader(){
-		readerCount = readerId;
-		readerId = readerId++;
+		
 	}
 
 	@Override
