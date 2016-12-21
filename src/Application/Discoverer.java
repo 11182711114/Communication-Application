@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import parsers.DeviceParser;
+import parsers.NmapParser;
+
 public class Discoverer implements Runnable{
 	
 	private boolean active = false;
@@ -16,10 +19,11 @@ public class Discoverer implements Runnable{
 	
 	private String end = "Nmap done:";
 	
-	private List<String> routingTable = new ArrayList<>();
+	private RoutingTable routingTable;
 	
 	
-	public Discoverer(){
+	public Discoverer(RoutingTable rt){
+		this.routingTable = rt;
 		
 	}
 
@@ -48,11 +52,11 @@ public class Discoverer implements Runnable{
 						break;
 					}
 					
-					//read lines and add them to shellOutput, if the line contains Nmap end singal break the loop
+					//read lines and add them to shellOutput, if the line contains Nmap end signal break the loop
 					while(sc.hasNext()){
 						String line = sc.nextLine();
 						
-						//no need to add the end signgl line
+						//no need to add the end signal line
 						if(line.contains(end))
 							break;
 						
@@ -60,9 +64,15 @@ public class Discoverer implements Runnable{
 					}
 				}
 				
-				//FIXME clean and add to routing table class
-				for(String s : shellOutput){
-					routingTable.add(s);
+				//FIXME clean
+				DeviceParser dp = new NmapParser();
+				try{
+					for(String s : shellOutput){
+						Device dev = dp.parse(s);
+						routingTable.addDevice(dev);
+					}
+				}catch(IllegalArgumentException e){
+					e.printStackTrace();
 				}
 			
 			} catch (IOException e) {
