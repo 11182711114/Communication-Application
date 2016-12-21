@@ -1,6 +1,5 @@
-package Application;
 
-import java.net.InetAddress;
+package Application;
 
 public class InputDataPacket extends DataPacket
 {

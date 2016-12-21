@@ -98,7 +98,7 @@ public class Connection2 implements Runnable
 			{
 				DataParser.parseData(input, packet);
 			}
-			while(!input.equals("END"));
+			while(!input.equals("<END>"));
 		}
 	}
 }
