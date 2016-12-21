@@ -25,7 +25,6 @@ public class ChannelHandler {
 		IO ioTmp = new IO();
 		Channel tmp = new Channel(conTmp, ioTmp);
 		ioTmp.setChannel(tmp);
-		conTmp.setChannel(tmp);
 		
 		tmp.run();
 		channelsSet.add(tmp);
