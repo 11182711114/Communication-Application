@@ -24,30 +24,27 @@ public class ChannelHandler {
 		channels.add(c);
 	}
 	public void passSocket(Socket s){
+		log.Log("Making new channel based on passed socket", LogLevel.Debug, System.currentTimeMillis());
+		
 		Connection conTmp = new Connection(s);
 		IO ioTmp = new IO();
 		Channel tmp = new Channel(conTmp, ioTmp);
-		
 		tmp.run();
+		
+		log.Log("Adding channel to channel chain", LogLevel.Debug, System.currentTimeMillis());
+		
 		channelsSet.add(tmp);
 		channels.add(tmp);		
 	}
 	public void setPortListener(PortListener pl){
+		log.Log("Setting port listener to port: " + pl.getServerSocketPort(), LogLevel.Debug, System.currentTimeMillis());
 		this.sListener = pl;
 	}
 	public void start(){
-		log.Log("Starting", LogLevel.Debug, System.currentTimeMillis());
+		log.Log("Starting ChannelHandler", LogLevel.Debug, System.currentTimeMillis());
 		
 		active = true;
 		sListener.run();
-		
-		while(active){
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
 		
 	}
 }
