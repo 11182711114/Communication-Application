@@ -1,39 +1,42 @@
 package Application;
 
-public class Reader implements InOutPuttable{
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class Reader implements InPuttable{
 	
-	private IO myIo;
+	
 	private int readerId = 1;
 	public static int readerCount;
 	
 	
-	public Reader(IO myIo){
-		this.myIo=myIo;
-		
+	public Reader(){
 		readerCount = readerId;
 		readerId = readerId++;
 	}
 
 	@Override
-	public void write() {
-		// TODO Auto-generated method stub
+	public String read(String inputFileName) throws IOException{
 		
-	}
-
-	@Override
-	public void read() {
-		// TODO Auto-generated method stub
+		String content = null;
+		File file = new File(inputFileName);
+		FileReader fileReader = null;
 		
+		
+		
+//		try{
+//			
+//		}catch (IOException e){			?? istället för throw?
+//			
+//		}
+		
+		fileReader = new FileReader(file);
+		char[] chars = new char [(int) file.length()];
+		fileReader.read(chars);
+		content = new String (chars);
+		fileReader.close();
+		
+		return content;
 	}
-	
-	public IO getIo(){
-		return myIo;
-	}
-
-	@Override
-	public int getIOId() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 }
