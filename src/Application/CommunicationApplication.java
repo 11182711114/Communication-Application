@@ -1,5 +1,6 @@
 package Application;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -47,6 +48,10 @@ public class CommunicationApplication {
 				
 				case "-c":
 					continuous = true;
+					break;
+				case "-log":
+					Util.Logger.setLogFile(new File(args[i+1]));
+					break;
 				}
 			}
 		}
