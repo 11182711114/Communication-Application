@@ -118,6 +118,9 @@ public class Connection2 implements Runnable {
 			return true;
 		} catch (IOException e) {
 			// Tänk på felhantering!
+		} 
+		catch (IOException e)
+		{
 			e.printStackTrace();
 			return false;
 		}
@@ -137,6 +140,12 @@ public class Connection2 implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 			run = false;
+	
+	private void read(Scanner scanner)
+	{
+		while(scanner.hasNext())
+		{
+			
 		}
 	}
 
