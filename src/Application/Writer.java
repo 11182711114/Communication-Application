@@ -1,39 +1,29 @@
 package Application;
 
-public class Writer implements InOutPuttable{
+import java.io.FileWriter;
+import java.io.IOException;
 
-	private IO myIo;
+
+public class Writer implements OutPuttable{
+
 	private int writerId = 1;
 	public static int writerCount;
 	
-	public Writer(IO myIo){
-		this.myIo=myIo;
-		
+	public Writer(){
 		writerCount = writerId;
 		writerId = writerId++;
 		
 	}
 	
 	@Override
-	public void write() {
+	public void write(String [] input) throws IOException{
 		
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void read() {
-		// TODO Auto-generated method stub
+		FileWriter filewriter = new FileWriter("Writer: " + writerId + "_Output.txt ");
 		
+		for(String out : input){
+			filewriter.write(out);
+		}
+		
+		filewriter.close();
 	}
-	
-	public IO getIo(){
-		return myIo;
-	}
-	
-	@Override
-	public int getIOId() {
-		// TODO Auto-generated method stub
-		return writerId;
-	}
-
 }
