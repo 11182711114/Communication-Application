@@ -45,12 +45,12 @@ public class Connection implements Runnable
 			catch (InterruptedException e) 
 			{
 				e.printStackTrace();
-				exitRun();
+				close();
 			} 
 			catch (IOException e) 
 			{
 				e.printStackTrace();
-				exitRun();
+				close();
 			}
 	}
 	
@@ -58,12 +58,6 @@ public class Connection implements Runnable
 	{
 		socket = newSocket;
 	}
-	
-	public void exitRun()
-	{
-		run = false;
-	}
-	
 	public boolean send(String s)
 	{
 		try 
@@ -103,6 +97,14 @@ public class Connection implements Runnable
 					packet.parseData(input);
 				}
 			}
+		}
+	}
+	public void close(){
+		run = false;
+		try {
+			socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }

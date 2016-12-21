@@ -32,7 +32,7 @@ public class Channel implements Comparable<Channel>, Runnable{
 		return comID;
 	}
 	public void exit(){
-//		con.close();
+		con.close();
 //		io.close();
 	}
 }
