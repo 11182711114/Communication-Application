@@ -9,6 +9,8 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import Util.LogLevel;
+
 public class CommunicationApplication {
 	
 	private static final int MODE = -1;
@@ -20,7 +22,8 @@ public class CommunicationApplication {
 		// "-c" = continuous mode
 	
 	private ChannelHandler cH;
-	private int listenPort = 8080; //default port
+	private int listenPort = 10231; //default port
+	private Util.Logger log;
 	
 	private boolean continuous = false;
 	
@@ -54,13 +57,17 @@ public class CommunicationApplication {
 					break;
 				}
 			}
-		}
+		} 
+		log = Util.Logger.getInstance();
 	}
 	private void start(){
-			if(continuous)
-				startContinuousOp();		
+		log.Log("Starting the program", LogLevel.Debug, System.currentTimeMillis());
+			if(continuous){
+				log.Log("Starting continuous operation", LogLevel.Debug, System.currentTimeMillis());
+				startContinuousOperation();
+			}		
 	}
-	private void startContinuousOp(){
+	private void startContinuousOperation(){
 		cH = new ChannelHandler(new HashSet<Channel>(), new ArrayList<Channel>());
 		try {
 			cH.setPortListener(new PortListener(cH,new ServerSocket(listenPort)));

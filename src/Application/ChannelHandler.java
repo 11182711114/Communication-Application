@@ -4,7 +4,10 @@ import java.net.Socket;
 import java.util.List;
 import java.util.Set;
 
+import Util.LogLevel;
+
 public class ChannelHandler {
+	private Util.Logger log= Util.Logger.getInstance();
 	
 	private List<Channel> channels;
 	private Set<Channel> channelsSet;
@@ -34,6 +37,8 @@ public class ChannelHandler {
 		this.sListener = pl;
 	}
 	public void start(){
+		log.Log("Starting", LogLevel.Debug, System.currentTimeMillis());
+		
 		active = true;
 		sListener.run();
 		

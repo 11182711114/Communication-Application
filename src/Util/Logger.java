@@ -23,8 +23,8 @@ public class Logger {
 		logFileStatic = f;
 	}
 	
-	public void Log(String toLog,LogLevel lvl, int currentTime){
-		if(!logFile.exists())
+	public void Log(String toLog,LogLevel lvl, long currentTime){
+		if(logFile == null)
 			return;
 		
 		Date time = new Date(currentTime);
