@@ -27,9 +27,8 @@ public class Connection implements Runnable
 	}
 	
 	@Override
-	public void run() 
+	public void run()
 	{
-		
 			try 
 			{
 				Scanner input = new Scanner(socket.getInputStream());
@@ -41,8 +40,6 @@ public class Connection implements Runnable
 					read(input);
 					Thread.sleep(100);
 				}
-				
-				
 				
 			}
 			catch (InterruptedException e) 
