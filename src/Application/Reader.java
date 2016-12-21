@@ -11,10 +11,9 @@ public class Reader implements InPuttable{
 	}
 
 	@Override
-	public String read(String inputFileName) throws IOException{
+	public String read(File file) throws IOException{
 		
 		String content = null;
-		File file = new File(inputFileName);
 		FileReader fileReader = null;
 		
 		
