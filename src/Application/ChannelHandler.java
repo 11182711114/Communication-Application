@@ -10,6 +10,8 @@ public class ChannelHandler {
 	private Set<Channel> channelsSet;
 	private PortListener sListener;
 	
+	private boolean active = false;
+	
 	public ChannelHandler(Set<Channel> channelsSet,List<Channel> cons){
 		this.channels = cons;
 		this.channelsSet = channelsSet;
@@ -24,11 +26,26 @@ public class ChannelHandler {
 		Channel tmp = new Channel(conTmp, ioTmp);
 		ioTmp.setChannel(tmp);
 		conTmp.setChannel(tmp);
+		
+		tmp.run();
+		channelsSet.add(tmp);
+		channels.add(tmp);		
 	}
 	public void setPortListener(PortListener pl){
 		this.sListener = pl;
 	}
 	public void start(){
+		active = true;
+		sListener.run();
+		
+		while(active){
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 	}
 }

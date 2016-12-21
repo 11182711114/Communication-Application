@@ -17,21 +17,21 @@ public class CommunicationApplication {
 		// "-IP X:Y" = X IP, Y port to connect to in manual mode, assumes -m mode
 		// "-server X" = app acts as server listening on port X
 		// "-c" = continuous mode
-	private String[] args;
 	
 	private ChannelHandler cH;
 	private int listenPort = 8080; //default port
 	
+	private boolean continuous = false;
+	
 	public static void main(String[] args) {
-		CommunicationApplication app = new CommunicationApplication(args);
-		app.run();
+		CommunicationApplication app = new CommunicationApplication();
+		app.initialize(args);
+		app.start();
 	}
-	public CommunicationApplication(String[] args){
-		this.args = args;
+	public CommunicationApplication(){
 	}
-	private void run(){
+	private void initialize(String[] args){
 		if(args.length>0){
-			boolean continuous = false;
 			for(int i = 0; i<args.length;i++){
 				switch(args[i]){
 				
@@ -49,9 +49,11 @@ public class CommunicationApplication {
 					continuous = true;
 				}
 			}
-			if(continuous)
-				startContinuousOp();
 		}
+	}
+	private void start(){
+			if(continuous)
+				startContinuousOp();		
 	}
 	private void startContinuousOp(){
 		cH = new ChannelHandler(new HashSet<Channel>(), new ArrayList<Channel>());
