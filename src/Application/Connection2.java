@@ -38,12 +38,12 @@ public class Connection2 implements Runnable
 				
 				run = true;
 				
-				do
+				while(run)
 				{
 					read(input);
 					Thread.sleep(100);
 				}
-				while(run);
+				
 				
 				
 			}
