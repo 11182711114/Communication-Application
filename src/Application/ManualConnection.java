@@ -7,16 +7,16 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Connection {
+public class ManualConnection {
 	Socket iSocket;
 	ServerSocket sSocket;
 	
 	
-	public Connection(Socket s) {
+	public ManualConnection(Socket s) {
 		iSocket = s;
 	}
 
-	public Connection(ServerSocket s) {
+	public ManualConnection(ServerSocket s) {
 			sSocket = s;
 	}
 

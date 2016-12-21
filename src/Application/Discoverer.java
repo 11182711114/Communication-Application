@@ -13,11 +13,11 @@ public class Discoverer implements Runnable{
 	
 	private boolean active = false;
 	private ProcessBuilder pb;
-	private String command = "nmap";
-	private String arg1 = "-sn";
-	private String network = "192.168.1.*";
-	
-	private String end = "Nmap done:";
+	private String 
+		command = "nmap",
+		arg1 = "-sn",
+		network = "192.168.1.*",
+		end = "Nmap done:";
 	
 	private RoutingTable routingTable;
 	

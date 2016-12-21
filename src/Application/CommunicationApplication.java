@@ -49,7 +49,8 @@ public class CommunicationApplication {
 					continuous = true;
 				}
 			}
-			startContinuousOp();
+			if(continuous)
+				startContinuousOp();
 		}
 	}
 	private void startContinuousOp(){
@@ -57,7 +58,7 @@ public class CommunicationApplication {
 		try {
 			cH.setPortListener(new PortListener(cH,new ServerSocket(listenPort)));
 		} catch (IOException e) {e.printStackTrace();}
-		cH.continuousOperation();
+		cH.start();
 	}
 	
 	
@@ -70,18 +71,18 @@ public class CommunicationApplication {
 	//Manual stuff, testing/debugging
 	
 	private void manualListen(int port) {
-		Connection manualCon;
+		ManualConnection manualCon;
 		try {
-			manualCon = new Connection(new ServerSocket(port));
+			manualCon = new ManualConnection(new ServerSocket(port));
 			manualCon.listenServerSocket();		
 		} catch (IOException e) {e.printStackTrace();}
 	}
 	private String manualConnect(InetAddress adr, int port) {
 		String output = null;
 		
-		Connection manualCon;
+		ManualConnection manualCon;
 		try {
-			manualCon = new Connection(new Socket(adr, port));
+			manualCon = new ManualConnection(new Socket(adr, port));
 			manualCon.connect();
 			if(MODE == -1)
 				manualCon.send(TEST_STRING);

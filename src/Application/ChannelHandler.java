@@ -20,7 +20,7 @@ public class ChannelHandler {
 	public void setPortListener(PortListener pl){
 		this.sListener = pl;
 	}
-	public void continuousOperation() {
+	public void start(){
 		
 	}
 }
