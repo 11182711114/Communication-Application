@@ -5,20 +5,24 @@ import java.net.UnknownHostException;
 
 public class Device implements Comparable<Device> {
 	private String deviceID;
-	private InetAddress IP;
+	private InetAddress ip;
 	
-	public Device(String deviceID, InetAddress IP){
+	public Device(String deviceID, InetAddress ip){
 		this.deviceID = deviceID;
-		this.IP = IP;
+		this.ip = ip;
+	}
+	public Device(InetAddress ip) {
+		this.ip = ip;
 	}
 	public Device(String deviceID, String IP){
 		this.deviceID = deviceID;
 		try {
-			this.IP = InetAddress.getByName(IP);
+			this.ip = InetAddress.getByName(IP);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
 	}
+	
 	public String getDeviceID() {
 		return deviceID;
 	}
@@ -26,10 +30,10 @@ public class Device implements Comparable<Device> {
 		this.deviceID = deviceID;
 	}
 	public InetAddress getIP() {
-		return IP;
+		return ip;
 	}
 	public void setIP(InetAddress iP) {
-		IP = iP;
+		ip = iP;
 	}
 	@Override
 	public int compareTo(Device d) {
