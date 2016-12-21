@@ -6,6 +6,17 @@ public abstract class DataPacket implements DataParser
 {
 	private String comID;
 	private List<String> data;
+	private String deviceID;
+	
+	public void setDeviceID(String ID)
+	{
+		deviceID = ID;
+	}
+	
+	public String getDeviceID()
+	{
+		return deviceID;
+	}
 	
 	public void setComID(String comID)
 	{

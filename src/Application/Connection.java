@@ -92,10 +92,7 @@ public class Connection implements Runnable
 					packet = new InputDataPacket();
 					data.add(packet);
 				}
-				else
-				{
-					packet.parseData(input);
-				}
+				packet.parseData(input);
 			}
 		}
 	}

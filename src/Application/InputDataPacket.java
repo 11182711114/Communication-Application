@@ -3,18 +3,6 @@ package Application;
 
 public class InputDataPacket extends DataPacket
 {
-	private String deviceID;
-	
-	private void setDeviceID(String ID)
-	{
-		deviceID = ID;
-	}
-	
-	public String getDeviceID()
-	{
-		return deviceID;
-	}
-
 	@Override
 	public void parseData(String line) 
 	{
