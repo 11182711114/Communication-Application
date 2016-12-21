@@ -1,24 +1,29 @@
 
 package Application;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 //OBS formatera!
 
 public class Connection2 implements Runnable {
+	
 	private Socket socket;
 	private Channel channel;
 
+	private List<DataPacket> data;
+	
 	private boolean run;
 
 	public Connection2(Socket s, Channel h) {
 		socket = s;
 		channel = h;
+		data = new ArrayList<>();
 	}
 	public Connection2(Socket s){
 		socket = s;
@@ -37,6 +42,60 @@ public class Connection2 implements Runnable {
 			e.printStackTrace();
 			exitRun();
 		}
+	public void run() 
+	{
+		
+			try 
+			{
+				Scanner input = new Scanner(socket.getInputStream());
+				
+				run = true;
+				
+				do
+				{
+					read(input);
+					Thread.sleep(100);
+				}
+				while(run);
+				
+				
+			}
+			catch (InterruptedException e) 
+			{
+				e.printStackTrace();
+				exitRun();
+			} catch (IOException e) 
+			{
+				e.printStackTrace();
+				exitRun();
+			}
+	public void run() 
+	{
+		
+			try 
+			{
+				Scanner input = new Scanner(socket.getInputStream());
+				
+				run = true;
+				
+				do
+				{
+					read(input);
+					Thread.sleep(100);
+				}
+				while(run);
+				
+				
+			}
+			catch (InterruptedException e) 
+			{
+				e.printStackTrace();
+				exitRun();
+			} catch (IOException e) 
+			{
+				e.printStackTrace();
+				exitRun();
+			}
 	}
 
 	public void changeSocket(Socket newSocket) {
