@@ -74,7 +74,7 @@ public class Connection2 implements Runnable
 		{
 			BufferedWriter output = new BufferedWriter(new PrintWriter(socket.getOutputStream(),true));
 			
-			output.write(s);;
+			output.write(s);
 			output.flush();
 			
 			output.close();
