@@ -11,17 +11,17 @@ import java.util.Scanner;
 
 //OBS formatera!
 
-public class Connection2 implements Runnable
+public class Connection implements Runnable
 {
 	
 	private Socket socket;
-	private Channel channel;
 	
 	private List<DataPacket> data;
 	
 	private boolean run;
-
-	public Connection2(Socket s){
+	
+	public Connection(Socket s)
+	{
 		socket = s;
 		data = new ArrayList<>();
 	}
@@ -49,7 +49,8 @@ public class Connection2 implements Runnable
 			{
 				e.printStackTrace();
 				exitRun();
-			} catch (IOException e) 
+			} 
+			catch (IOException e) 
 			{
 				e.printStackTrace();
 				exitRun();
@@ -87,16 +88,24 @@ public class Connection2 implements Runnable
 	
 	private void read(Scanner scanner)
 	{
-		while(scanner.hasNext())
+		if(scanner.hasNext())
 		{
-			InputDataPacket packet = new InputDataPacket();
-			String input = scanner.nextLine();
+			InputDataPacket packet = null;
 			
-			do
+			while(scanner.hasNext())
 			{
-				DataParser.parseData(input, packet);
+				String input = scanner.nextLine();
+				
+				if(input.equals("<START>"))
+				{
+					packet = new InputDataPacket();
+					data.add(packet);
+				}
+				else
+				{
+					packet.parseData(input);
+				}
 			}
-			while(!input.equals("<END>"));
 		}
 	}
 }

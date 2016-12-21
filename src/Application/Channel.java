@@ -4,7 +4,7 @@ public class Channel implements Comparable<Channel>, Runnable{
 	private String comID;
 	private boolean running;
 	
-	private Connection2 con;
+	private Connection con;
 	private IO inOut;
 	
 	/**
@@ -12,7 +12,7 @@ public class Channel implements Comparable<Channel>, Runnable{
 	 * @param  Con connection between two devices
 	 * @param  inOut IPC between two processes
 	 */
-	public Channel(Connection2 con, IO inOut){
+	public Channel(Connection con, IO inOut){
 		this.con = con;
 		this.inOut = inOut;		
 	}

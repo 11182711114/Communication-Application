@@ -1,9 +1,6 @@
 package Application;
 
-public class DataParser 
+public interface DataParser 
 {
-	public static void parseData(String data, DataPacket packet)
-	{
-		packet.saveData(data);
-	}
+	public void parseData(String line);
 }

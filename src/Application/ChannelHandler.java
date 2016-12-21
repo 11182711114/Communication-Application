@@ -24,7 +24,7 @@ public class ChannelHandler {
 		channels.add(c);
 	}
 	public void passSocket(Socket s){
-		Connection2 conTmp = new Connection2(s);
+		Connection conTmp = new Connection(s);
 		IO ioTmp = new IO();
 		Channel tmp = new Channel(conTmp, ioTmp);
 		ioTmp.setChannel(tmp);

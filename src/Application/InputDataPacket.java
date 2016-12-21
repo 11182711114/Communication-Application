@@ -5,7 +5,7 @@ public class InputDataPacket extends DataPacket
 {
 	private String deviceID;
 	
-	public void setDeviceID(String ID)
+	private void setDeviceID(String ID)
 	{
 		deviceID = ID;
 	}
@@ -13,5 +13,21 @@ public class InputDataPacket extends DataPacket
 	public String getDeviceID()
 	{
 		return deviceID;
+	}
+
+	@Override
+	public void parseData(String line) 
+	{
+		String markup = line.substring(line.indexOf("<"), line.indexOf(">") + 1);
+		String data = line.substring(line.indexOf(">") + 1).trim();
+		
+		switch(markup)
+		{
+			case "<COM>": setComID(data);
+			case "<DEV>": setDeviceID(data);
+			case "<DATA>": saveData(data);
+			case "<CHECK>": checkSum(data);
+		}
+		
 	}
 }
