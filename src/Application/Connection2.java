@@ -91,7 +91,14 @@ public class Connection2 implements Runnable
 	{
 		while(scanner.hasNext())
 		{
+			InputDataPacket packet = new InputDataPacket();
+			String input = scanner.nextLine();
 			
+			do
+			{
+				DataParser.parseData(input, packet);
+			}
+			while(!input.equals("END"));
 		}
 	}
 }
