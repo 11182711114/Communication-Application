@@ -16,7 +16,10 @@ public class IO implements Runnable{
 		myChannel = channel;
 		idCount = id;
 		id = id++;
-		
+	}
+	public IO(){
+		idCount = id;
+		id = id++;
 	}
 	
 	public void createWriter(){
@@ -31,7 +34,9 @@ public class IO implements Runnable{
 	public int getId(){
 		return id;
 	}
-	
+	public void setChannel(Channel c){
+		this.myChannel = c;
+	}
 	
 	@Override
 	public void run() {
