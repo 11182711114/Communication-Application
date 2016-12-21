@@ -9,34 +9,28 @@ public class IO implements Runnable{
 	
 	private int id = 1; 
 	public static int idCount;
-	private Channel myChannel;
 	
 	
-	public IO(Channel channel){
-		myChannel = channel;
-		idCount = id;
-		id = id++;
-	}
+	
 	public IO(){
 		idCount = id;
 		id = id++;
+		
 	}
 	
 	public void createWriter(){
-		Writer writer = new Writer(this);
+		Writer writer = new Writer();
 		writerCollection.add(writer);
 	}
 	public void createReader(){
-		Reader reader = new Reader(this);
+		Reader reader = new Reader();
 		readerCollection.add(reader);	
 	}
 	
 	public int getId(){
 		return id;
 	}
-	public void setChannel(Channel c){
-		this.myChannel = c;
-	}
+	
 	
 	@Override
 	public void run() {
