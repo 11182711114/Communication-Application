@@ -108,4 +108,11 @@ public class Connection implements Runnable
 			}
 		}
 	}
+	public void close(){
+		try {
+			socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
