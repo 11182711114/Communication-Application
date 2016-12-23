@@ -13,7 +13,12 @@ public class Discoverer implements Runnable {
 
 	private boolean active = false;
 	private ProcessBuilder pb;
-	private String command = "nmap", arg1 = "-sn", network = "192.168.1.*", end = "Nmap done:";
+	private String 
+		command = "nmap", 
+		arg1 = "-sn", 
+		network = "192.168.1.*", 
+		end = "Nmap done:";
+		
 
 	private RoutingTable routingTable;
 
@@ -32,11 +37,11 @@ public class Discoverer implements Runnable {
 
 		// main loop
 		while (active) {
-
-			try {
+			Scanner sc = null;
+			try{
 				Process process = pb.start();
-
-				Scanner sc = new Scanner(new InputStreamReader(process.getInputStream()));
+				sc = new Scanner(new InputStreamReader(process.getInputStream()));
+				
 				long startTime = System.currentTimeMillis();
 				while (true) {
 					// kill the process if it takes longer than 100s
@@ -74,6 +79,8 @@ public class Discoverer implements Runnable {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			if(sc != null)
+				sc.close();
 
 		}
 	}
