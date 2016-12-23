@@ -12,7 +12,7 @@ import Util.Logger;
 public class PortListener implements Runnable {
 
 	private Logger log = Util.Logger.getInstance();
-	private String nameForLog = this.getClass().getName();
+	private String nameForLog = this.getClass().getSimpleName();
 
 	private ChannelHandler HANDLER;
 	private ServerSocket SOCKET;

@@ -9,8 +9,6 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import Util.LogLevel;
-
 public class CommunicationApplication {
 
 	private static int MODE = -1;

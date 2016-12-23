@@ -18,6 +18,9 @@ public class Channel implements Comparable<Channel>, Runnable {
 
 	private Connection con;
 	private IO inOut;
+	
+	private Util.Logger log;
+	private String nameForLog = this.getClass().getSimpleName();
 
 	/**
 	 * Handles Connections and IO operations.
@@ -38,6 +41,7 @@ public class Channel implements Comparable<Channel>, Runnable {
 
 	@Override
 	public void run() {
+		log.message("Starting channel", nameForLog);
 		active = true;
 		new Thread(con).start();
 		while (active) {

@@ -6,7 +6,7 @@ import java.util.Set;
 
 public class ChannelHandler {
 	private Util.Logger log = Util.Logger.getInstance();
-	private String nameForLog = this.getClass().getName();
+	private String nameForLog = this.getClass().getSimpleName();
 
 	private List<Channel> channels;
 	private Set<Channel> channelsSet;
