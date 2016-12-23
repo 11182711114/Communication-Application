@@ -2,12 +2,15 @@ package Util;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Logger {
 	private static final long LOG_WRITER_TIME_TO_WAIT = 5 * 1000;
 
-	private List<LogLineStorage> writeBuffer = new ArrayList<>();
+	private Queue<LogLineStorage> writeBuffer = new ConcurrentLinkedQueue<>();
 
 	private LogWriter lw;
 
@@ -48,7 +51,7 @@ public class Logger {
 		addToLog(lls);
 	}
 
-	private synchronized void addToLog(LogLineStorage lls) {
+	private void addToLog(LogLineStorage lls) {
 		writeBuffer.add(lls);
 	}
 
@@ -69,7 +72,7 @@ public class Logger {
 	// }
 
 	// Log helper classes
-	public List<LogLineStorage> getWriteBuffer() {
+	public Queue<LogLineStorage> getWriteBuffer() {
 		return writeBuffer;
 	}
 

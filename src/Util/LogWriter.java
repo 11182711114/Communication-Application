@@ -29,7 +29,7 @@ class LogWriter implements Runnable {
 						return;
 
 					try {
-						FileUtil.writeToFile(log.getWriteBuffer().remove(0).toWrite(), logFile);
+						FileUtil.writeToFile(log.getWriteBuffer().poll().toWrite(), logFile);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
