@@ -13,19 +13,19 @@ public class CommunicationApplication {
 
 	private static int MODE = -1;
 	private static final String TEST_STRING = "TEST TEST TEST";
-	private static final String[] OPTIONS = { "-IP", "-m", "-c" };
-	// "-m X" = X manual message to send, assumes -IP
-	// "-IP X:Y" = X IP, Y port to connect to in manual mode, assumes -m mode
-	// "-server X" = app acts as server listening on port X
-	// "-c" = continuous mode
+	
+	//PROGRAM OPTIONS - DEFAULT VALUES
+	private int listenPort = 10231; // "-port X"
+	private boolean continuous = false; // "-c" = true
+	private File logLocation = new File("./db/");
+	private String logName = "ComApp.log";
+	
+	
 
 	private ChannelHandler cH;
-	private int listenPort = 10231; // default port
 
 	private Util.Logger log;
 	private String nameForLog = this.getClass().getSimpleName();
-
-	private boolean continuous = false;
 
 	public static void main(String[] args) {
 		CommunicationApplication app = new CommunicationApplication();
@@ -41,29 +41,58 @@ public class CommunicationApplication {
 			for (int i = 0; i < args.length; i++) {
 				switch (args[i]) {
 
-				case "-IP":
-					try {
-						manualConnect(InetAddress.getByName(args[i + 1]), Integer.parseInt(args[i + 2]));
-					} catch (NumberFormatException e) {
-						e.printStackTrace();
-					} catch (UnknownHostException e) {
-						e.printStackTrace();
-					}
-					break;
-
-				case "-server":
-					manualListen(Integer.parseInt(args[i + 1]));
-					break;
-
 				case "-c":
 					continuous = true;
 					break;
-				case "-log":
-					Util.Logger.setLogFile(new File(args[i + 1]));
+					
+				case "-logLoc":
+					logLocation = new File(args[i+1]);
 					break;
+					
+				case "-logName":
+					logName = args[i+1];
+					break;
+					
+				case "-log":
+					String str = args[i+1];
+					int pathNameSep = 0;
+					if(str.contains("/"))
+						pathNameSep = str.lastIndexOf("/");
+					else
+						pathNameSep = str.lastIndexOf("\\");
+					
+					String loc = str.substring(0, pathNameSep+1);
+					logLocation = new File(loc);
+					logName = str.substring(pathNameSep);
+					break;					
+					
+				case "-port":
+					listenPort = Integer.parseInt(args[i+1]);
+					break;
+
+//					old manual stuff
+//					case "-IP":
+//						try {
+//							manualConnect(InetAddress.getByName(args[i + 1]), Integer.parseInt(args[i + 2]));
+//						} catch (NumberFormatException e) {
+//							e.printStackTrace();
+//						} catch (UnknownHostException e) {
+//							e.printStackTrace();
+//						}
+//						break;
+	//
+//					case "-server":
+//						manualListen(Integer.parseInt(args[i + 1]));
+//						break;
 				}
 			}
 		}
+		//No arguments supplied? Nothing to do, exit
+		else{
+			System.out.println("No arguments supplied, exiting");
+			System.exit(0);
+		}
+		Util.Logger.setLogFile(new File(logLocation.getAbsolutePath()+logName));
 		log = Util.Logger.getInstance();
 		log.start();
 	}
@@ -86,33 +115,33 @@ public class CommunicationApplication {
 		cH.start();
 	}
 
-	// Manual stuff, testing/debugging
-
-	private void manualListen(int port) {
-		ManualConnection manualCon;
-		try {
-			manualCon = new ManualConnection(new ServerSocket(port));
-			manualCon.listenServerSocket();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private String manualConnect(InetAddress adr, int port) {
-		String output = null;
-
-		ManualConnection manualCon;
-		try {
-			manualCon = new ManualConnection(new Socket(adr, port));
-			manualCon.connect();
-			if (MODE == -1)
-				manualCon.send(TEST_STRING);
-			manualCon.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return output;
-	}
+//	Manual stuff, testing/debugging
+//
+//	private void manualListen(int port) {
+//		ManualConnection manualCon;
+//		try {
+//			manualCon = new ManualConnection(new ServerSocket(port));
+//			manualCon.listenServerSocket();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
+//
+//	private String manualConnect(InetAddress adr, int port) {
+//		String output = null;
+//
+//		ManualConnection manualCon;
+//		try {
+//			manualCon = new ManualConnection(new Socket(adr, port));
+//			manualCon.connect();
+//			if (MODE == -1)
+//				manualCon.send(TEST_STRING);
+//			manualCon.close();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//
+//		return output;
+//	}
 
 }
