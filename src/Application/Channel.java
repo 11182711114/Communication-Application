@@ -1,16 +1,18 @@
 package Application;
 
 public class Channel implements Comparable<Channel>, Runnable {
-	
-	//FIXME FOR TESTING ONLY
+
+	// FIXME FOR TESTING ONLY
 	private static int ID = 0;
-	private synchronized int getID(){
+
+	private synchronized int getID() {
 		return ID;
 	}
-	private synchronized void incrementID(){
+
+	private synchronized void incrementID() {
 		ID++;
 	}
-	
+
 	private String comID;
 	private boolean running;
 
@@ -26,10 +28,10 @@ public class Channel implements Comparable<Channel>, Runnable {
 	 *            IPC between two processes
 	 */
 	public Channel(Connection con, IO inOut) {
-		//FIXME FOR TESTING ONLY
+		// FIXME FOR TESTING ONLY
 		comID = Integer.toString(getID());
 		incrementID();
-		
+
 		this.con = con;
 		this.inOut = inOut;
 	}

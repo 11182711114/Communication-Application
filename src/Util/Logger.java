@@ -16,9 +16,11 @@ public class Logger {
 	private Logger() {
 		lw = new LogWriter(logFileStatic, LOG_WRITER_TIME_TO_WAIT, this);
 	}
-	public void start(){
+
+	public void start() {
 		new Thread(lw).start();
 	}
+
 	private static class LoggerHolder {
 		private static final Logger INSTANCE = new Logger();
 	}
