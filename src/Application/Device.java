@@ -7,7 +7,7 @@ public class Device implements Comparable<Device> {
 	private String deviceID;
 	private InetAddress ip;
 
-	public Device(String deviceID, InetAddress ip) {
+	public Device(InetAddress ip, String deviceID) {
 		this.deviceID = deviceID;
 		this.ip = ip;
 	}
