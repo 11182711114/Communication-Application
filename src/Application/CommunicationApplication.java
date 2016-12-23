@@ -2,17 +2,14 @@ package Application;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
 public class CommunicationApplication {
-
-	private static int MODE = -1;
-	private static final String TEST_STRING = "TEST TEST TEST";
+//	TESTING STUFF
+//	private static int MODE = -1;
+//	private static final String TEST_STRING = "TEST TEST TEST";
 	
 	//PROGRAM OPTIONS - DEFAULT VALUES
 	private int listenPort = 10231; // "-port X"
@@ -56,6 +53,7 @@ public class CommunicationApplication {
 				case "-log":
 					String str = args[i+1];
 					int pathNameSep = 0;
+					
 					if(str.contains("/"))
 						pathNameSep = str.lastIndexOf("/");
 					else
