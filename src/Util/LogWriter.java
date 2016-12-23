@@ -2,6 +2,7 @@ package Util;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Queue;
 
 class LogWriter implements Runnable {
 	long ttw;
@@ -13,25 +14,28 @@ class LogWriter implements Runnable {
 		this.ttw = ttw;
 		this.log = log;
 	}
-
+	
 	@Override
 	public void run() {
 		while (true) {
-			if (log.getWriteBuffer() != null) {
-				if (log.getWriteBuffer().isEmpty()) {
-					try {
-						Thread.sleep(ttw);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				} else {
-					if (logFile == null)
-						return;
-
-					try {
-						FileUtil.writeToFile(log.getWriteBuffer().poll().toWrite(), logFile);
-					} catch (IOException e) {
-						e.printStackTrace();
+			Queue<LogLineStorage> wb = log.getWriteBuffer();
+			if (wb != null) {
+				synchronized(wb){ //Non atomic calls to wb, not really necessary 
+					if (wb.isEmpty()) {
+						try {
+							Thread.sleep(ttw);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					} else {
+						if (logFile == null)
+							return;
+	
+						try {
+							FileUtil.writeToFile(wb.poll().toWrite(), logFile);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 					}
 				}
 			}
