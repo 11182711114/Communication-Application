@@ -14,7 +14,7 @@ public class Channel implements Comparable<Channel>, Runnable {
 	}
 
 	private String comID;
-	private boolean running;
+	private boolean active;
 
 	private Connection con;
 	private IO inOut;
@@ -38,9 +38,9 @@ public class Channel implements Comparable<Channel>, Runnable {
 
 	@Override
 	public void run() {
-		running = true;
+		active = true;
 		new Thread(con).start();
-		while (running) {
+		while (active) {
 
 		}
 	}
