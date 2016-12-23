@@ -1,9 +1,7 @@
 package Util;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Logger {
@@ -12,16 +10,15 @@ public class Logger {
 	private List<LogLineStorage> writeBuffer = new ArrayList<>();
 
 	private LogWriter lw;
-	private Thread lwThread;
 
 	private static File logFileStatic;
 
 	private Logger() {
 		lw = new LogWriter(logFileStatic, LOG_WRITER_TIME_TO_WAIT, this);
-		lwThread = new Thread(lw);
-		lwThread.start();
 	}
-
+	public void start(){
+		new Thread(lw).start();
+	}
 	private static class LoggerHolder {
 		private static final Logger INSTANCE = new Logger();
 	}
@@ -34,18 +31,18 @@ public class Logger {
 		logFileStatic = f;
 	}
 
-	public void debug(String toLog, long currentTime, String who) {
-		LogLineStorage lls = new LogLineStorage(toLog, LogLevel.DEBUG, currentTime, who);
+	public void debug(String toLog, String who) {
+		LogLineStorage lls = new LogLineStorage(toLog, LogLevel.DEBUG, System.currentTimeMillis(), who);
 		addToLog(lls);
 	}
 
-	public void error(String toLog, long currentTime, String who) {
-		LogLineStorage lls = new LogLineStorage(toLog, LogLevel.ERROR, currentTime, who);
+	public void error(String toLog, String who) {
+		LogLineStorage lls = new LogLineStorage(toLog, LogLevel.ERROR, System.currentTimeMillis(), who);
 		addToLog(lls);
 	}
 
-	public void message(String toLog, long currentTime, String who) {
-		LogLineStorage lls = new LogLineStorage(toLog, LogLevel.MESSAGE, currentTime, who);
+	public void message(String toLog, String who) {
+		LogLineStorage lls = new LogLineStorage(toLog, LogLevel.MESSAGE, System.currentTimeMillis(), who);
 		addToLog(lls);
 	}
 

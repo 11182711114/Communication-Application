@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import Util.LogLevel;
 import Util.Logger;
 
 //OBS formatera!
@@ -13,7 +12,7 @@ import Util.Logger;
 public class PortListener implements Runnable {
 
 	private Logger log = Util.Logger.getInstance();
-	private String className = this.getClass().getName();
+	private String nameForLog = this.getClass().getName();
 
 	private ChannelHandler HANDLER;
 	private ServerSocket SOCKET;
@@ -26,14 +25,14 @@ public class PortListener implements Runnable {
 
 	@Override
 	public void run() {
-		log.debug("Starting port listener", System.currentTimeMillis(), className);
+		log.debug("Starting port listener", nameForLog);
 		active = true;
 		while (active) {
 			if (SOCKET == null)
 				return;
 			try {
 				Socket newSocket = SOCKET.accept();
-				log.debug("Passing conversation to new socket", System.currentTimeMillis(), className);
+				log.debug("Passing conversation to new socket", nameForLog);
 				HANDLER.passSocket(newSocket);
 			} catch (IOException e) {
 				e.printStackTrace();

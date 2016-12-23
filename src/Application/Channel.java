@@ -1,6 +1,16 @@
 package Application;
 
 public class Channel implements Comparable<Channel>, Runnable {
+	
+	//FIXME FOR TESTING ONLY
+	private static int ID = 0;
+	private synchronized int getID(){
+		return ID;
+	}
+	private synchronized void incrementID(){
+		ID++;
+	}
+	
 	private String comID;
 	private boolean running;
 
@@ -16,6 +26,10 @@ public class Channel implements Comparable<Channel>, Runnable {
 	 *            IPC between two processes
 	 */
 	public Channel(Connection con, IO inOut) {
+		//FIXME FOR TESTING ONLY
+		comID = Integer.toString(getID());
+		incrementID();
+		
 		this.con = con;
 		this.inOut = inOut;
 	}
@@ -23,7 +37,7 @@ public class Channel implements Comparable<Channel>, Runnable {
 	@Override
 	public void run() {
 		running = true;
-		con.run();
+		new Thread(con).start();
 		while (running) {
 
 		}

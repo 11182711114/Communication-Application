@@ -4,11 +4,9 @@ import java.net.Socket;
 import java.util.List;
 import java.util.Set;
 
-import Util.LogLevel;
-
 public class ChannelHandler {
 	private Util.Logger log = Util.Logger.getInstance();
-	private String className = this.getClass().getName();
+	private String nameForLog = this.getClass().getName();
 
 	private List<Channel> channels;
 	private Set<Channel> channelsSet;
@@ -25,26 +23,26 @@ public class ChannelHandler {
 	}
 
 	public void passSocket(Socket s) {
-		log.debug("Making new channel based on passed socket", System.currentTimeMillis(), className);
+		log.debug("Making new channel based on passed socket", nameForLog);
 
 		Connection conTmp = new Connection(s);
 		IO ioTmp = new IO();
 		Channel tmp = new Channel(conTmp, ioTmp);
 		tmp.run();
 
-		log.debug("Adding channel to channel chain", System.currentTimeMillis(), className);
+		log.debug("Adding channel to channel chain", nameForLog);
 
 		channelsSet.add(tmp);
 		channels.add(tmp);
 	}
 
 	public void setPortListener(PortListener pl) {
-		log.debug("Setting port listener to port: " + pl.getServerSocketPort(), System.currentTimeMillis(), className);
+		log.debug("Setting port listener to port: " + pl.getServerSocketPort(), nameForLog);
 		this.sListener = pl;
 	}
 
 	public void start() {
-		log.debug("Starting ChannelHandler", System.currentTimeMillis(), className);
+		log.debug("Starting ChannelHandler", nameForLog);
 
 		new Thread(sListener).start();
 	}

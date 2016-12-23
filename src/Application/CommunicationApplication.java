@@ -13,7 +13,7 @@ import Util.LogLevel;
 
 public class CommunicationApplication {
 
-	private static final int MODE = -1;
+	private static int MODE = -1;
 	private static final String TEST_STRING = "TEST TEST TEST";
 	private static final String[] OPTIONS = { "-IP", "-m", "-c" };
 	// "-m X" = X manual message to send, assumes -IP
@@ -25,7 +25,7 @@ public class CommunicationApplication {
 	private int listenPort = 10231; // default port
 
 	private Util.Logger log;
-	private String className = this.getClass().getSimpleName();
+	private String nameForLog = this.getClass().getSimpleName();
 
 	private boolean continuous = false;
 
@@ -67,12 +67,13 @@ public class CommunicationApplication {
 			}
 		}
 		log = Util.Logger.getInstance();
+		log.start();
 	}
 
 	private void start() {
-		log.debug("Starting the program", System.currentTimeMillis(), className);
+		log.debug("Starting the program", nameForLog);
 		if (continuous) {
-			log.debug("Starting continuous operation", System.currentTimeMillis(), className);
+			log.debug("Starting continuous operation", nameForLog);
 			startContinuousOperation();
 		}
 	}
