@@ -20,7 +20,7 @@ public class Channel implements Comparable<Channel>, Runnable {
 	private IO inOut;
 	
 	private Util.Logger log;
-	private String nameForLog = this.getClass().getSimpleName();
+	private String nameForLog = this.getClass().getSimpleName() + "@" + comID;
 
 	/**
 	 * Handles Connections and IO operations.
