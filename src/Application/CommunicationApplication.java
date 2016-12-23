@@ -3,8 +3,8 @@ package Application;
 import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 
 public class CommunicationApplication {
 //	TESTING STUFF
@@ -16,8 +16,6 @@ public class CommunicationApplication {
 	private boolean continuous = false; // "-c" = true
 	private File logLocation = new File("./db/");
 	private String logName = "ComApp.log";
-	
-	
 
 	private ChannelHandler cH;
 
@@ -104,7 +102,7 @@ public class CommunicationApplication {
 	}
 
 	private void startContinuousOperation() {
-		cH = new ChannelHandler(new HashSet<Channel>(), new ArrayList<Channel>());
+		cH = new ChannelHandler(new HashSet<Channel>(), new LinkedList<Channel>());
 		try {
 			cH.setPortListener(new PortListener(cH, new ServerSocket(listenPort)));
 		} catch (IOException e) {
