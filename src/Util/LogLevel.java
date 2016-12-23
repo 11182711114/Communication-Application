@@ -1,7 +1,6 @@
 package Util;
 
 public enum LogLevel {
-	Message,
-	Error,
-	Debug
+	// Severity lowest down to highest
+	ERROR, MESSAGE, DEBUG,
 }
