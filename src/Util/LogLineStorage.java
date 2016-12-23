@@ -1,5 +1,7 @@
 package Util;
 
+import java.text.DateFormat;
+
 class LogLineStorage {
 	private String toLog;
 	private LogLevel lvl;
@@ -14,6 +16,8 @@ class LogLineStorage {
 	}
 
 	public String toWrite() {
-		return "[" + time + "] @" + who + " " + lvl + " # " + toLog;
+		DateFormat df = DateFormat.getInstance();
+		String timeOutput = df.format(time);
+		return "[" + timeOutput + "] " + lvl + "\t" + who + " :: " + toLog;
 	}
 }
