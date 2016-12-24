@@ -1,6 +1,9 @@
 package Util;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -72,5 +75,70 @@ public class Logger {
 	public Queue<LogLineStorage> getWriteBuffer() {
 		return writeBuffer;
 	}
+
+	class LogWriter implements Runnable {
+		long ttw;
+		File logFile;
+		Logger log;
+
+		public LogWriter(File logFileLocation, long ttw, Logger log) {
+			logFile = logFileLocation;
+			this.ttw = ttw;
+			this.log = log;
+		}
+		
+		@Override
+		public void run() {
+			while (true) {
+				Queue<LogLineStorage> wb = log.getWriteBuffer();
+				if (wb != null) {
+					synchronized(wb){ //Non atomic calls to wb, not really necessary 
+						if (wb.isEmpty()) {
+							try {
+								Thread.sleep(ttw);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						} else {
+							if (logFile == null)
+								return;
+		
+							try {
+								FileUtil.writeToFile(wb.poll().toWrite(), logFile);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+					}
+				}
+			}
+
+		}
+	}
+	private enum LogLevel {
+		// Severity lowest down to highest
+		ERROR, INFO, DEBUG,
+	}
+	private class LogLineStorage {
+		private String toLog;
+		private LogLevel lvl;
+		private long time;
+		private String who;
+
+		public LogLineStorage(String toLog, LogLevel lvl, long time, String who) {
+			this.toLog = toLog;
+			this.lvl = lvl;
+			this.time = time;
+			this.who = who;
+		}
+
+		public String toWrite() {
+			DateFormat df = new SimpleDateFormat("y-M-d HH:mm:ss.S");
+			String timeOutput = df.format(time);
+			return "[" + timeOutput + "] " + lvl + "\t" + who + " :: " + toLog;
+		}
+	}
+
+	
 
 }
