@@ -24,7 +24,7 @@ public class ChannelHandler {
 	}
 
 	public void passSocket(Socket s) {
-		log.message("Making new channel based on passed socket", nameForLog);
+		log.info("Making new channel based on passed socket", nameForLog);
 
 		Connection conTmp = new Connection(s);
 		IO ioTmp = new IO();

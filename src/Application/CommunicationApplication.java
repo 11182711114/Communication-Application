@@ -91,9 +91,9 @@ public class CommunicationApplication {
 		startLogger();
 	}
 	private void start() {
-		log.message("Starting the program", nameForLog);
+		log.info("Starting the program", nameForLog);
 		if (continuous) {
-			log.message("Starting continuous operation", nameForLog);
+			log.info("Starting continuous operation", nameForLog);
 			startContinuousOperation();
 		}
 	}

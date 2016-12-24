@@ -41,7 +41,7 @@ public class Channel implements Comparable<Channel>, Runnable {
 
 	@Override
 	public void run() {
-		log.message("Starting channel", nameForLog);
+		log.info("Starting channel", nameForLog);
 		active = true;
 		new Thread(con).start();
 		while (active) {

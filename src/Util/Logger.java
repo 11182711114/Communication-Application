@@ -43,8 +43,8 @@ public class Logger {
 		addToLog(lls);
 	}
 
-	public void message(String toLog, String who) {
-		LogLineStorage lls = new LogLineStorage(toLog, LogLevel.MESSAGE, System.currentTimeMillis(), who);
+	public void info(String toLog, String who) {
+		LogLineStorage lls = new LogLineStorage(toLog, LogLevel.INFO, System.currentTimeMillis(), who);
 		addToLog(lls);
 	}
 
