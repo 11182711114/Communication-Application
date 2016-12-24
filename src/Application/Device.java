@@ -46,4 +46,8 @@ public class Device implements Comparable<Device> {
 		return this.deviceID.compareTo(d.getDeviceID());
 	}
 
+	public String toPrint() {
+		return "ID: " + deviceID + " IP:" + ip;
+	}
+
 }
