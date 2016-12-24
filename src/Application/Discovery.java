@@ -10,6 +10,8 @@ import parsers.DeviceParser;
 import parsers.NmapParser;
 
 public class Discovery implements Runnable {
+	private Util.Logger log = Util.Logger.getInstance();
+	private String nameForLog = this.getClass().getSimpleName();
 
 	private boolean active = false;
 	private ProcessBuilder pb;
@@ -29,6 +31,7 @@ public class Discovery implements Runnable {
 
 	@Override
 	public void run() {
+		log.info("Starting Discovery", nameForLog);
 		// Make the ProcessBuilder
 		pb = new ProcessBuilder(command, arg1, network);
 		pb.redirectErrorStream(true);
@@ -56,24 +59,36 @@ public class Discovery implements Runnable {
 					// contains Nmap end signal break the loop
 					while (sc.hasNext()) {
 						String line = sc.nextLine();
+						log.debug("Reading line: \"" + line + "\"", nameForLog);
 
 						// no need to add the end signal line
-						if (line.contains(end))
+						if (line.contains(end)){
+							log.debug("End found, breaking scanning for new lines", nameForLog);
 							break;
+						}
 
 						shellOutput.add(line);
 					}
 				}
 
 				// FIXME clean
+				log.info("Parsing shelloutput for valid devices", nameForLog);
 				DeviceParser dp = new NmapParser();
-				try {
-					for (String s : shellOutput) {
-						Device dev = dp.parse(s);
+				for (String s : shellOutput) {
+					log.debug("Parsing line: \"" + s + "\"", nameForLog);
+					try{
+					Device dev = dp.parse(s);
+					if(dev != null){
+						log.debug("Successfully parsed: \"" + s + "\" into: \"" + dev.toPrint(), nameForLog);
 						routingTable.addDevice(dev);
 					}
-				} catch (IllegalArgumentException e) {
-					e.printStackTrace();
+					else{
+						log.debug("Output is null, not adding to RoutingTable", nameForLog);
+					}
+					}catch(IllegalArgumentException e){
+						log.error("Parsing failed for \""+ s + "\"", nameForLog);
+						
+					}
 				}
 
 			} catch (IOException e) {
