@@ -25,17 +25,20 @@ public class Connection implements Runnable {
 	}
 
 	@Override
-	public void run() {
-
-		try {
-			Scanner input = new Scanner(socket.getInputStream());
-
-			run = true;
-
-			while (run) {
-				read(input);
-				Thread.sleep(100);
-			}
+	public void run()
+	{
+			try 
+			{
+				Scanner input = new Scanner(socket.getInputStream());
+				
+				run = true;
+				
+				while(run)
+				{
+					read(input);
+					Thread.sleep(100);
+				}
+				
 
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -75,9 +78,8 @@ public class Connection implements Runnable {
 				if (input.equals("<START>")) {
 					packet = new InputDataPacket();
 					data.add(packet);
-				} else {
-					packet.parseData(input);
 				}
+				packet.parseData(input);
 			}
 		}
 	}

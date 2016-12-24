@@ -2,27 +2,44 @@ package Application;
 
 import java.util.List;
 
-public abstract class DataPacket implements DataParser {
+public abstract class DataPacket implements DataParser
+{
 	private String comID;
 	private List<String> data;
-
-	public void setComID(String comID) {
+	private String deviceID;
+	
+	public void setDeviceID(String ID)
+	{
+		deviceID = ID;
+	}
+	
+	public String getDeviceID()
+	{
+		return deviceID;
+	}
+	
+	public void setComID(String comID)
+	{
 		this.comID = comID;
 	}
-
-	public String getComID() {
+	
+	public String getComID()
+	{
 		return comID;
 	}
-
-	public void saveData(String d) {
+	
+	public void saveData(String d)
+	{
 		data.add(d);
 	}
-
-	public List<String> getData() {
+	
+	public List<String> getData()
+	{
 		return data;
 	}
-
-	public void checkSum(String checkSum) {
+	
+	public void checkSum(String checkSum)
+	{
 		System.out.println("DO STUFF HERE (cheksum)");
 	}
 }
