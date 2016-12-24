@@ -77,22 +77,18 @@ public class Discovery implements Runnable {
 				for (String s : shellOutput) {
 					log.debug("Parsing line: \"" + s + "\"", nameForLog);
 					try{
-					Device dev = dp.parse(s);
-					if(dev != null){
-						log.debug("Successfully parsed: \"" + s + "\" into: \"" + dev.toPrint(), nameForLog);
-						routingTable.addDevice(dev);
-					}
-					else{
-						log.debug("Output is null, not adding to RoutingTable", nameForLog);
-					}
+						Device dev = dp.parse(s);
+						if(dev != null){
+							log.debug("Successfully parsed: \"" + s + "\" into: \"" + dev.toPrint(), nameForLog);
+							routingTable.addDevice(dev);
+						}
 					}catch(IllegalArgumentException e){
-						log.error("Parsing failed for \""+ s + "\"", nameForLog);
-						
+						log.exception(e);
 					}
 				}
 
 			} catch (IOException e) {
-				e.printStackTrace();
+				log.exception(e);
 			}
 			if(sc != null)
 				sc.close();
@@ -101,6 +97,7 @@ public class Discovery implements Runnable {
 	}
 
 	public boolean setActive(boolean act) {
+		log.debug("Setting active to: " + act, nameForLog);
 		active = act;
 		return active;
 	}

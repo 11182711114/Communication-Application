@@ -17,6 +17,7 @@ public class Channel implements Comparable<Channel>, Runnable {
 	private boolean active;
 
 	private Connection con;
+		@SuppressWarnings("unused")
 	private IO inOut;
 	
 	private Util.Logger log;

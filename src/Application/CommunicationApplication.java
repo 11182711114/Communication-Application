@@ -107,7 +107,7 @@ public class CommunicationApplication {
 		try {
 			cH.setPortListener(new PortListener(cH, new ServerSocket(listenPort)));
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.exception(e);
 		}
 		cH.start();
 	}

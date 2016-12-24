@@ -40,7 +40,7 @@ public class ChannelHandler {
 	}
 
 	public void start() {
-		log.debug("Starting ChannelHandler", nameForLog);
+		log.info("Starting ChannelHandler", nameForLog);
 		new Thread(sListener).start();
 	}
 	public void fullStop(){
