@@ -45,7 +45,7 @@ public class Channel implements Comparable<Channel>, Runnable {
 		active = true;
 		new Thread(con).start();
 		while (active) {
-
+			// FIXME Do something
 		}
 	}
 
@@ -60,6 +60,8 @@ public class Channel implements Comparable<Channel>, Runnable {
 
 	public void exit() {
 		con.close();
-		// io.close();
+	}
+	public void stop(){
+		active = false;
 	}
 }

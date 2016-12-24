@@ -88,19 +88,20 @@ public class CommunicationApplication {
 			System.out.println("No arguments supplied, exiting");
 			System.exit(0);
 		}
-		Util.Logger.setLogFile(new File(logLocation.getAbsolutePath()+logName));
-		log = Util.Logger.getInstance();
-		log.start();
+		startLogger();
 	}
-
 	private void start() {
-		log.debug("Starting the program", nameForLog);
+		log.message("Starting the program", nameForLog);
 		if (continuous) {
-			log.debug("Starting continuous operation", nameForLog);
+			log.message("Starting continuous operation", nameForLog);
 			startContinuousOperation();
 		}
 	}
-
+	private void startLogger(){
+		Util.Logger.setLogFile(new File(logLocation.getPath()+File.separator+logName));
+		log = Util.Logger.getInstance();
+		log.start();		
+	}
 	private void startContinuousOperation() {
 		cH = new ChannelHandler(new HashSet<Channel>(), new LinkedList<Channel>());
 		try {
@@ -110,34 +111,34 @@ public class CommunicationApplication {
 		}
 		cH.start();
 	}
+/*
+	Manual stuff, testing/debugging
 
-//	Manual stuff, testing/debugging
-//
-//	private void manualListen(int port) {
-//		ManualConnection manualCon;
-//		try {
-//			manualCon = new ManualConnection(new ServerSocket(port));
-//			manualCon.listenServerSocket();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
-//
-//	private String manualConnect(InetAddress adr, int port) {
-//		String output = null;
-//
-//		ManualConnection manualCon;
-//		try {
-//			manualCon = new ManualConnection(new Socket(adr, port));
-//			manualCon.connect();
-//			if (MODE == -1)
-//				manualCon.send(TEST_STRING);
-//			manualCon.close();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//
-//		return output;
-//	}
+	private void manualListen(int port) {
+		ManualConnection manualCon;
+		try {
+			manualCon = new ManualConnection(new ServerSocket(port));
+			manualCon.listenServerSocket();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
+	private String manualConnect(InetAddress adr, int port) {
+		String output = null;
+
+		ManualConnection manualCon;
+		try {
+			manualCon = new ManualConnection(new Socket(adr, port));
+			manualCon.connect();
+			if (MODE == -1)
+				manualCon.send(TEST_STRING);
+			manualCon.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return output;
+	}
+*/
 }

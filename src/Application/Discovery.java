@@ -9,7 +9,7 @@ import java.util.Scanner;
 import parsers.DeviceParser;
 import parsers.NmapParser;
 
-public class Discoverer implements Runnable {
+public class Discovery implements Runnable {
 
 	private boolean active = false;
 	private ProcessBuilder pb;
@@ -22,7 +22,7 @@ public class Discoverer implements Runnable {
 
 	private RoutingTable routingTable;
 
-	public Discoverer(RoutingTable rt) {
+	public Discovery(RoutingTable rt) {
 		this.routingTable = rt;
 
 	}

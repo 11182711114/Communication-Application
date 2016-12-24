@@ -20,20 +20,18 @@ public class ChannelHandler {
 	public void addChannel(Channel c) {
 		new Thread(c).start();
 		channels.add(c);
+		channelsSet.add(c);
 	}
 
 	public void passSocket(Socket s) {
-		log.debug("Making new channel based on passed socket", nameForLog);
+		log.message("Making new channel based on passed socket", nameForLog);
 
 		Connection conTmp = new Connection(s);
 		IO ioTmp = new IO();
 		Channel tmp = new Channel(conTmp, ioTmp);
-		tmp.run();
 
 		log.debug("Adding channel to channel chain", nameForLog);
-
-		channelsSet.add(tmp);
-		channels.add(tmp);
+		addChannel(tmp);
 	}
 
 	public void setPortListener(PortListener pl) {
@@ -43,7 +41,12 @@ public class ChannelHandler {
 
 	public void start() {
 		log.debug("Starting ChannelHandler", nameForLog);
-
 		new Thread(sListener).start();
+	}
+	public void fullStop(){
+		sListener.stop();
+		for(Channel c : channels){
+			c.stop();
+		}
 	}
 }
