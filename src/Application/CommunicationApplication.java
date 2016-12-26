@@ -69,6 +69,8 @@ public class CommunicationApplication {
 					
 				case "-mon":
 					monitorDir = new File(args[i+1]);
+					if(!monitorDir.exists())
+						monitorDir.mkdirs();
 					break;
 
 //					old manual stuff

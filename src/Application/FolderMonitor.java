@@ -102,11 +102,7 @@ public class FolderMonitor implements Runnable{
 		return toReturn;
 	}
 	
-	public void scan(){
-
-		if(!parentDir.exists() || !parentDir.isDirectory())
-			parentDir.mkdirs();
-		
+	public void scan(){		
 		File[] filesTMP = parentDir.listFiles();
 		
 		for(File f : filesTMP){
