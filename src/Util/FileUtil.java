@@ -1,10 +1,16 @@
 package Util;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class FileUtil {
 	public static void writeToFile(String toWrite, File toWriteIn) throws IOException {
@@ -16,5 +22,28 @@ public class FileUtil {
 		pw.println(toWrite);
 		pw.flush();
 		pw.close();
+	}
+	public static String[] readFromFile(File f) throws FileNotFoundException{
+		List<String> output = new ArrayList<>();
+		Scanner sc;
+		
+		sc = new Scanner(new BufferedReader(new FileReader(f)));
+		
+		while(sc.hasNextLine())
+			output.add(sc.nextLine());
+		
+		sc.close();
+		
+		String[] tmpOut = shiftArray(output.toArray(new String[output.size()+1]));
+		tmpOut[0] = f.getName();
+		
+		return tmpOut;
+	}
+	private static String[] shiftArray(String[] s){
+		String[] tmp = s;
+		for(int i = (s.length-1); i>-1;i--){
+			tmp[i+1] = s[i];
+		}
+		return s;
 	}
 }
