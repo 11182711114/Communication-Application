@@ -63,6 +63,7 @@ public class Channel implements Comparable<Channel>, Runnable {
 		con.close();
 	}
 	public void stop(){
+		log.info("Stopping", nameForLog);
 		active = false;
 	}
 }

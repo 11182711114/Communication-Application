@@ -48,6 +48,7 @@ public class ChannelHandler {
 		new Thread(fMon).start();
 	}
 	public void fullStop(){
+		log.info("Stopping", nameForLog);
 		sListener.stop();
 		for(Channel c : channels){
 			c.stop();

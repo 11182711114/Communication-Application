@@ -112,6 +112,7 @@ public class FolderMonitor implements Runnable{
 		}
 	}
 	public void stop(){
+		log.info("Stopping", nameForLog);
 		active = false;
 	}
 }
