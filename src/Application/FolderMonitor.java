@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FolderMonitor implements Runnable{
-	private Util.Logger log;
+	private Util.Logger log = Util.Logger.getInstance();
 	private String nameForLog = this.getClass().getSimpleName();
 	
 	private static final int SCAN_INTERVAL_IN_MS = 5000;
@@ -45,6 +45,8 @@ public class FolderMonitor implements Runnable{
 	}
 	
 	public void readFiles(){
+		if(files.isEmpty())
+			return;
 		log.info("Starting file reading", nameForLog);
 		for(File f : files){
 			log.debug("Checking if file: " + f.getName() + " is readable: " + f.canRead(), nameForLog);
@@ -101,7 +103,13 @@ public class FolderMonitor implements Runnable{
 	}
 	
 	public void scan(){
-		for(File f : parentDir.listFiles()){
+
+		if(!parentDir.exists() || !parentDir.isDirectory())
+			parentDir.mkdirs();
+		
+		File[] filesTMP = parentDir.listFiles();
+		
+		for(File f : filesTMP){
 			if(f.isFile() && f.canWrite() && !files.contains(f)){ // FIXME File locking stuff
 				files.add(f);
 			}
