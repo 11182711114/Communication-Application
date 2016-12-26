@@ -1,4 +1,4 @@
-package Application;
+package ipc;
 import java.util.ArrayList;
 
 public class IO {

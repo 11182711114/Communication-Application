@@ -1,4 +1,6 @@
-package Application;
+package interDeviceCommunication;
+
+import ipc.IO;
 
 public class Channel implements Comparable<Channel>, Runnable {
 
@@ -20,7 +22,7 @@ public class Channel implements Comparable<Channel>, Runnable {
 		@SuppressWarnings("unused")
 	private IO inOut;
 	
-	private Util.Logger log;
+	private util.Logger log;
 	private String nameForLog = this.getClass().getSimpleName() + "@" + comID;
 
 	/**

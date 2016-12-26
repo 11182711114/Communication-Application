@@ -1,12 +1,18 @@
-package Application;
+package application;
 
 import java.io.File;
 import java.net.Socket;
 import java.util.List;
 import java.util.Set;
 
+import interDeviceCommunication.Channel;
+import interDeviceCommunication.Connection;
+import interDeviceCommunication.PortListener;
+import ipc.FolderMonitor;
+import ipc.IO;
+
 public class ChannelHandler {
-	private Util.Logger log = Util.Logger.getInstance();
+	private util.Logger log = util.Logger.getInstance();
 	private String nameForLog = this.getClass().getSimpleName();
 
 	private List<Channel> channels;

@@ -1,10 +1,13 @@
-package Application;
+package application;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.HashSet;
 import java.util.LinkedList;
+
+import interDeviceCommunication.Channel;
+import interDeviceCommunication.PortListener;
 
 public class CommunicationApplication {
 //	TESTING STUFF
@@ -20,7 +23,7 @@ public class CommunicationApplication {
 
 	private ChannelHandler cH;
 
-	private Util.Logger log;
+	private util.Logger log;
 	private String nameForLog = this.getClass().getSimpleName();
 
 	public static void main(String[] args) {
@@ -87,8 +90,8 @@ public class CommunicationApplication {
 		}
 	}
 	private void startLogger(){
-		Util.Logger.setLogFile(new File(logDir.getPath()+File.separator+logName));
-		log = Util.Logger.getInstance();
+		util.Logger.setLogFile(new File(logDir.getPath()+File.separator+logName));
+		log = util.Logger.getInstance();
 		log.start();		
 	}
 	private void startContinuousOperation() {

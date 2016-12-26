@@ -1,7 +1,9 @@
-package Application;
+package discovery;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import application.Device;
 
 public class RoutingTable {
 	private List<Device> routing;

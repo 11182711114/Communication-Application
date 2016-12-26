@@ -1,17 +1,18 @@
 
-package Application;
+package interDeviceCommunication;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import Util.Logger;
+import application.ChannelHandler;
+import util.Logger;
 
 //OBS formatera!
 
 public class PortListener implements Runnable {
 
-	private Logger log = Util.Logger.getInstance();
+	private Logger log = util.Logger.getInstance();
 	private String nameForLog = this.getClass().getSimpleName();
 
 	private ChannelHandler HANDLER;

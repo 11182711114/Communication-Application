@@ -1,4 +1,4 @@
-package Application;
+package ipc;
 
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FolderMonitor implements Runnable{
-	private Util.Logger log = Util.Logger.getInstance();
+	private util.Logger log = util.Logger.getInstance();
 	private String nameForLog = this.getClass().getSimpleName();
 	
 	private static final int SCAN_INTERVAL_IN_MS = 5000;
@@ -59,7 +59,7 @@ public class FolderMonitor implements Runnable{
 					if(fl != null){
 						log.debug("Locked file: " + f.getName(), nameForLog);
 						
-						String[] fileCont = Util.FileUtil.readFromFile(f);			
+						String[] fileCont = util.FileUtil.readFromFile(f);			
 						
 						
 						for(String s : fileCont){
@@ -91,7 +91,7 @@ public class FolderMonitor implements Runnable{
 		File parent = f.getParentFile();
 		File newFile = new File(parent.getAbsolutePath() + ".read");
 		try {
-			Util.FileUtil.writeToFile("", newFile);
+			util.FileUtil.writeToFile("", newFile);
 			toReturn = true;
 			log.debug("Successfully marked: " + f.getName() + " as read", nameForLog);
 		} catch (IOException e) {

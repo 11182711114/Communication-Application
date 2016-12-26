@@ -3,11 +3,11 @@ package parsers;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import Application.Device;
-import Util.Logger;
+import application.Device;
+import util.Logger;
 
 public class NmapParser implements DeviceParser {
-	private Logger log = Util.Logger.getInstance();
+	private Logger log = util.Logger.getInstance();
 	private String nameForLog = this.getClass().getSimpleName();
 	
 	String relLine = "Nmap scan report for ";

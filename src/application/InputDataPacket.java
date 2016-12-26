@@ -1,5 +1,5 @@
 
-package Application;
+package application;
 
 public class InputDataPacket extends DataPacket
 {

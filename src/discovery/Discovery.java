@@ -1,4 +1,4 @@
-package Application;
+package discovery;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -6,11 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import application.Device;
 import parsers.DeviceParser;
 import parsers.NmapParser;
 
 public class Discovery implements Runnable {
-	private Util.Logger log = Util.Logger.getInstance();
+	private util.Logger log = util.Logger.getInstance();
 	private String nameForLog = this.getClass().getSimpleName();
 
 	private boolean active = false;

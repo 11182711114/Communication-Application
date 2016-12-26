@@ -1,5 +1,5 @@
 
-package Application;
+package interDeviceCommunication;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -8,6 +8,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import application.DataPacket;
+import application.InputDataPacket;
 
 //OBS formatera!
 

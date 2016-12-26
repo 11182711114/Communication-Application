@@ -1,8 +1,11 @@
-package Application;
+package ipc;
 
 //import java.nio.file.Files;
 //import java.io.FileInputStream;
 import java.util.ArrayList;
+
+import application.InPuttable;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;

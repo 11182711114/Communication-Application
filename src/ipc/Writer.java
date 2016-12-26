@@ -1,7 +1,9 @@
-package Application;
+package ipc;
 
 import java.io.FileWriter;
 import java.io.IOException;
+
+import application.OutPuttable;
 
 
 public class Writer implements OutPuttable{
