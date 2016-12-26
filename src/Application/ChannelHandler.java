@@ -1,5 +1,6 @@
 package Application;
 
+import java.io.File;
 import java.net.Socket;
 import java.util.List;
 import java.util.Set;
@@ -11,12 +12,14 @@ public class ChannelHandler {
 	private List<Channel> channels;
 	private Set<Channel> channelsSet;
 	private PortListener sListener;
+	private FolderMonitor fMon;
 
-	public ChannelHandler(Set<Channel> channelsSet, List<Channel> cons) {
+	public ChannelHandler(Set<Channel> channelsSet, List<Channel> cons, File monitorDir) {
 		this.channels = cons;
 		this.channelsSet = channelsSet;
+		fMon = new FolderMonitor(monitorDir);
 	}
-
+	
 	public void addChannel(Channel c) {
 		new Thread(c).start();
 		channels.add(c);
@@ -42,6 +45,7 @@ public class ChannelHandler {
 	public void start() {
 		log.info("Starting ChannelHandler", nameForLog);
 		new Thread(sListener).start();
+		new Thread(fMon).start();
 	}
 	public void fullStop(){
 		sListener.stop();
