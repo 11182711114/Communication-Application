@@ -15,8 +15,8 @@ public class CommunicationApplication {
 	private int listenPort = 10231; // "-port X"
 	private boolean continuous = false; // "-c" = true
 	private File logDir = new File("./db/");
-	private String logName = "ComApp.log";
 	private File monitorDir = new File("./monitor/");
+	private String logName = "ComApp.log";
 
 	private ChannelHandler cH;
 
@@ -41,27 +41,9 @@ public class CommunicationApplication {
 					continuous = true;
 					break;
 					
-				case "-logLoc":
-					logDir = new File(args[i+1]);
-					break;
-					
-				case "-logName":
-					logName = args[i+1];
-					break;
-					
 				case "-log":
-					String str = args[i+1];
-					int pathNameSep = 0;
-					
-					if(str.contains("/"))
-						pathNameSep = str.lastIndexOf("/");
-					else
-						pathNameSep = str.lastIndexOf("\\");
-					
-					String loc = str.substring(0, pathNameSep+1);
-					logDir = new File(loc);
-					logName = str.substring(pathNameSep);
-					break;					
+					logDir = new File(args[i+1]);
+					break;				
 					
 				case "-port":
 					listenPort = Integer.parseInt(args[i+1]);
