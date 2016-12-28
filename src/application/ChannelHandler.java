@@ -60,6 +60,8 @@ public class ChannelHandler {
 		log.info("Starting ChannelHandler", nameForLog);
 		new Thread(sListener).start();
 		new Thread(fMon).start();
+		if(disc != null)
+			new Thread(disc).start();
 	}
 	public void fullStop(){
 		log.info("Stopping", nameForLog);
