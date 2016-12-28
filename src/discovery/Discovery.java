@@ -75,26 +75,24 @@ public class Discovery implements Runnable {
 							log.debug("End found, breaking scanning for new lines", nameForLog);
 							break;
 						}
-
-						shellOutput.add(line);
+						if(!line.isEmpty())
+							shellOutput.add(line);
 					}
 				}
 
 				// FIXME clean
 				log.info("Parsing shelloutput for valid devices", nameForLog);
 				DeviceParser dp = new NmapParser();
-				for (String s : shellOutput) {
-					if(!s.isEmpty()){
-						log.debug("Parsing line: \"" + s + "\"", nameForLog);
-						try{
-							Device dev = dp.parse(s);
-							if(dev != null){
-								log.debug("Successfully parsed: \"" + s + "\" into: \"" + dev.toPrint(), nameForLog);
-								routingTable.addDevice(dev);
-							}
-						}catch(IllegalArgumentException e){
-							log.debug("Cannot parse: " + s + " into valid device", nameForLog);
+				for (String s : shellOutput) {	
+					log.debug("Parsing line: \"" + s + "\"", nameForLog);
+					try{
+						Device dev = dp.parse(s);
+						if(dev != null){
+							log.debug("Successfully parsed: \"" + s + "\" into: \"" + dev.toPrint(), nameForLog);
+							routingTable.addDevice(dev);
 						}
+					}catch(IllegalArgumentException e){
+						log.debug("Cannot parse: " + s + " into valid device", nameForLog);
 					}
 				}
 
