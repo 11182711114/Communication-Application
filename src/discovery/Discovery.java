@@ -57,11 +57,6 @@ public class Discovery implements Runnable {
 					// kill the process if it takes longer than 100s
 					long currentTime = System.currentTimeMillis();
 					long timeDiff = currentTime - startTime;
-					
-					if(!process.isAlive()){
-						log.debug("Nmap done", nameForLog);
-						break;
-					}
 						
 					if (timeDiff > (100 * 1000)) {
 						log.debug("Taking too long, destroying process", nameForLog);
@@ -71,7 +66,7 @@ public class Discovery implements Runnable {
 
 					// read lines and add them to shellOutput, if the line
 					// contains Nmap end signal break the loop
-					while (sc.hasNext()) {
+					while (sc.hasNextLine()) {
 						String line = sc.nextLine();
 						log.debug("Reading line: \"" + line + "\"", nameForLog);
 
