@@ -10,6 +10,9 @@ public abstract class DataPacket
 	private List<String> data;
 	private String deviceID;
 	
+	private util.Logger log = util.Logger.getInstance();
+	private String nameForLog = this.getClass().getSimpleName();
+	
 	public DataPacket()
 	{
 		data = new ArrayList<String>();
@@ -43,11 +46,6 @@ public abstract class DataPacket
 	public List<String> getData()
 	{
 		return data;
-	}
-	
-	public void checkSum(String checkSum)
-	{
-		System.out.println("DO STUFF HERE? (cheksum)");
 	}
 	
 	public abstract void parseData(String line);

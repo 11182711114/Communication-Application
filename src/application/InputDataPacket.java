@@ -18,7 +18,6 @@ public class InputDataPacket extends DataPacket
 				break;
 			case "<DATA>": saveData(data);
 				break;
-			case "<CHECK>": checkSum(data);
 		}
 		
 	}

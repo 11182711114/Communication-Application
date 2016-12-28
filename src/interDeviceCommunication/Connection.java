@@ -18,10 +18,11 @@ import application.OutputDataPacket;
 public class Connection implements Runnable {
 
 	private Socket socket;
-
 	private List<DataPacket> data;
-
 	private boolean run;
+	
+	private util.Logger log = util.Logger.getInstance();
+	private String nameForLog = this.getClass().getSimpleName();
 
 	public Connection(Socket s) {
 		socket = s;
