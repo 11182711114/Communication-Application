@@ -102,12 +102,14 @@ public class FolderMonitor implements Runnable{
 		return toReturn;
 	}
 	
-	public void scan(){		
+	public void scan(){
+		log.debug("Scanning files in: " + parentDir.getAbsolutePath(), nameForLog);
 		File[] filesTMP = parentDir.listFiles();
 		
 		for(File f : filesTMP){
 			boolean fileIsMarkedRead = f.getName().contains(".read");
 			if(f.isFile() && f.canWrite() && !fileIsMarkedRead && !files.contains(f)){ // FIXME File locking stuff
+				log.debug("File found: " + f.getAbsolutePath(), nameForLog);
 				files.add(f);
 			}
 		}
