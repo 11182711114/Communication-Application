@@ -25,7 +25,6 @@ public class FolderMonitor implements Runnable{
 		readFiles = new ArrayList<>();
 	}
 
-
 	@Override
 	public void run() {
 		active = true;
@@ -48,6 +47,7 @@ public class FolderMonitor implements Runnable{
 		if(files.isEmpty())
 			return;
 		log.info("Starting file reading", nameForLog);
+		List<File> filesToRemove = new ArrayList<>();
 		for(File f : files){
 			log.debug("Checking if file: " + f.getName() + " is readable: " + f.canRead(), nameForLog);
 			if(f.canRead()){
@@ -61,13 +61,13 @@ public class FolderMonitor implements Runnable{
 						
 						String[] fileCont = util.FileUtil.readFromFile(f);			
 						
-						
 						for(String s : fileCont){
 							log.debug("Looking for end tag in: " + f.getName(), nameForLog);
 							if(s.contains("END")){
 								log.debug("End found in: " + f.getName(), nameForLog);
 								readFiles.add(fileCont);
 								makeCheckedFile(f);
+								filesToRemove.add(f);
 							}
 						}
 												
@@ -80,8 +80,8 @@ public class FolderMonitor implements Runnable{
 				}
 				
 			}
-			
 		}
+		files.removeAll(filesToRemove);
 	}
 	
 	public boolean makeCheckedFile(File f){
@@ -89,24 +89,23 @@ public class FolderMonitor implements Runnable{
 		log.debug("Trying to mark: " + f.getName() + " as read", nameForLog);
 		
 		File parent = f.getParentFile();
-		File newFile = new File(parent.getAbsolutePath() + ".read");
-		try {
-			util.FileUtil.writeToFile("", newFile);
-			toReturn = true;
-			log.debug("Successfully marked: " + f.getName() + " as read", nameForLog);
-		} catch (IOException e) {
-			log.error("Unable to mark: " + f.getName() + " as read", nameForLog);
-			log.exception(e);
-		}
+		File newName = new File(f.getAbsolutePath()+".read");
+		log.debug("Renaming: " + f.getAbsolutePath() + " to: " + newName.getAbsolutePath(), nameForLog);
+		f.renameTo(newName);
+		toReturn = true;
+		log.debug("Successfully marked: " + f.getName() + " as read", nameForLog);
 		
 		return toReturn;
 	}
 	
-	public void scan(){		
+	public void scan(){
+		log.debug("Scanning files in: " + parentDir.getAbsolutePath(), nameForLog);
 		File[] filesTMP = parentDir.listFiles();
 		
 		for(File f : filesTMP){
-			if(f.isFile() && f.canWrite() && !files.contains(f)){ // FIXME File locking stuff
+			boolean fileIsMarkedRead = f.getName().contains(".read");
+			if(f.isFile() && f.canWrite() && !fileIsMarkedRead && !files.contains(f)){ // FIXME File locking stuff
+				log.debug("File found: " + f.getAbsolutePath(), nameForLog);
 				files.add(f);
 			}
 		}

@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.util.List;
 import java.util.Set;
 
+import discovery.Discovery;
 import interDeviceCommunication.Channel;
 import interDeviceCommunication.Connection;
 import interDeviceCommunication.PortListener;
@@ -21,11 +22,18 @@ public class ChannelHandler {
 	private Set<Channel> channelsSet;
 	private PortListener sListener;
 	private FolderMonitor fMon;
+	private Discovery disc;
 
 	public ChannelHandler(Set<Channel> channelsSet, List<Channel> cons, File monitorDir) {
 		this.channels = cons;
 		this.channelsSet = channelsSet;
 		fMon = new FolderMonitor(monitorDir);
+	}
+	public ChannelHandler(Set<Channel> channelsSet, List<Channel> cons, File monitorDir,Discovery disc) {
+		this.channels = cons;
+		this.channelsSet = channelsSet;
+		fMon = new FolderMonitor(monitorDir);
+		this.disc = disc;
 	}
 	
 	public void addChannel(Channel c) {
@@ -54,6 +62,8 @@ public class ChannelHandler {
 		log.info("Starting ChannelHandler", nameForLog);
 		new Thread(sListener).start();
 		new Thread(fMon).start();
+		if(disc != null)
+			new Thread(disc).start();
 	}
 	public void fullStop(){
 		log.info("Stopping", nameForLog);

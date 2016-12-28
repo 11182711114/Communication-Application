@@ -25,14 +25,18 @@ public class Discovery implements Runnable {
 
 	private RoutingTable routingTable;
 
+	public Discovery(RoutingTable rt, String network) {
+		this.routingTable = rt;
+		this.network = network;
+	}
 	public Discovery(RoutingTable rt) {
 		this.routingTable = rt;
-
 	}
 
 	@Override
 	public void run() {
 		log.info("Starting Discovery", nameForLog);
+		active = true;
 		// Make the ProcessBuilder
 		pb = new ProcessBuilder(command, arg1, network);
 		pb.redirectErrorStream(true);
@@ -41,8 +45,10 @@ public class Discovery implements Runnable {
 
 		// main loop
 		while (active) {
+			log.debug("Starting Discovery main loop", nameForLog);
 			Scanner sc = null;
 			try{
+				log.debug("Starting nmap process", nameForLog);
 				Process process = pb.start();
 				sc = new Scanner(new InputStreamReader(process.getInputStream()));
 				
@@ -51,14 +57,16 @@ public class Discovery implements Runnable {
 					// kill the process if it takes longer than 100s
 					long currentTime = System.currentTimeMillis();
 					long timeDiff = currentTime - startTime;
-					if (timeDiff > (100 * 1000)) {
+						
+					if (timeDiff > (150 * 1000)) {
+						log.debug("Taking too long, destroying process", nameForLog);
 						process.destroy();
 						break;
 					}
 
 					// read lines and add them to shellOutput, if the line
 					// contains Nmap end signal break the loop
-					while (sc.hasNext()) {
+					while (sc.hasNextLine()) {
 						String line = sc.nextLine();
 						log.debug("Reading line: \"" + line + "\"", nameForLog);
 
@@ -67,15 +75,15 @@ public class Discovery implements Runnable {
 							log.debug("End found, breaking scanning for new lines", nameForLog);
 							break;
 						}
-
-						shellOutput.add(line);
+						if(!line.isEmpty())
+							shellOutput.add(line);
 					}
 				}
 
 				// FIXME clean
 				log.info("Parsing shelloutput for valid devices", nameForLog);
 				DeviceParser dp = new NmapParser();
-				for (String s : shellOutput) {
+				for (String s : shellOutput) {	
 					log.debug("Parsing line: \"" + s + "\"", nameForLog);
 					try{
 						Device dev = dp.parse(s);
@@ -84,7 +92,7 @@ public class Discovery implements Runnable {
 							routingTable.addDevice(dev);
 						}
 					}catch(IllegalArgumentException e){
-						log.exception(e);
+						log.debug("Cannot parse: " + s + " into valid device", nameForLog);
 					}
 				}
 
