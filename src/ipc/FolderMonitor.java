@@ -87,12 +87,13 @@ public class FolderMonitor implements Runnable{
 		log.debug("Trying to mark: " + f.getName() + " as read", nameForLog);
 		
 		File parent = f.getParentFile();
-		File newFile = new File(parent.getAbsolutePath() + "."+f.getName());
+		File newFile = new File(parent.getAbsolutePath() + ".read");
 		System.out.print(f.getPath()+f.getName());
 		try {
 			util.FileUtil.writeToFile("", newFile);
 			toReturn = true;
 			files.remove(f);
+			f.delete();
 			log.debug("Successfully marked: " + f.getName() + " as read", nameForLog);
 		} catch (IOException e) {
 			log.error("Unable to mark: " + f.getName() + " as read", nameForLog);
