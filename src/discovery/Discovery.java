@@ -107,7 +107,10 @@ public class Discovery implements Runnable {
 			}
 			if(sc != null)
 				sc.close();
-
+			log.debug("Printing devices:", nameForLog);
+			for(String s : routingTable.getDevicesAsStrings()){
+				log.debug(s, nameForLog);
+			}
 		}
 	}
 

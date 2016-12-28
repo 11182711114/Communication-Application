@@ -34,4 +34,12 @@ public class RoutingTable {
 			return devices;
 		}
 	}
+
+	public String[] getDevicesAsStrings() {
+		String[] tmp = new String[routing.size()];
+		for(int i = 0; i<tmp.length;i++){
+			tmp[i] = routing.get(i).toPrint();
+		}
+		return tmp;
+	}
 }
