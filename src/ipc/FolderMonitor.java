@@ -47,6 +47,7 @@ public class FolderMonitor implements Runnable{
 		if(files.isEmpty())
 			return;
 		log.info("Starting file reading", nameForLog);
+		List<File> filesToRemove = new ArrayList<>();
 		for(File f : files){
 			log.debug("Checking if file: " + f.getName() + " is readable: " + f.canRead(), nameForLog);
 			if(f.canRead()){
@@ -66,6 +67,7 @@ public class FolderMonitor implements Runnable{
 								log.debug("End found in: " + f.getName(), nameForLog);
 								readFiles.add(fileCont);
 								makeCheckedFile(f);
+								filesToRemove.add(f);
 							}
 						}
 												
@@ -78,8 +80,8 @@ public class FolderMonitor implements Runnable{
 				}
 				
 			}
-			
 		}
+		files.removeAll(filesToRemove);
 	}
 	
 	public boolean makeCheckedFile(File f){
@@ -87,18 +89,11 @@ public class FolderMonitor implements Runnable{
 		log.debug("Trying to mark: " + f.getName() + " as read", nameForLog);
 		
 		File parent = f.getParentFile();
-		File newFile = new File(parent.getAbsolutePath() + ".read");
+		File newName = new File(f.getAbsolutePath()+".read");
 		System.out.print(f.getPath()+f.getName());
-		try {
-			util.FileUtil.writeToFile("", newFile);
-			toReturn = true;
-			files.remove(f);
-			f.delete();
-			log.debug("Successfully marked: " + f.getName() + " as read", nameForLog);
-		} catch (IOException e) {
-			log.error("Unable to mark: " + f.getName() + " as read", nameForLog);
-			log.exception(e);
-		}
+		f.renameTo(newName);
+		toReturn = true;
+		log.debug("Successfully marked: " + f.getName() + " as read", nameForLog);
 		
 		return toReturn;
 	}
