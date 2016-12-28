@@ -12,8 +12,11 @@ public class InputDataPacket extends DataPacket
 		switch(markup)
 		{
 			case "<COM>": setComID(data);
+				break;
 			case "<DEV>": setDeviceID(data);
+				break;
 			case "<DATA>": saveData(data);
+				break;
 			case "<CHECK>": checkSum(data);
 		}
 		

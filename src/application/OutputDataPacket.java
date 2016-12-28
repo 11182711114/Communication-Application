@@ -29,13 +29,17 @@ public class OutputDataPacket extends DataPacket
 	{
 		ArrayList<String> toSend = new ArrayList<>();
 		
-		toSend.add(getComID());
-		toSend.add(getDeviceID());
+		toSend.add("<START>" + "\n");
+		
+		toSend.add("<COM>" + getComID() + "\n");
+		toSend.add("<DEV>" + getDeviceID() + "\n");
 		
 		for(String d : getData())
 		{
-			toSend.add("<DATA> " + d);
+			toSend.add("<DATA>" + d + "\n");
 		}
+		
+		toSend.add("<END>");
 		
 		return toSend.toArray(new String[toSend.size()]);
 	}

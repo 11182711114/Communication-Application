@@ -27,7 +27,7 @@ public class Connection implements Runnable {
 		socket = s;
 		data = new ArrayList<>();
 	}
-
+	
 	@Override
 	public void run()
 	{
@@ -43,7 +43,6 @@ public class Connection implements Runnable {
 					Thread.sleep(100);
 				}
 				
-
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 			close();
@@ -92,6 +91,7 @@ public class Connection implements Runnable {
 					data.add(packet);
 				}
 				packet.parseData(input);
+				System.out.println(input);
 			}
 		}
 	}
