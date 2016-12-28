@@ -34,13 +34,13 @@ public class FileUtil {
 		
 		sc.close();
 		
-		String[] tmpOut = shiftArray(output.toArray(new String[output.size()+1]));
+		String[] tmpOut = shiftArray(output.toArray(new String[0]));
 		tmpOut[0] = f.getName();
 		
 		return tmpOut;
 	}
 	private static String[] shiftArray(String[] s){
-		String[] tmp = s;
+		String[] tmp = new String[s.length+1];
 		for(int i = (s.length-1); i>-1;i--){
 			tmp[i+1] = s[i];
 		}

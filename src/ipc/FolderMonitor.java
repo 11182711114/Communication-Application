@@ -25,7 +25,6 @@ public class FolderMonitor implements Runnable{
 		readFiles = new ArrayList<>();
 	}
 
-
 	@Override
 	public void run() {
 		active = true;
@@ -60,7 +59,6 @@ public class FolderMonitor implements Runnable{
 						log.debug("Locked file: " + f.getName(), nameForLog);
 						
 						String[] fileCont = util.FileUtil.readFromFile(f);			
-						
 						
 						for(String s : fileCont){
 							log.debug("Looking for end tag in: " + f.getName(), nameForLog);
