@@ -21,7 +21,7 @@ public class Discovery implements Runnable {
 		arg1 = "-sn", 
 		network = "192.168.1.*", 
 		end = "Nmap done:";
-		
+	private long tts = 10000;
 
 	private RoutingTable routingTable;
 
@@ -43,8 +43,16 @@ public class Discovery implements Runnable {
 
 		List<String> shellOutput = new ArrayList<String>();
 
+		boolean wait = false;
 		// main loop
 		while (active) {
+			if(wait){
+				try {
+					Thread.sleep(tts);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+			}
 			RoutingTable tmpRT = new RoutingTable(new ArrayList<Device>());
 			shellOutput.clear();
 			
@@ -110,6 +118,7 @@ public class Discovery implements Runnable {
 			if(sc != null)
 				sc.close();
 			routingTable = tmpRT;
+			wait = true;
 		}
 	}
 
