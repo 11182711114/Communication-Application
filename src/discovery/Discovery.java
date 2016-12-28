@@ -96,11 +96,11 @@ public class Discovery implements Runnable {
 					try{
 						Device dev = dp.parse(s);
 						if(dev != null){
-							log.assign("Successfully parsed: \"" + s + "\" into: \"" + dev.toPrint(), nameForLog);
+							log.debug("Successfully parsed: \"" + s + "\" into: \"" + dev.toPrint(), nameForLog);
 							tmpRT.addDevice(dev);
 						}
 					}catch(IllegalArgumentException e){
-						log.assign("Cannot parse: " + s + " into valid device", nameForLog);
+						log.debug("Cannot parse: " + s + " into valid device", nameForLog);
 					}
 				}
 
