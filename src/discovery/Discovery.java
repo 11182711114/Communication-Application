@@ -21,7 +21,7 @@ public class Discovery implements Runnable {
 		arg1 = "-sn", 
 		network = "192.168.1.*", 
 		end = "Nmap done:";
-	private long tts = 10000;
+	private long tts = 25000;
 
 	private RoutingTable routingTable;
 
