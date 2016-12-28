@@ -15,7 +15,7 @@ import java.util.Scanner;
 public class FileUtil {
 	public static void writeToFile(String toWrite, File toWriteIn) throws IOException {
 		if (!toWriteIn.exists()) {
-			new File(toWriteIn.getAbsolutePath().substring(0, toWriteIn.getAbsolutePath().lastIndexOf("\\"))).mkdirs();
+			new File(toWriteIn.getAbsolutePath().substring(0, toWriteIn.getAbsolutePath().lastIndexOf(File.separator))).mkdirs();
 		}
 
 		PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(toWriteIn, true)));
