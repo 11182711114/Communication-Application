@@ -11,7 +11,7 @@ public class FolderMonitor implements Runnable{
 	private util.Logger log = util.Logger.getInstance();
 	private String nameForLog = this.getClass().getSimpleName();
 	
-	private static final int SCAN_INTERVAL_IN_MS = 5000;
+	private static final int SCAN_INTERVAL_IN_MS = 1000;
 	
 	private File parentDir;
 	private List<File> files;
@@ -99,7 +99,7 @@ public class FolderMonitor implements Runnable{
 	}
 	
 	public void scan(){
-		log.debug("Scanning files in: " + parentDir.getAbsolutePath(), nameForLog);
+		log.trace("Scanning files in: " + parentDir.getAbsolutePath(), nameForLog);
 		File[] filesTMP = parentDir.listFiles();
 		
 		for(File f : filesTMP){
