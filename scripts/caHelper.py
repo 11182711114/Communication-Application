@@ -68,8 +68,13 @@ if javac_return != 0:
 	sys.exit()
 print("Compiling complete")
 
-print("Cleaning...")
-cleaning_return = subprocess.call("rm -r " + archivePath + " && rm -r " + compileRoot, stdout=outputChan, stderr=subprocess.STDOUT)
-if cleaning_return != 0:
-	print("Cleaning failed")
+print("Cleaning: "+ archivePath)
+print("Cleaning: "+ compileRoot)
+cleaning_archive_return = subprocess.call("rm -r " + archivePath, shell=True, stdout=outputChan, stderr=subprocess.STDOUT)
+if cleaning_archive_return != 0:
+        print("Cleaning archive failed")
+cleaning_compileRoot_return = subprocess.call("rm -r " + compileRoot, shell=True, stdout=outputChan, stderr=subprocess.STDOUT)
+if cleaning_compileRoot_return != 0:
+        print("Cleaning compileRoot failed")
+
 print("Cleaning completed")
