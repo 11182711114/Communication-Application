@@ -26,7 +26,7 @@ public class PortListener implements Runnable {
 
 	@Override
 	public void run() {
-		log.debug("Starting port listener", nameForLog);
+		log.info("Starting port listener", nameForLog);
 		active = true;
 		while (active) {
 			if (SOCKET == null)
