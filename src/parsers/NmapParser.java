@@ -23,7 +23,6 @@ public class NmapParser implements DeviceParser {
 	 */
 	@Override
 	public Device parse(String s) throws UnknownHostException, IllegalArgumentException {
-		log.assign("Trying to parse "+s+ " into Device", nameForLog);
 		if(!s.contains(relLine))
 			throw new IllegalArgumentException("The given string\""+ s + "\" cannot be parsed into a valid device" );
 		
@@ -34,7 +33,6 @@ public class NmapParser implements DeviceParser {
 
 	@Override
 	public Device parse(String deviceID, String s) throws UnknownHostException, IllegalArgumentException {
-		log.assign("Trying to parse "+s+ " into Device with deviceID: "+ deviceID, nameForLog);
 		if(!s.contains(relLine))
 			throw new IllegalArgumentException("The given string\""+ s + "\" cannot be parsed into a valid device" );
 
