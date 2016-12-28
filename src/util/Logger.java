@@ -10,7 +10,7 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Logger {
-	private static final long LOG_WRITER_TIME_TO_WAIT = 5 * 1000;
+	private static final long LOG_WRITER_TIME_TO_WAIT = 100;
 
 	private Queue<LogLineStorage> writeBuffer = new ConcurrentLinkedQueue<>();
 
