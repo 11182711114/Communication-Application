@@ -2,10 +2,14 @@ package application;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 
+import discovery.Discovery;
+import discovery.RoutingTable;
 import interDeviceCommunication.Channel;
 import interDeviceCommunication.PortListener;
 
@@ -20,6 +24,7 @@ public class CommunicationApplication {
 	private File logDir = new File("./db/");
 	private File monitorDir = new File("./monitor/");
 	private String logName = "ComApp.log";
+	private boolean doDisc = false;
 
 	private ChannelHandler cH;
 
@@ -57,6 +62,10 @@ public class CommunicationApplication {
 					if(!monitorDir.exists())
 						monitorDir.mkdirs();
 					break;
+				case "-disc":
+					doDisc = true;
+					break;
+					
 
 //					old manual stuff
 //					case "-IP":
@@ -95,13 +104,31 @@ public class CommunicationApplication {
 		log.start();		
 	}
 	private void startContinuousOperation() {
-		cH = new ChannelHandler(new HashSet<Channel>(), new LinkedList<Channel>(),monitorDir);
-		try {
-			cH.setPortListener(new PortListener(cH, new ServerSocket(listenPort)));
-		} catch (IOException e) {
-			log.exception(e);
+		if(doDisc){
+			cH = new ChannelHandler(
+					new HashSet<Channel>(),
+					new LinkedList<Channel>(),
+					monitorDir,
+					new Discovery(
+							new RoutingTable(
+									new ArrayList<Device>())));
+			try {
+				cH.setPortListener(new PortListener(cH, new ServerSocket(listenPort)));
+			} catch (IOException e) {
+				log.exception(e);
+			}
+			cH.start();			
 		}
-		cH.start();
+		else{
+			
+			cH = new ChannelHandler(new HashSet<Channel>(), new LinkedList<Channel>(),monitorDir);
+			try {
+				cH.setPortListener(new PortListener(cH, new ServerSocket(listenPort)));
+			} catch (IOException e) {
+				log.exception(e);
+			}
+			cH.start();
+		}
 	}
 /*
 	Manual stuff, testing/debugging
