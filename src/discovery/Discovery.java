@@ -53,12 +53,13 @@ public class Discovery implements Runnable {
 				for(String s : command){
 					com+=s + " ";
 				}
-				log.debug("Starting nmap process " + com, nameForLog);
+				log.debug("Starting nmap process: " + com, nameForLog);
 				Process process = pb.start();
 				sc = new Scanner(new InputStreamReader(process.getInputStream()));
 				
+				boolean endFound = false;
 				long startTime = System.currentTimeMillis();
-				while (true) {
+				while (!endFound) {
 					// kill the process if it takes longer than 100s
 					long currentTime = System.currentTimeMillis();
 					long timeDiff = currentTime - startTime;
@@ -68,7 +69,6 @@ public class Discovery implements Runnable {
 						process.destroy();
 						break;
 					}
-
 					// read lines and add them to shellOutput, if the line
 					// contains Nmap end signal break the loop
 					while (sc.hasNextLine()) {
@@ -78,6 +78,7 @@ public class Discovery implements Runnable {
 						// no need to add the end signal line
 						if (line.contains(end)){
 							log.debug("End found, breaking scanning for new lines", nameForLog);
+							endFound = true;
 							break;
 						}
 						if(!line.isEmpty())
