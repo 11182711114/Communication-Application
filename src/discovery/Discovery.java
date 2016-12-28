@@ -84,15 +84,17 @@ public class Discovery implements Runnable {
 				log.info("Parsing shelloutput for valid devices", nameForLog);
 				DeviceParser dp = new NmapParser();
 				for (String s : shellOutput) {
-					log.debug("Parsing line: \"" + s + "\"", nameForLog);
-					try{
-						Device dev = dp.parse(s);
-						if(dev != null){
-							log.debug("Successfully parsed: \"" + s + "\" into: \"" + dev.toPrint(), nameForLog);
-							routingTable.addDevice(dev);
+					if(!s.isEmpty()){
+						log.debug("Parsing line: \"" + s + "\"", nameForLog);
+						try{
+							Device dev = dp.parse(s);
+							if(dev != null){
+								log.debug("Successfully parsed: \"" + s + "\" into: \"" + dev.toPrint(), nameForLog);
+								routingTable.addDevice(dev);
+							}
+						}catch(IllegalArgumentException e){
+							log.exception(e);
 						}
-					}catch(IllegalArgumentException e){
-						log.exception(e);
 					}
 				}
 
