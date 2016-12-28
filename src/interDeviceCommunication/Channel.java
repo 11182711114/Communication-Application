@@ -1,5 +1,6 @@
 package interDeviceCommunication;
 
+import application.InputDataPacket;
 import ipc.IO;
 
 public class Channel implements Comparable<Channel>, Runnable {
@@ -50,6 +51,11 @@ public class Channel implements Comparable<Channel>, Runnable {
 		while (active) {
 			// FIXME Do something
 		}
+	}
+	
+	public void inputPacket(InputDataPacket packet)
+	{
+		inOut.handle(packet);
 	}
 
 	@Override

@@ -19,6 +19,5 @@ public class InputDataPacket extends DataPacket
 			case "<DATA>": saveData(data);
 				break;
 		}
-		
 	}
 }

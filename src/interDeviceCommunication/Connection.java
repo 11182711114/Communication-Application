@@ -18,14 +18,15 @@ import application.OutputDataPacket;
 public class Connection implements Runnable {
 
 	private Socket socket;
-	private List<DataPacket> data;
 	private boolean run;
+	private Channel channel;
 	
 	private util.Logger log = util.Logger.getInstance();
 	private String nameForLog = this.getClass().getSimpleName();
 
-	public Connection(Socket s) {
+	public Connection(Socket s, Channel channel) {
 		socket = s;
+		this.channel = channel;
 		data = new ArrayList<>();
 	}
 	
@@ -85,14 +86,14 @@ public class Connection implements Runnable {
 			while (scanner.hasNext()) 
 			{
 				String input = scanner.nextLine();
-
-				if (input.equals("<START>")) 
-				{
-					packet = new InputDataPacket();
-					data.add(packet);
-				}
+				
 				packet.parseData(input);
-				System.out.println(input);
+				
+				if(input.equals("<END>"))
+				{
+					channel.inputPacket(packet);
+					packet = new InputDataPacket();
+				}
 			}
 		}
 	}
