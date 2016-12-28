@@ -88,6 +88,7 @@ public class FolderMonitor implements Runnable{
 		
 		File parent = f.getParentFile();
 		File newFile = new File(parent.getAbsolutePath() + "."+f.getName());
+		System.out.print(f.getPath()+f.getName());
 		try {
 			util.FileUtil.writeToFile("", newFile);
 			toReturn = true;
@@ -105,8 +106,8 @@ public class FolderMonitor implements Runnable{
 		File[] filesTMP = parentDir.listFiles();
 		
 		for(File f : filesTMP){
-			boolean fileIsMarkedRead = new File(f.getAbsolutePath()+"."+f.getName()).exists();
-			if(f.isFile() && f.canWrite() && fileIsMarkedRead && !files.contains(f)){ // FIXME File locking stuff
+			boolean fileIsMarkedRead = f.getName().contains(".read");
+			if(f.isFile() && f.canWrite() && !fileIsMarkedRead && !files.contains(f)){ // FIXME File locking stuff
 				files.add(f);
 			}
 		}
