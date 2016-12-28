@@ -58,7 +58,7 @@ public class Discovery implements Runnable {
 					long currentTime = System.currentTimeMillis();
 					long timeDiff = currentTime - startTime;
 						
-					if (timeDiff > (100 * 1000)) {
+					if (timeDiff > (150 * 1000)) {
 						log.debug("Taking too long, destroying process", nameForLog);
 						process.destroy();
 						break;
