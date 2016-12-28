@@ -90,6 +90,7 @@ public class FolderMonitor implements Runnable{
 		
 		File parent = f.getParentFile();
 		File newName = new File(f.getAbsolutePath()+".read");
+		log.debug("Renaming: " + f.getAbsolutePath() + " to: " + newName.getAbsolutePath(), nameForLog);
 		f.renameTo(newName);
 		toReturn = true;
 		log.debug("Successfully marked: " + f.getName() + " as read", nameForLog);
