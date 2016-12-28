@@ -93,7 +93,7 @@ public class Discovery implements Runnable {
 								routingTable.addDevice(dev);
 							}
 						}catch(IllegalArgumentException e){
-							log.exception(e);
+							log.debug("Cannot parse: " + s + " into valid device", nameForLog);
 						}
 					}
 				}
