@@ -36,6 +36,7 @@ public class Discovery implements Runnable {
 	@Override
 	public void run() {
 		log.info("Starting Discovery", nameForLog);
+		active = true;
 		// Make the ProcessBuilder
 		pb = new ProcessBuilder(command, arg1, network);
 		pb.redirectErrorStream(true);
