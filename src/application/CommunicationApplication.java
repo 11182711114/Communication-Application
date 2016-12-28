@@ -115,7 +115,7 @@ public class CommunicationApplication {
 					monitorDir,
 					new Discovery(
 							new RoutingTable(
-									new ArrayList<Device>())));
+									new ArrayList<Device>()),network));
 			try {
 				cH.setPortListener(new PortListener(cH, new ServerSocket(listenPort)));
 			} catch (IOException e) {
