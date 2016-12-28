@@ -87,10 +87,11 @@ public class FolderMonitor implements Runnable{
 		log.debug("Trying to mark: " + f.getName() + " as read", nameForLog);
 		
 		File parent = f.getParentFile();
-		File newFile = new File(parent.getAbsolutePath() + ".read");
+		File newFile = new File(parent.getAbsolutePath() + "."+f.getName());
 		try {
 			util.FileUtil.writeToFile("", newFile);
 			toReturn = true;
+			files.remove(f);
 			log.debug("Successfully marked: " + f.getName() + " as read", nameForLog);
 		} catch (IOException e) {
 			log.error("Unable to mark: " + f.getName() + " as read", nameForLog);
@@ -104,7 +105,8 @@ public class FolderMonitor implements Runnable{
 		File[] filesTMP = parentDir.listFiles();
 		
 		for(File f : filesTMP){
-			if(f.isFile() && f.canWrite() && !files.contains(f)){ // FIXME File locking stuff
+			boolean fileIsMarkedRead = new File(f.getAbsolutePath()+"."+f.getName()).exists();
+			if(f.isFile() && f.canWrite() && fileIsMarkedRead && !files.contains(f)){ // FIXME File locking stuff
 				files.add(f);
 			}
 		}
