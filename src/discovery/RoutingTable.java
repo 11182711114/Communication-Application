@@ -42,4 +42,8 @@ public class RoutingTable {
 		}
 		return tmp;
 	}
+
+	public void clear() {
+		routing.clear();
+	}
 }

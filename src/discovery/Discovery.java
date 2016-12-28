@@ -45,6 +45,8 @@ public class Discovery implements Runnable {
 
 		// main loop
 		while (active) {
+			shellOutput.clear();
+			routingTable.clear();
 			log.debug("Starting Discovery main loop", nameForLog);
 			Scanner sc = null;
 			try{
