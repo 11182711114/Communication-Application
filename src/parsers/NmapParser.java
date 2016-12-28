@@ -27,7 +27,7 @@ public class NmapParser implements DeviceParser {
 		if(!s.contains(relLine))
 			throw new IllegalArgumentException("The given string\""+ s + "\" cannot be parsed into a valid device" );
 		
-		InetAddress ip = InetAddress.getByName(s.substring(s.indexOf("("),s.indexOf(")")));
+		InetAddress ip = InetAddress.getByName(s.substring(s.indexOf("(")+1,s.indexOf(")")-1));
 		Device d = new Device(ip);
 		return d;
 	}
