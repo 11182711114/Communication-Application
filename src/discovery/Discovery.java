@@ -48,7 +48,12 @@ public class Discovery implements Runnable {
 			log.debug("Starting Discovery main loop", nameForLog);
 			Scanner sc = null;
 			try{
-				log.debug("Starting nmap process " + pb.command().toArray(new String[0]).toString(), nameForLog);
+				String[] command = pb.command().toArray(new String[0]);
+				String com = "";
+				for(String s : command){
+					com+=s + " ";
+				}
+				log.debug("Starting nmap process " + com, nameForLog);
 				Process process = pb.start();
 				sc = new Scanner(new InputStreamReader(process.getInputStream()));
 				
