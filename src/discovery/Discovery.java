@@ -84,7 +84,7 @@ public class Discovery implements Runnable {
 					// contains Nmap end signal break the loop
 					while (sc.hasNextLine()) {
 						String line = sc.nextLine();
-						log.debug("Reading line: \"" + line + "\"", nameForLog);
+						log.parse("Reading line: \"" + line + "\"", nameForLog);
 
 						// no need to add the end signal line
 						if (line.contains(end)){
@@ -98,17 +98,17 @@ public class Discovery implements Runnable {
 				}
 
 				// FIXME clean
-				log.info("Parsing shelloutput for valid devices", nameForLog);
+				log.parse("Parsing shelloutput for valid devices", nameForLog);
 				DeviceParser dp = new NmapParser();
 				for (String s : shellOutput) {
 					try{
 						Device dev = dp.parse(s);
 						if(dev != null){
-							log.debug("Successfully parsed line into: "+ dev.toPrint(), nameForLog);
+							log.parse("Successfully parsed line into: "+ dev.toPrint(), nameForLog);
 							tmpRT.addDevice(dev);
 						}
 					}catch(IllegalArgumentException e){
-						log.debug("Cannot parse: " + s + " into valid device", nameForLog);
+						log.parse("Cannot parse: " + s + " into valid device", nameForLog);
 					}
 				}
 

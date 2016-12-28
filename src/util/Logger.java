@@ -52,6 +52,10 @@ public class Logger {
 		LogLineStorage lls = new LogLineStorage(toLog, LogLevel.INFO, System.currentTimeMillis(), who);
 		addToLog(lls);
 	}
+	public void parse(String toLog, String who) {
+		LogLineStorage lls = new LogLineStorage(toLog, LogLevel.PARSE, System.currentTimeMillis(), who);
+		addToLog(lls);
+	}
 	public void exception(Exception e){
 			StringWriter sw = new StringWriter();
 			e.printStackTrace(new PrintWriter(sw));
@@ -126,7 +130,7 @@ public class Logger {
 	}
 	private enum LogLevel {
 		// Severity lowest down to highest
-		ERROR, INFO, DEBUG, STACKTRACE
+		ERROR, INFO, DEBUG, STACKTRACE, PARSE
 	}
 	private class LogLineStorage {
 		private String toLog;
