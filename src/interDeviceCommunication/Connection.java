@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 import application.DataPacket;
 import application.InputDataPacket;
+import application.OutputDataPacket;
 
 //OBS formatera!
 
@@ -56,13 +57,17 @@ public class Connection implements Runnable {
 		socket = newSocket;
 	}
 
-	public boolean send(String s) {
+	public boolean send(OutputDataPacket packet) {
 		try {
 			BufferedWriter output = new BufferedWriter(new PrintWriter(socket.getOutputStream(), true));
-
-			output.write(s);
-			output.flush();
-
+			String[] data = packet.toSend();
+			
+			for(String d : data)
+			{
+				output.write(d);
+				output.flush();
+			}
+			
 			output.close();
 			return true;
 		} catch (IOException e) {
@@ -71,14 +76,18 @@ public class Connection implements Runnable {
 		}
 	}
 
-	private void read(Scanner scanner) {
-		if (scanner.hasNext()) {
-			InputDataPacket packet = null;
+	private void read(Scanner scanner) 
+	{
+		if (scanner.hasNext()) 
+		{
+			InputDataPacket packet = new InputDataPacket();
 
-			while (scanner.hasNext()) {
+			while (scanner.hasNext()) 
+			{
 				String input = scanner.nextLine();
 
-				if (input.equals("<START>")) {
+				if (input.equals("<START>")) 
+				{
 					packet = new InputDataPacket();
 					data.add(packet);
 				}

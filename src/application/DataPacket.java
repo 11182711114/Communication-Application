@@ -2,7 +2,7 @@ package application;
 
 import java.util.List;
 
-public abstract class DataPacket implements DataParser
+public abstract class DataPacket
 {
 	private String comID;
 	private List<String> data;
@@ -42,4 +42,6 @@ public abstract class DataPacket implements DataParser
 	{
 		System.out.println("DO STUFF HERE (cheksum)");
 	}
+	
+	public abstract void parseData(String line);
 }
