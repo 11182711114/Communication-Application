@@ -92,8 +92,7 @@ public class Discovery implements Runnable {
 				// FIXME clean
 				log.info("Parsing shelloutput for valid devices", nameForLog);
 				DeviceParser dp = new NmapParser();
-				for (String s : shellOutput) {	
-					log.debug("Parsing line: \"" + s + "\"", nameForLog);
+				for (String s : shellOutput) {
 					try{
 						Device dev = dp.parse(s);
 						if(dev != null){
