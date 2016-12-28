@@ -45,8 +45,9 @@ public class Discovery implements Runnable {
 
 		// main loop
 		while (active) {
+			RoutingTable tmpRT = new RoutingTable(new ArrayList<Device>());
 			shellOutput.clear();
-			routingTable.clear();
+			
 			log.debug("Starting Discovery main loop", nameForLog);
 			Scanner sc = null;
 			try{
@@ -97,7 +98,7 @@ public class Discovery implements Runnable {
 						Device dev = dp.parse(s);
 						if(dev != null){
 							log.debug("Successfully parsed: \"" + s + "\" into: \"" + dev.toPrint(), nameForLog);
-							routingTable.addDevice(dev);
+							tmpRT.addDevice(dev);
 						}
 					}catch(IllegalArgumentException e){
 						log.debug("Cannot parse: " + s + " into valid device", nameForLog);
@@ -109,10 +110,7 @@ public class Discovery implements Runnable {
 			}
 			if(sc != null)
 				sc.close();
-			log.debug("Printing devices:", nameForLog);
-			for(String s : routingTable.getDevicesAsStrings()){
-				log.debug(s, nameForLog);
-			}
+			routingTable = tmpRT;
 		}
 	}
 
