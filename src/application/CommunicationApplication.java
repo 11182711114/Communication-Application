@@ -25,6 +25,7 @@ public class CommunicationApplication {
 	private File monitorDir = new File("./monitor/");
 	private String logName = "ComApp.log";
 	private boolean doDisc = false;
+	private String network = "192.168.1.*";
 
 	private ChannelHandler cH;
 
@@ -64,6 +65,9 @@ public class CommunicationApplication {
 					break;
 				case "-disc":
 					doDisc = true;
+					break;
+				case "-network":
+					network = args[i+1];
 					break;
 					
 

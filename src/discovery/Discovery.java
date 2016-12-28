@@ -25,9 +25,13 @@ public class Discovery implements Runnable {
 
 	private RoutingTable routingTable;
 
+	public Discovery(RoutingTable rt, String network) {
+		this.routingTable = rt;
+		this.network = network;
+	}
 	public Discovery(RoutingTable rt) {
 		this.routingTable = rt;
-
+		this.network = network;
 	}
 
 	@Override
