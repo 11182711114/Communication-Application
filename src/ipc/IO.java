@@ -24,30 +24,44 @@ public class IO {
 	Map <String, File> input = new HashMap<>() ;
 	Map <String, File> output = new HashMap<>();
 	
+	
 
 	public void setChannel(Channel ch){
 		this.ch = ch;
+	}
+	
+	private int getFileCount(String path){
+		
+		File dir = new File (path);
+		if(!dir.exists()){
+			return 1;
+		}
+		return dir.listFiles().length+1;
 	}
 	
 	
 	public void handle(InputDataPacket dp){
 		LocalDate date = LocalDate.now();
 		String dateDescription = "Date: " + date.toString();
-		
 		LocalTime time = LocalTime.now();
 		String timeDescription = "Time: " +time.toString();
 		
 		
-		
-		
-		
 		String pathname = "C:\\Users\\Johan\\IoT\\git\\Communication-Application\\Saves";		// needs to be Linux compatible
 		String directory = dp.getDeviceID();
-		String fileName = dp.getComID() + ".txt"; //+what? (+"_" + packetID)
+		String comDir = dp.getComID();
 		
-		pathname = pathname + "\\" + directory;
+		pathname = pathname + "\\" + directory + "\\" + comDir;
+		
+		
+		String fileName = getFileCount(pathname) + ".txt"; 
 		
 		File theFile = new File(pathname, fileName);
+		
+		
+	
+		
+		
 		try{
 			FileUtil.writeToFile(dateDescription, theFile);
 			FileUtil.writeToFile(timeDescription, theFile);
