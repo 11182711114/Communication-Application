@@ -16,18 +16,17 @@ import application.OutputDataPacket;
 //OBS formatera!
 
 public class Connection implements Runnable {
-
+	
 	private Socket socket;
 	private boolean run;
 	private Channel channel;
 	
 	private util.Logger log = util.Logger.getInstance();
 	private String nameForLog = this.getClass().getSimpleName();
-
-	public Connection(Socket s) {
+	
+	public Connection(Socket s) 
+	{
 		socket = s;
-		
-		
 	}
 	
 	@Override

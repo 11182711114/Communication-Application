@@ -40,7 +40,7 @@ public class OutputDataPacket extends DataPacket
 			toSend.add("<DATA>" + d + "\n");
 		}
 		
-		toSend.add("<END>");
+		toSend.add("<END>" + "\n");
 		
 		return toSend.toArray(new String[toSend.size()]);
 	}
