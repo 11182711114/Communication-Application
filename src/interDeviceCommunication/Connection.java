@@ -24,10 +24,10 @@ public class Connection implements Runnable {
 	private util.Logger log = util.Logger.getInstance();
 	private String nameForLog = this.getClass().getSimpleName();
 
-	public Connection(Socket s, Channel channel) {
+	public Connection(Socket s) {
 		socket = s;
-		this.channel = channel;
-		data = new ArrayList<>();
+		
+		
 	}
 	
 	@Override
