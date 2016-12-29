@@ -1,9 +1,6 @@
 package ipc;
 import java.io.File;			
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import application.DataPacket;
 import application.InputDataPacket;
 import application.OutputDataPacket;
@@ -16,7 +13,9 @@ import java.time.LocalTime;
 
 public class IO {
 
-	private Channel ch;
+	//private Channel ch;
+	
+/*
 	static int totalKeyCount= 1;
 	ArrayList<Writer>  writerCollection = new ArrayList<>();	
 	ArrayList<Reader>  readerCollection = new ArrayList<>();
@@ -24,12 +23,7 @@ public class IO {
 	Map <String, File> input = new HashMap<>() ;
 	Map <String, File> output = new HashMap<>();
 	
-	
-
-	public void setChannel(Channel ch){
-		this.ch = ch;
-	}
-	
+*/	
 	private int getFileCount(String path){
 		
 		File dir = new File (path);
@@ -47,7 +41,7 @@ public class IO {
 		String timeDescription = "Time: " +time.toString();
 		
 		
-		String pathname = "C:\\Users\\Johan\\IoT\\git\\Communication-Application\\Saves";		// needs to be Linux compatible
+		String pathname = "C:\\Users\\Johan\\IoT\\git\\Communication-Application\\Input";		// needs to be Linux compatible
 		String directory = dp.getDeviceID();
 		String comDir = dp.getComID();
 		
@@ -57,10 +51,6 @@ public class IO {
 		String fileName = getFileCount(pathname) + ".txt"; 
 		
 		File theFile = new File(pathname, fileName);
-		
-		
-	
-		
 		
 		try{
 			FileUtil.writeToFile(dateDescription, theFile);
@@ -77,20 +67,36 @@ public class IO {
 			e.printStackTrace();
 		}
 		
-		input.put("theKey", theFile);				//bullshit code but shows order. if saved in Maps
+		//input.put("theKey", theFile);				//bullshit code but shows order. if saved in Maps
 	}
 	
-
-		
-		
-		
-	
-	
-	public void sendDP(){
+	private void createODP(){
 		DataPacket toSend = new OutputDataPacket();		// Send to Channel
 	}
 	
+	public boolean checkForOutput(String deviceID)
+	{
+		File dir = new File("C:\\Users\\Johan\\IoT\\git\\Communication-Application\\Output\\" + deviceID + "\\pending");
+		
+		if(dir.exists())
+		{
+			if(dir.listFiles().length > 0)
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
 	
+	public OutputDataPacket sendDataPacket(String deviceID)
+	{
+		File dir = new File("C:\\Users\\Johan\\IoT\\git\\Communication-Application\\Output\\" + deviceID + "\\pending");
+		
+	}
+	
+/*	Not currently relevant.
+ 
 	public void createWriter(){
 		Writer writer = new Writer();
 		writerCollection.add(writer);
@@ -99,4 +105,5 @@ public class IO {
 		Reader reader = new Reader();
 		readerCollection.add(reader);	
 	}
+*/
 }
