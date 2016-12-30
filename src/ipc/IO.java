@@ -1,5 +1,6 @@
 package ipc;
-import java.io.File;			
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import application.DataPacket;
 import application.InputDataPacket;
@@ -9,11 +10,12 @@ import util.FileUtil;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 
 public class IO {
 
-	//private Channel ch;
+//	private Channel ch;
 	
 /*
 	static int totalKeyCount= 1;
@@ -41,7 +43,7 @@ public class IO {
 		String timeDescription = "Time: " +time.toString();
 		
 		
-		String pathname = "C:\\Users\\Johan\\IoT\\git\\Communication-Application\\Input";		// needs to be Linux compatible
+		String pathname = "./files";		// needs to be Linux compatible
 		String directory = dp.getDeviceID();
 		String comDir = dp.getComID();
 		
@@ -70,13 +72,18 @@ public class IO {
 		//input.put("theKey", theFile);				//bullshit code but shows order. if saved in Maps
 	}
 	
-	private void createODP(){
-		DataPacket toSend = new OutputDataPacket();		// Send to Channel
+	private OutputDataPacket createOutputDataPacket(String[] data){
+		OutputDataPacket toSend = new OutputDataPacket();		// Send to Channel
+		for(int i = 1 ; i< data.length ; i++){
+			toSend.parseData(data[i]);	
+		}
+		
+		return toSend;
 	}
 	
 	public boolean checkForOutput(String deviceID)
 	{
-		File dir = new File("C:\\Users\\Johan\\IoT\\git\\Communication-Application\\Output\\" + deviceID + "\\pending");
+		File dir = new File("C:\\Users\\Johan\\IoT\\git\\Communication-Application\\files\\" + deviceID + "\\pending");
 		
 		if(dir.exists())
 		{
@@ -89,10 +96,32 @@ public class IO {
 		return false;
 	}
 	
-	public OutputDataPacket sendDataPacket(String deviceID)
+	public OutputDataPacket[] sendDataPackets(String deviceID) throws FileNotFoundException
 	{
-		File dir = new File("C:\\Users\\Johan\\IoT\\git\\Communication-Application\\Output\\" + deviceID + "\\pending");
+		ArrayList<OutputDataPacket> packets = new ArrayList<>();
 		
+		File dir = new File("C:\\Users\\Johan\\IoT\\git\\Communication-Application\\files\\" + deviceID + "\\pending");
+		
+		for(File f : dir.listFiles()){
+			String[] fileContent = FileUtil.readFromFile(f);
+			
+			if(fileContent.length >1){
+				
+				OutputDataPacket thePacket = createOutputDataPacket(fileContent);
+				packets.add(thePacket);
+				moveToSend(f, deviceID);
+			}
+		}
+		
+		return packets.toArray(new OutputDataPacket[0]);
+		// ./ root for program / file/ dev1/
+	}
+	
+	
+	public void moveToSend(File f, String deviceID){
+		
+		
+		f.renameTo(new File("C:\\Users\\Johan\\IoT\\git\\Communication-Application\\files\\" + deviceID + "\\sent\\" +f.getName()));
 	}
 	
 /*	Not currently relevant.

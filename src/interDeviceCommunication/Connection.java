@@ -20,31 +20,27 @@ public class Connection implements Runnable {
 	private Socket socket;
 	private boolean run;
 	private Channel channel;
-	
+
 	private util.Logger log = util.Logger.getInstance();
 	private String nameForLog = this.getClass().getSimpleName();
 
 	public Connection(Socket s) {
 		socket = s;
-		
-		
+
 	}
-	
+
 	@Override
-	public void run()
-	{
-			try 
-			{
-				Scanner input = new Scanner(socket.getInputStream());
-				
-				run = true;
-				
-				while(run)
-				{
-					read(input);
-					Thread.sleep(100);
-				}
-				
+	public void run() {
+		try {
+			Scanner input = new Scanner(socket.getInputStream());
+
+			run = true;
+
+			while (run) {
+				read(input);
+				Thread.sleep(100);
+			}
+
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 			close();
@@ -58,39 +54,34 @@ public class Connection implements Runnable {
 		socket = newSocket;
 	}
 
-	public boolean send(OutputDataPacket packet) {
+	public void send(OutputDataPacket[] packets) {
 		try {
 			BufferedWriter output = new BufferedWriter(new PrintWriter(socket.getOutputStream(), true));
-			String[] data = packet.toSend();
-			
-			for(String d : data)
-			{
-				output.write(d);
-				output.flush();
+			for (OutputDataPacket p : packets) {
+				String[] data = p.toSend();
+				for (String d : data) {
+					output.write(d);
+					output.flush();
+				}
+				
 			}
-			
+
 			output.close();
-			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
-			return false;
 		}
 	}
 
-	private void read(Scanner scanner) 
-	{
-		if (scanner.hasNext()) 
-		{
+	private void read(Scanner scanner) {
+		if (scanner.hasNext()) {
 			InputDataPacket packet = new InputDataPacket();
 
-			while (scanner.hasNext()) 
-			{
+			while (scanner.hasNext()) {
 				String input = scanner.nextLine();
-				
+
 				packet.parseData(input);
-				
-				if(input.equals("<END>"))
-				{
+
+				if (input.equals("<END>")) {
 					channel.inputPacket(packet);
 					packet = new InputDataPacket();
 				}

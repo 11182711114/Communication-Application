@@ -1,6 +1,9 @@
 package interDeviceCommunication;
 
+import java.io.FileNotFoundException;
+
 import application.InputDataPacket;
+import application.OutputDataPacket;
 import ipc.IO;
 
 public class Channel implements Comparable<Channel>, Runnable {
@@ -49,7 +52,18 @@ public class Channel implements Comparable<Channel>, Runnable {
 		active = true;
 		new Thread(con).start();
 		while (active) {
-			// FIXME Do something
+			
+			if(inOut.checkForOutput("theDevice we need to find")){
+				try {
+					OutputDataPacket[] data= inOut.sendDataPackets("theDevice we need to find");
+					
+					
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			// FIXME Do something check for datatosend
 		}
 	}
 	

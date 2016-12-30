@@ -1,27 +1,16 @@
 package application;
 
 
-import java.net.InetAddress;
+
 import java.util.ArrayList;
 
 public class OutputDataPacket extends DataPacket
 {
-	private InetAddress adress;
-	
-	public void setInetAdress(InetAddress adress)
-	{
-		this.adress = adress;
-	}
-	
-	public InetAddress getAdress()
-	{
-		return adress;
-	}
 	
 	@Override
 	public void parseData(String line) 
 	{
-		String data = "<DATA> " + line;
+		String data = "<DATA> " + line + "\n";
 		
 		saveData(data);
 	}
@@ -37,7 +26,7 @@ public class OutputDataPacket extends DataPacket
 		
 		for(String d : getData())
 		{
-			toSend.add("<DATA>" + d + "\n");
+			toSend.add(d);
 		}
 		
 		toSend.add("<END>");
