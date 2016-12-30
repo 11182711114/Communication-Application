@@ -53,10 +53,11 @@ public class Channel implements Comparable<Channel>, Runnable {
 		new Thread(con).start();
 		while (active) {
 			
-			if(inOut.checkForOutput("theDevice we need to find")){
+			if(inOut.checkForOutput("testDevice")){
+				
 				try {
-					OutputDataPacket[] data= inOut.sendDataPackets("theDevice we need to find");
-					
+					OutputDataPacket[] data= inOut.sendDataPackets("testDevice");
+					con.send(data);
 					
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block

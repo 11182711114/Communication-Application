@@ -2,10 +2,9 @@ package ipc;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import application.DataPacket;
 import application.InputDataPacket;
 import application.OutputDataPacket;
-import interDeviceCommunication.Channel;
+
 import util.FileUtil;
 
 import java.time.LocalDate;
