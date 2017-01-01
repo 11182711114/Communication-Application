@@ -72,22 +72,6 @@ public class CommunicationApplication {
 				case "-network":
 					network = args[i + 1];
 					break;
-
-				// old manual stuff
-				// case "-IP":
-				// try {
-				// manualConnect(InetAddress.getByName(args[i + 1]),
-				// Integer.parseInt(args[i + 2]));
-				// } catch (NumberFormatException e) {
-				// e.printStackTrace();
-				// } catch (UnknownHostException e) {
-				// e.printStackTrace();
-				// }
-				// break;
-				//
-				// case "-server":
-				// manualListen(Integer.parseInt(args[i + 1]));
-				// break;
 				}
 			}
 		}
@@ -135,22 +119,4 @@ public class CommunicationApplication {
 			cH.start();
 		}
 	}
-	/*
-	 * Manual stuff, testing/debugging
-	 * 
-	 * private void manualListen(int port) { ManualConnection manualCon; try {
-	 * manualCon = new ManualConnection(new ServerSocket(port));
-	 * manualCon.listenServerSocket(); } catch (IOException e) {
-	 * e.printStackTrace(); } }
-	 * 
-	 * private String manualConnect(InetAddress adr, int port) { String output =
-	 * null;
-	 * 
-	 * ManualConnection manualCon; try { manualCon = new ManualConnection(new
-	 * Socket(adr, port)); manualCon.connect(); if (MODE == -1)
-	 * manualCon.send(TEST_STRING); manualCon.close(); } catch (IOException e) {
-	 * e.printStackTrace(); }
-	 * 
-	 * return output; }
-	 */
 }
