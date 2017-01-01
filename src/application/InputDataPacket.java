@@ -1,5 +1,6 @@
-
 package application;
+
+
 
 public class InputDataPacket extends DataPacket
 {
@@ -12,10 +13,11 @@ public class InputDataPacket extends DataPacket
 		switch(markup)
 		{
 			case "<COM>": setComID(data);
+				break;
 			case "<DEV>": setDeviceID(data);
+				break;
 			case "<DATA>": saveData(data);
-			case "<CHECK>": checkSum(data);
+				break;
 		}
-		
 	}
 }

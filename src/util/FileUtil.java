@@ -44,6 +44,6 @@ public class FileUtil {
 		for(int i = (s.length-1); i>-1;i--){
 			tmp[i+1] = s[i];
 		}
-		return s;
+		return tmp;
 	}
 }
