@@ -13,13 +13,13 @@ import util.Logger;
 public class PortListener implements Runnable {
 	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
 
-	private ChannelHandler HANDLER;
-	private ServerSocket SOCKET;
+	private ChannelHandler handler;
+	private ServerSocket serverSocket;
 	private boolean active;
 
 	public PortListener(ChannelHandler h, ServerSocket s) {
-		HANDLER = h;
-		SOCKET = s;
+		handler = h;
+		serverSocket = s;
 	}
 
 	@Override
@@ -27,12 +27,12 @@ public class PortListener implements Runnable {
 		log.info("Starting port listener");
 		active = true;
 		while (active) {
-			if (SOCKET == null)
+			if (serverSocket == null)
 				return;
 			try {
-				Socket newSocket = SOCKET.accept();
+				Socket newSocket = serverSocket.accept();
 				log.debug("Passing conversation to new socket");
-				HANDLER.passSocket(newSocket);
+				handler.passSocket(newSocket);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -44,7 +44,7 @@ public class PortListener implements Runnable {
 	}
 
 	public int getServerSocketPort() {
-		return SOCKET.getLocalPort();
+		return serverSocket.getLocalPort();
 	}
 
 }
