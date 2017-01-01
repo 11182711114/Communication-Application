@@ -94,7 +94,7 @@ public class Logger {
 		}
 
 		public String toWrite() {
-			DateFormat df = new SimpleDateFormat("y-M-d HH:mm:ss.S");
+			DateFormat df = new SimpleDateFormat("y-M-d HH:mm:ss.SSS");
 			String timeOutput = df.format(time);
 			return "[" + timeOutput + "] " + lvl + "\t" + who + " :: " + toLog;
 		}
