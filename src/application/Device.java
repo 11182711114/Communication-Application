@@ -47,7 +47,7 @@ public class Device implements Comparable<Device> {
 	}
 
 	public String toPrint() {
-		return "ID: " + deviceID + " IP:" + ip.toString();
+		return "ID: " + deviceID + " IP:" + ip.toString().replaceAll("\\", "");
 	}
 
 }
