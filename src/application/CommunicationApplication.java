@@ -60,6 +60,7 @@ public class CommunicationApplication {
 					if (!monitorDir.exists())
 						monitorDir.mkdirs();
 					break;
+					
 				case "-disc":
 					doDisc = true;
 					File discOutTmp = new File(args[i + 1] + File.separator + discoveryOutput.getName());
@@ -67,6 +68,7 @@ public class CommunicationApplication {
 					if(!discoveryOutput.exists())
 						discoveryOutput.mkdirs();
 					break;
+					
 				case "-network":
 					network = args[i + 1];
 					break;
