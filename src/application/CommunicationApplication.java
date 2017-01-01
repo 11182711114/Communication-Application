@@ -29,9 +29,6 @@ public class CommunicationApplication {
 	private File discoveryOutputDir = new File("./hosts/");
 	private String discoveryOutputFileName = "ComApp.hosts";
 	private String network = "192.168.1.*";
-	private File routingTableOutputDir = new File("./hosts/");
-	private String routingTableOutputFileName = "ComApp.hosts";
-
 	private ChannelHandler cH;
 
 	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
