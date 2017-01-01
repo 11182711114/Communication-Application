@@ -23,7 +23,12 @@ public class NmapParser implements DeviceParser {
 		if (!s.contains(relLine))
 			throw new IllegalArgumentException("The given string\"" + s + "\" cannot be parsed into a valid device");
 
-		InetAddress ip = InetAddress.getByName(s.substring(s.indexOf("(") + 1, s.indexOf(")") - 1));
+		int openPar = s.indexOf("(") + 1;
+		int closePar = s.indexOf(")") - 1;
+		if(openPar<0 || closePar<0)
+			throw new IllegalArgumentException("The given string\"" + s + "\" cannot be parsed into a valid device");
+		
+		InetAddress ip = InetAddress.getByName(s.substring(openPar,closePar));
 		Device d = new Device(ip);
 		return d;
 	}
@@ -33,7 +38,11 @@ public class NmapParser implements DeviceParser {
 		if (!s.contains(relLine))
 			throw new IllegalArgumentException("The given string\"" + s + "\" cannot be parsed into a valid device");
 
-		InetAddress ip = InetAddress.getByName(s.substring(s.indexOf("("), s.indexOf(")")));
+		int openPar = s.indexOf("(") + 1;
+		int closePar = s.indexOf(")") - 1;
+		if(openPar<0 || closePar<0)
+			throw new IllegalArgumentException("The given string\"" + s + "\" cannot be parsed into a valid device");
+		InetAddress ip = InetAddress.getByName(s.substring(openPar,closePar));
 		Device d = new Device(ip, deviceID);
 		return d;
 	}
