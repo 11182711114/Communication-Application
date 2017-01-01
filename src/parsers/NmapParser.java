@@ -23,6 +23,13 @@ public class NmapParser implements DeviceParser {
 		if (!s.contains(relLine))
 			throw new IllegalArgumentException("The given string\"" + s + "\" cannot be parsed into a valid device");
 		
+//		int openPar = s.indexOf("(") + 1;
+//		int closePar = s.indexOf(")") - 1;
+//		if(openPar<0 || closePar<0)
+//			throw new IllegalArgumentException("The given string\"" + s + "\" cannot be parsed into a valid device");
+//		
+//		InetAddress ip = InetAddress.getByName(s.substring(openPar,closePar));
+		
 //		Pattern ipRegex = Pattern.compile("([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3})");
 		Pattern ipRegex = Pattern.compile("(([0-9]{1,3}\\.){3}[0-9]{1,3})");
 		Matcher m = ipRegex.matcher(s);
@@ -31,12 +38,6 @@ public class NmapParser implements DeviceParser {
 			
 		InetAddress ip = InetAddress.getByName(m.group());
 		
-//		int openPar = s.indexOf("(") + 1;
-//		int closePar = s.indexOf(")") - 1;
-//		if(openPar<0 || closePar<0)
-//			throw new IllegalArgumentException("The given string\"" + s + "\" cannot be parsed into a valid device");
-//		
-//		InetAddress ip = InetAddress.getByName(s.substring(openPar,closePar));
 		Device d = new Device(ip);
 		return d;
 	}
@@ -54,11 +55,19 @@ public class NmapParser implements DeviceParser {
 		if (!s.contains(relLine))
 			throw new IllegalArgumentException("The given string\"" + s + "\" cannot be parsed into a valid device");
 
-		int openPar = s.indexOf("(") + 1;
-		int closePar = s.indexOf(")") - 1;
-		if(openPar<0 || closePar<0)
+//		int openPar = s.indexOf("(") + 1;
+//		int closePar = s.indexOf(")") - 1;
+//		if(openPar<0 || closePar<0)
+//			throw new IllegalArgumentException("The given string\"" + s + "\" cannot be parsed into a valid device");
+//		InetAddress ip = InetAddress.getByName(s.substring(openPar,closePar));
+
+		Pattern ipRegex = Pattern.compile("(([0-9]{1,3}\\.){3}[0-9]{1,3})");
+		Matcher m = ipRegex.matcher(s);
+		if(!m.find())
 			throw new IllegalArgumentException("The given string\"" + s + "\" cannot be parsed into a valid device");
-		InetAddress ip = InetAddress.getByName(s.substring(openPar,closePar));
+			
+		InetAddress ip = InetAddress.getByName(m.group());
+		
 		Device d = new Device(ip, deviceID);
 		return d;
 	}
