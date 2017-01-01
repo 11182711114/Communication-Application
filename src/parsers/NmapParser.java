@@ -4,10 +4,8 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import application.Device;
-import util.Logger;
 
 public class NmapParser implements DeviceParser {
-	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
 	
 	String relLine = "Nmap scan report for ";
 

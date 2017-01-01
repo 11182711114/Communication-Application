@@ -89,7 +89,6 @@ public class FolderMonitor implements Runnable{
 		boolean toReturn = false;
 		log.debug("Trying to mark: " + f.getName() + " as read");
 		
-		File parent = f.getParentFile();
 		File newName = new File(f.getAbsolutePath()+".read");
 		log.debug("Renaming: " + f.getAbsolutePath() + " to: " + newName.getAbsolutePath());
 		f.renameTo(newName);
