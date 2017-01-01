@@ -14,9 +14,14 @@ public class RoutingTable {
 	}
 
 	public void addDevice(Device d) {
-		if (routing == null)
-			return;
 		routing.add(d);
+	}
+	
+	public void updateDevices(Device[] devices){
+		routing.clear();
+		for(Device d : devices){
+			routing.add(d);
+		}
 	}
 
 	public void reset() {
@@ -36,12 +41,8 @@ public class RoutingTable {
 		}
 	}
 
-	public String[] getDevicesAsStrings() {
-		String[] tmp = new String[routing.size()];
-		for (int i = 0; i < tmp.length; i++) {
-			tmp[i] = routing.get(i).toPrint();
-		}
-		return tmp;
+	public List<Device> getRouting() {
+		return routing;
 	}
 
 	public void clear() {

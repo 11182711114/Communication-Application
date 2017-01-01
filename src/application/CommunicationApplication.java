@@ -27,6 +27,8 @@ public class CommunicationApplication {
 	private String logName = "ComApp.log";
 	private boolean doDisc = false;
 	private String network = "192.168.1.*";
+	private File routingTableOutputDir = new File("./hosts/");
+	private String routingTableOutputFileName = "ComApp.hosts";
 
 	private ChannelHandler cH;
 
