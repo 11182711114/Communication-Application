@@ -12,6 +12,7 @@ import java.util.Scanner;
 import application.DataPacket;
 import application.InputDataPacket;
 import application.OutputDataPacket;
+import util.Logger;
 
 //OBS formatera!
 
@@ -21,8 +22,7 @@ public class Connection implements Runnable {
 	private boolean run;
 	private Channel channel;
 
-	private util.Logger log = util.Logger.getInstance();
-	private String nameForLog = this.getClass().getSimpleName();
+	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
 
 	public Connection(Socket s) {
 		socket = s;

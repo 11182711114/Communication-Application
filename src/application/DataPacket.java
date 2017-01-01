@@ -4,14 +4,15 @@ package application;
 import java.util.ArrayList;
 import java.util.List;
 
+import util.Logger;
+
 public abstract class DataPacket
 {
 	private String comID;
 	private List<String> data;
 	private String deviceID;
-	
-	private util.Logger log = util.Logger.getInstance();
-	private String nameForLog = this.getClass().getSimpleName();
+
+	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
 	
 	public DataPacket()
 	{
