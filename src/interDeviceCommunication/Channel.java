@@ -30,11 +30,8 @@ public class Channel implements Comparable<Channel>, Runnable {
 
 	/**
 	 * Handles Connections and IO operations.
-	 * 
-	 * @param Con
-	 *            connection between two devices
-	 * @param inOut
-	 *            IPC between two processes
+	 * @param Con - connection between two devices
+	 * @param inOut - IPC between two processes
 	 */
 	public Channel(Connection con, IO inOut) {
 		// FIXME FOR TESTING ONLY
