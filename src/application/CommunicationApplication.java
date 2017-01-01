@@ -26,6 +26,8 @@ public class CommunicationApplication {
 	private File monitorDir = new File("./monitor/");
 	private String logName = "ComApp.log";
 	private boolean doDisc = false;
+	private File discoveryOutputDir = new File("./hosts/");
+	private String discoveryOutputFileName = "ComApp.hosts";
 	private String network = "192.168.1.*";
 
 	private ChannelHandler cH;
@@ -65,6 +67,9 @@ public class CommunicationApplication {
 					break;
 				case "-disc":
 					doDisc = true;
+					discoveryOutputDir = new File(args[i + 1]);
+					if(!discoveryOutputDir.exists())
+						discoveryOutputDir.mkdirs();
 					break;
 				case "-network":
 					network = args[i + 1];
@@ -114,7 +119,7 @@ public class CommunicationApplication {
 	private void startContinuousOperation() {
 		if (doDisc) {
 			cH = new ChannelHandler(new HashSet<Channel>(), new LinkedList<Channel>(), monitorDir,
-					new Discovery(new RoutingTable(new ArrayList<Device>()), network));
+					new Discovery(new RoutingTable(new ArrayList<Device>()), network, new File(discoveryOutputDir.getAbsolutePath()+File.separator+discoveryOutputFileName)));
 			try {
 				cH.setPortListener(new PortListener(cH, new ServerSocket(listenPort)));
 			} catch (IOException e) {

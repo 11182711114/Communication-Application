@@ -49,4 +49,18 @@ public class FileUtil {
 		}
 		return tmp;
 	}
+
+	public static void writeToFile(String[] rt, File toWriteIn) throws IOException {
+		if (!toWriteIn.exists()) {
+			new File(toWriteIn.getAbsolutePath().substring(0, toWriteIn.getAbsolutePath().lastIndexOf(File.separator)))
+					.mkdirs();
+		}
+
+		PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(toWriteIn, true)));
+		for(String s : rt){
+			pw.println(s);
+		}
+		pw.flush();
+		pw.close();
+	}
 }
