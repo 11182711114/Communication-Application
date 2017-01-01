@@ -12,6 +12,8 @@ import discovery.Discovery;
 import discovery.RoutingTable;
 import interDeviceCommunication.Channel;
 import interDeviceCommunication.PortListener;
+import util.LogWriter;
+import util.Logger;
 
 public class CommunicationApplication {
 //	TESTING STUFF
@@ -29,8 +31,7 @@ public class CommunicationApplication {
 
 	private ChannelHandler cH;
 
-	private util.Logger log;
-	private String nameForLog = this.getClass().getSimpleName();
+	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
 
 	public static void main(String[] args) {
 		CommunicationApplication app = new CommunicationApplication();
@@ -96,16 +97,17 @@ public class CommunicationApplication {
 		startLogger();
 	}
 	private void start() {
-		log.info("Starting the program", nameForLog);
+		log.info("Starting the program");
 		if (continuous) {
-			log.info("Starting continuous operation", nameForLog);
+			log.info("Starting continuous operation");
 			startContinuousOperation();
 		}
 	}
 	private void startLogger(){
-		util.Logger.setLogFile(new File(logDir.getPath()+File.separator+logName));
-		log = util.Logger.getInstance();
-		log.start();		
+		LogWriter.setLogFile(new File(logDir.getPath()+File.separator+logName));
+		LogWriter lw = LogWriter.getInstance();
+		if(lw != null)
+			new Thread(lw).start();
 	}
 	private void startContinuousOperation() {
 		if(doDisc){

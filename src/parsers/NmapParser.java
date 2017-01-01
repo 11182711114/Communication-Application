@@ -7,8 +7,7 @@ import application.Device;
 import util.Logger;
 
 public class NmapParser implements DeviceParser {
-	private Logger log = util.Logger.getInstance();
-	private String nameForLog = this.getClass().getSimpleName();
+	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
 	
 	String relLine = "Nmap scan report for ";
 

@@ -11,9 +11,7 @@ import util.Logger;
 //OBS formatera!
 
 public class PortListener implements Runnable {
-
-	private Logger log = util.Logger.getInstance();
-	private String nameForLog = this.getClass().getSimpleName();
+	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
 
 	private ChannelHandler HANDLER;
 	private ServerSocket SOCKET;
@@ -26,14 +24,14 @@ public class PortListener implements Runnable {
 
 	@Override
 	public void run() {
-		log.info("Starting port listener", nameForLog);
+		log.info("Starting port listener");
 		active = true;
 		while (active) {
 			if (SOCKET == null)
 				return;
 			try {
 				Socket newSocket = SOCKET.accept();
-				log.debug("Passing conversation to new socket", nameForLog);
+				log.debug("Passing conversation to new socket");
 				HANDLER.passSocket(newSocket);
 			} catch (IOException e) {
 				e.printStackTrace();

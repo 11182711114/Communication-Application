@@ -1,59 +1,38 @@
 package util;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Logger {
-	private static final long LOG_WRITER_TIME_TO_WAIT = 100;
+	
+	private LogWriter lw = LogWriter.getInstance();
+	private String context;
 
-	private Queue<LogLineStorage> writeBuffer = new ConcurrentLinkedQueue<>();
-
-	private LogWriter lw;
-
-	private static File logFileStatic;
-
-	private Logger() {
-		lw = new LogWriter(logFileStatic, LOG_WRITER_TIME_TO_WAIT, this);
+	private Logger(String context) {
+		this.context = context;
 	}
-
-	public void start() {
-		new Thread(lw).start();
+	public static Logger getLogger(String who){
+		return new Logger(who);
 	}
-
-	private static class LoggerHolder {
-		private static final Logger INSTANCE = new Logger();
-	}
-
-	public static Logger getInstance() {
-		return LoggerHolder.INSTANCE;
-	}
-
-	public static void setLogFile(File f) {
-		logFileStatic = f;
-	}
-
-	public void debug(String toLog, String who) {
-		LogLineStorage lls = new LogLineStorage(toLog, LogLevel.DEBUG, System.currentTimeMillis(), who);
+	
+	public void debug(String toLog) {
+		LogLineStorage lls = new LogLineStorage(toLog, LogLevel.DEBUG, System.currentTimeMillis(), context);
 		addToLog(lls);
 	}
 
-	public void error(String toLog, String who) {
-		LogLineStorage lls = new LogLineStorage(toLog, LogLevel.ERROR, System.currentTimeMillis(), who);
+	public void error(String toLog) {
+		LogLineStorage lls = new LogLineStorage(toLog, LogLevel.ERROR, System.currentTimeMillis(), context);
 		addToLog(lls);
 	}
 
-	public void info(String toLog, String who) {
-		LogLineStorage lls = new LogLineStorage(toLog, LogLevel.INFO, System.currentTimeMillis(), who);
+	public void info(String toLog) {
+		LogLineStorage lls = new LogLineStorage(toLog, LogLevel.INFO, System.currentTimeMillis(), context);
 		addToLog(lls);
 	}
-	public void trace(String toLog, String who) {
-		LogLineStorage lls = new LogLineStorage(toLog, LogLevel.TRACE, System.currentTimeMillis(), who);
+	public void trace(String toLog) {
+		LogLineStorage lls = new LogLineStorage(toLog, LogLevel.TRACE, System.currentTimeMillis(), context);
 		addToLog(lls);
 	}
 	public void exception(Exception e){
@@ -65,7 +44,8 @@ public class Logger {
 	}
 
 	private void addToLog(LogLineStorage lls) {
-		writeBuffer.add(lls);
+		if(lw != null)
+			lw.add(lls);
 	}
 
 	// private void writeToLog(String toLog,LogLevel lvl, long
@@ -85,54 +65,12 @@ public class Logger {
 	// }
 
 	// Log helper classes
-	public Queue<LogLineStorage> getWriteBuffer() {
-		return writeBuffer;
-	}
 
-	class LogWriter implements Runnable {
-		long ttw;
-		File logFile;
-		Logger log;
-
-		public LogWriter(File logFileLocation, long ttw, Logger log) {
-			logFile = logFileLocation;
-			this.ttw = ttw;
-			this.log = log;
-		}
-		
-		@Override
-		public void run() {
-			while (true) {
-				Queue<LogLineStorage> wb = log.getWriteBuffer();
-				if (wb != null) {
-					synchronized(wb){ //Non atomic calls to wb, not really necessary 
-						if (wb.isEmpty()) {
-							try {
-								Thread.sleep(ttw);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-						} else {
-							if (logFile == null)
-								return;
-		
-							try {
-								FileUtil.writeToFile(wb.poll().toWrite(), logFile);
-							} catch (IOException e) {
-								e.printStackTrace();
-							}
-						}
-					}
-				}
-			}
-
-		}
-	}
 	private enum LogLevel {
 		// Severity lowest down to highest
 		ERROR, INFO, DEBUG, EXCEPTION, TRACE
 	}
-	private class LogLineStorage {
+	public class LogLineStorage implements Comparable<LogLineStorage>{
 		private String toLog;
 		private LogLevel lvl;
 		private long time;
@@ -155,6 +93,16 @@ public class Logger {
 			DateFormat df = new SimpleDateFormat("y-M-d HH:mm:ss.S");
 			String timeOutput = df.format(time);
 			return "[" + timeOutput + "] " + lvl + "\t" + who + " :: " + toLog;
+		}
+
+		@Override
+		public int compareTo(LogLineStorage lls) {
+			long timeDiff = this.time = lls.time;
+			if(timeDiff==0)
+				return 0;
+			if(timeDiff>0)
+				return 1;
+			return -1;
 		}
 	}
 

@@ -1,6 +1,7 @@
 package interDeviceCommunication;
 
 import ipc.IO;
+import util.Logger;
 
 public class Channel implements Comparable<Channel>, Runnable {
 
@@ -21,9 +22,8 @@ public class Channel implements Comparable<Channel>, Runnable {
 	private Connection con;
 		@SuppressWarnings("unused")
 	private IO inOut;
-	
-	private util.Logger log;
-	private String nameForLog = this.getClass().getSimpleName() + "@" + comID;
+
+	private Logger log = Logger.getLogger(this.getClass().getSimpleName() + "@" + comID);
 
 	/**
 	 * Handles Connections and IO operations.
@@ -44,7 +44,7 @@ public class Channel implements Comparable<Channel>, Runnable {
 
 	@Override
 	public void run() {
-		log.info("Starting channel", nameForLog);
+		log.info("Starting channel");
 		active = true;
 		new Thread(con).start();
 		while (active) {
@@ -65,7 +65,7 @@ public class Channel implements Comparable<Channel>, Runnable {
 		con.close();
 	}
 	public void stop(){
-		log.info("Stopping", nameForLog);
+		log.info("Stopping");
 		active = false;
 	}
 }

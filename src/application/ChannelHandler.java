@@ -11,10 +11,10 @@ import interDeviceCommunication.Connection;
 import interDeviceCommunication.PortListener;
 import ipc.FolderMonitor;
 import ipc.IO;
+import util.Logger;
 
 public class ChannelHandler {
-	private util.Logger log = util.Logger.getInstance();
-	private String nameForLog = this.getClass().getSimpleName();
+	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
 
 	private List<Channel> channels;
 	private Set<Channel> channelsSet;
@@ -41,30 +41,30 @@ public class ChannelHandler {
 	}
 
 	public void passSocket(Socket s) {
-		log.info("Making new channel based on passed socket", nameForLog);
+		log.info("Making new channel based on passed socket");
 
 		Connection conTmp = new Connection(s);
 		IO ioTmp = new IO();
 		Channel tmp = new Channel(conTmp, ioTmp);
 
-		log.debug("Adding channel to channel chain", nameForLog);
+		log.debug("Adding channel to channel chain");
 		addChannel(tmp);
 	}
 
 	public void setPortListener(PortListener pl) {
-		log.debug("Setting port listener to port: " + pl.getServerSocketPort(), nameForLog);
+		log.debug("Setting port listener to port: " + pl.getServerSocketPort());
 		this.sListener = pl;
 	}
 
 	public void start() {
-		log.info("Starting ChannelHandler", nameForLog);
+		log.info("Starting ChannelHandler");
 		new Thread(sListener).start();
 		new Thread(fMon).start();
 		if(disc != null)
 			new Thread(disc).start();
 	}
 	public void fullStop(){
-		log.info("Stopping", nameForLog);
+		log.info("Stopping");
 		sListener.stop();
 		for(Channel c : channels){
 			c.stop();

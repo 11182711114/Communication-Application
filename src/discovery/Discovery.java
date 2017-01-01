@@ -9,10 +9,10 @@ import java.util.Scanner;
 import application.Device;
 import parsers.DeviceParser;
 import parsers.NmapParser;
+import util.Logger;
 
 public class Discovery implements Runnable {
-	private util.Logger log = util.Logger.getInstance();
-	private String nameForLog = this.getClass().getSimpleName();
+	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
 
 	private boolean active = false;
 	private ProcessBuilder pb;
@@ -35,7 +35,7 @@ public class Discovery implements Runnable {
 
 	@Override
 	public void run() {
-		log.info("Starting Discovery", nameForLog);
+		log.info("Starting Discovery");
 		active = true;
 		// Make the ProcessBuilder
 		pb = new ProcessBuilder(command, arg1, network);
@@ -56,7 +56,7 @@ public class Discovery implements Runnable {
 			RoutingTable tmpRT = new RoutingTable(new ArrayList<Device>());
 			shellOutput.clear();
 			
-			log.debug("Starting Discovery main loop", nameForLog);
+			log.debug("Starting Discovery main loop");
 			Scanner sc = null;
 			try{
 				String[] command = pb.command().toArray(new String[0]);
@@ -64,7 +64,7 @@ public class Discovery implements Runnable {
 				for(String s : command){
 					com+=s + " ";
 				}
-				log.debug("Starting nmap process: " + com, nameForLog);
+				log.debug("Starting nmap process: " + com);
 				Process process = pb.start();
 				sc = new Scanner(new InputStreamReader(process.getInputStream()));
 				
@@ -76,7 +76,7 @@ public class Discovery implements Runnable {
 					long timeDiff = currentTime - startTime;
 						
 					if (timeDiff > (150 * 1000)) {
-						log.debug("Taking too long, destroying process", nameForLog);
+						log.debug("Taking too long, destroying process");
 						process.destroy();
 						break;
 					}
@@ -84,11 +84,11 @@ public class Discovery implements Runnable {
 					// contains Nmap end signal break the loop
 					while (sc.hasNextLine()) {
 						String line = sc.nextLine();
-						log.trace("Reading line: \"" + line + "\"", nameForLog);
+						log.trace("Reading line: \"" + line + "\"");
 
 						// no need to add the end signal line
 						if (line.contains(end)){
-							log.debug("End found, breaking scanning for new lines", nameForLog);
+							log.debug("End found, breaking scanning for new lines");
 							endFound = true;
 							break;
 						}
@@ -98,17 +98,17 @@ public class Discovery implements Runnable {
 				}
 
 				// FIXME clean
-				log.trace("Parsing shelloutput for valid devices", nameForLog);
+				log.trace("Parsing shelloutput for valid devices");
 				DeviceParser dp = new NmapParser();
 				for (String s : shellOutput) {
 					try{
 						Device dev = dp.parse(s);
 						if(dev != null){
-							log.trace("Successfully parsed line into: "+ dev.toPrint(), nameForLog);
+							log.trace("Successfully parsed line into: "+ dev.toPrint());
 							tmpRT.addDevice(dev);
 						}
 					}catch(IllegalArgumentException e){
-						log.trace("Cannot parse: " + s + " into valid device", nameForLog);
+						log.trace("Cannot parse: " + s + " into valid device");
 					}
 				}
 
@@ -123,7 +123,7 @@ public class Discovery implements Runnable {
 	}
 
 	public boolean setActive(boolean act) {
-		log.debug("Setting active to: " + act, nameForLog);
+		log.debug("Setting active to: " + act);
 		active = act;
 		return active;
 	}
