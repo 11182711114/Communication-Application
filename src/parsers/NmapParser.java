@@ -23,7 +23,8 @@ public class NmapParser implements DeviceParser {
 		if (!s.contains(relLine))
 			throw new IllegalArgumentException("The given string\"" + s + "\" cannot be parsed into a valid device");
 		
-		Pattern ipRegex = Pattern.compile("([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3})");
+//		Pattern ipRegex = Pattern.compile("([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3})");
+		Pattern ipRegex = Pattern.compile("(([0-9]{1,3}\\.){4})");
 		Matcher m = ipRegex.matcher(s);
 		if(!m.find())
 			throw new IllegalArgumentException("The given string\"" + s + "\" cannot be parsed into a valid device");
