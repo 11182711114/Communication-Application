@@ -15,19 +15,13 @@ import util.LogWriter;
 import util.Logger;
 
 public class CommunicationApplication {
-	// TESTING STUFF
-	// private static int MODE = -1;
-	// private static final String TEST_STRING = "TEST TEST TEST";
-
 	// PROGRAM OPTIONS - DEFAULT VALUES
 	private int listenPort = 10231; // "-port X"
 	private boolean continuous = false; // "-c" = true
-	private File logDir = new File("./db/");
+	private File logFile = new File("./db/ComApp.log");
 	private File monitorDir = new File("./monitor/");
-	private String logName = "ComApp.log";
 	private boolean doDisc = false;
-	private File discoveryOutputDir = new File("./hosts/");
-	private String discoveryOutputFileName = "ComApp.hosts";
+	private File discoveryOutput = new File("./hosts/ComApp.hosts");
 	private String network = "192.168.1.*";
 	private ChannelHandler cH;
 
@@ -52,7 +46,8 @@ public class CommunicationApplication {
 					break;
 
 				case "-log":
-					logDir = new File(args[i + 1]);
+					File logDirTMP = new File(args[i + 1] + File.separator + logFile.getName());
+					logFile = logDirTMP;
 					break;
 
 				case "-port":
@@ -66,9 +61,10 @@ public class CommunicationApplication {
 					break;
 				case "-disc":
 					doDisc = true;
-					discoveryOutputDir = new File(args[i + 1]);
-					if(!discoveryOutputDir.exists())
-						discoveryOutputDir.mkdirs();
+					File discOutTmp = new File(args[i + 1] + File.separator + discoveryOutput.getName());
+					discoveryOutput = discOutTmp;
+					if(!discoveryOutput.exists())
+						discoveryOutput.mkdirs();
 					break;
 				case "-network":
 					network = args[i + 1];
@@ -109,7 +105,7 @@ public class CommunicationApplication {
 	}
 
 	private void startLogger() {
-		LogWriter.setLogFile(new File(logDir.getPath() + File.separator + logName));
+		LogWriter.setLogFile(logFile);
 		LogWriter lw = LogWriter.getInstance();
 		if (lw != null)
 			new Thread(lw).start();
@@ -118,7 +114,7 @@ public class CommunicationApplication {
 	private void startContinuousOperation() {
 		if (doDisc) {
 			cH = new ChannelHandler(new HashSet<Channel>(), new LinkedList<Channel>(), monitorDir,
-					new Discovery(new RoutingTable(new ArrayList<Device>()), network, new File(discoveryOutputDir.getAbsolutePath()+File.separator+discoveryOutputFileName)));
+					new Discovery(new RoutingTable(new ArrayList<Device>()), network, discoveryOutput));
 			try {
 				cH.setPortListener(new PortListener(cH, new ServerSocket(listenPort)));
 			} catch (IOException e) {
