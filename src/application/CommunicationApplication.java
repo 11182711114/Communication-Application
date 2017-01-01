@@ -23,6 +23,7 @@ public class CommunicationApplication {
 	private boolean doDisc = false;
 	private File discoveryOutput = new File("./hosts/ComApp.hosts");
 	private String network = "192.168.1.*";
+	
 	private ChannelHandler cH;
 
 	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
