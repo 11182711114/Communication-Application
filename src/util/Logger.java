@@ -60,7 +60,7 @@ public class Logger {
 			StringWriter sw = new StringWriter();
 			e.printStackTrace(new PrintWriter(sw));
 			String exceptionAsString = sw.toString();
-			LogLineStorage lls = new LogLineStorage(exceptionAsString,LogLevel.STACKTRACE);
+			LogLineStorage lls = new LogLineStorage(exceptionAsString,LogLevel.EXCEPTION,System.currentTimeMillis());
 			addToLog(lls);
 	}
 
@@ -130,7 +130,7 @@ public class Logger {
 	}
 	private enum LogLevel {
 		// Severity lowest down to highest
-		ERROR, INFO, DEBUG, STACKTRACE, TRACE
+		ERROR, INFO, DEBUG, EXCEPTION, TRACE
 	}
 	private class LogLineStorage {
 		private String toLog;
@@ -145,20 +145,16 @@ public class Logger {
 			this.who = who;
 		}
 
-		public LogLineStorage(String exceptionAsString, LogLevel stacktrace) {
+		public LogLineStorage(String exceptionAsString, LogLevel stacktrace,long time) {
 			this.toLog = exceptionAsString;
 			this.lvl = stacktrace;
+			this.time = time;
 		}
 
 		public String toWrite() {
-			if(this.lvl == LogLevel.STACKTRACE){
-				return toLog;
-			}
-			else{
-				DateFormat df = new SimpleDateFormat("y-M-d HH:mm:ss.S");
-				String timeOutput = df.format(time);
-				return "[" + timeOutput + "] " + lvl + "\t" + who + " :: " + toLog;
-			}
+			DateFormat df = new SimpleDateFormat("y-M-d HH:mm:ss.S");
+			String timeOutput = df.format(time);
+			return "[" + timeOutput + "] " + lvl + "\t" + who + " :: " + toLog;
 		}
 	}
 
