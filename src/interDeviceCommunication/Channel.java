@@ -24,7 +24,6 @@ public class Channel implements Comparable<Channel>, Runnable {
 	private boolean active;
 
 	private Connection con;
-		@SuppressWarnings("unused")
 	private IO inOut;
 
 	private Logger log = Logger.getLogger(this.getClass().getSimpleName() + "@" + comID);
