@@ -16,11 +16,7 @@ public class Discovery implements Runnable {
 
 	private boolean active = false;
 	private ProcessBuilder pb;
-	private String 
-		command = "nmap", 
-		arg1 = "-sn", 
-		network = "192.168.1.*", 
-		end = "Nmap done:";
+	private String command = "nmap", arg1 = "-sn", network = "192.168.1.*", end = "Nmap done:";
 	private long tts = 25000;
 
 	private RoutingTable routingTable;
@@ -29,6 +25,7 @@ public class Discovery implements Runnable {
 		this.routingTable = rt;
 		this.network = network;
 	}
+
 	public Discovery(RoutingTable rt) {
 		this.routingTable = rt;
 	}
@@ -46,7 +43,7 @@ public class Discovery implements Runnable {
 		boolean wait = false;
 		// main loop
 		while (active) {
-			if(wait){
+			if (wait) {
 				try {
 					Thread.sleep(tts);
 				} catch (InterruptedException e1) {
@@ -55,26 +52,26 @@ public class Discovery implements Runnable {
 			}
 			RoutingTable tmpRT = new RoutingTable(new ArrayList<Device>());
 			shellOutput.clear();
-			
+
 			log.debug("Starting Discovery main loop");
 			Scanner sc = null;
-			try{
+			try {
 				String[] command = pb.command().toArray(new String[0]);
 				String com = "";
-				for(String s : command){
-					com+=s + " ";
+				for (String s : command) {
+					com += s + " ";
 				}
 				log.debug("Starting nmap process: " + com);
 				Process process = pb.start();
 				sc = new Scanner(new InputStreamReader(process.getInputStream()));
-				
+
 				boolean endFound = false;
 				long startTime = System.currentTimeMillis();
 				while (!endFound) {
 					// kill the process if it takes longer than 100s
 					long currentTime = System.currentTimeMillis();
 					long timeDiff = currentTime - startTime;
-						
+
 					if (timeDiff > (150 * 1000)) {
 						log.debug("Taking too long, destroying process");
 						process.destroy();
@@ -87,12 +84,12 @@ public class Discovery implements Runnable {
 						log.trace("Reading line: \"" + line + "\"");
 
 						// no need to add the end signal line
-						if (line.contains(end)){
+						if (line.contains(end)) {
 							log.debug("End found, breaking scanning for new lines");
 							endFound = true;
 							break;
 						}
-						if(!line.isEmpty())
+						if (!line.isEmpty())
 							shellOutput.add(line);
 					}
 				}
@@ -101,13 +98,13 @@ public class Discovery implements Runnable {
 				log.trace("Parsing shelloutput for valid devices");
 				DeviceParser dp = new NmapParser();
 				for (String s : shellOutput) {
-					try{
+					try {
 						Device dev = dp.parse(s);
-						if(dev != null){
-							log.trace("Successfully parsed line into: "+ dev.toPrint());
+						if (dev != null) {
+							log.trace("Successfully parsed line into: " + dev.toPrint());
 							tmpRT.addDevice(dev);
 						}
-					}catch(IllegalArgumentException e){
+					} catch (IllegalArgumentException e) {
 						log.trace("Cannot parse: " + s + " into valid device");
 					}
 				}
@@ -115,7 +112,7 @@ public class Discovery implements Runnable {
 			} catch (IOException e) {
 				log.exception(e);
 			}
-			if(sc != null)
+			if (sc != null)
 				sc.close();
 			routingTable = tmpRT;
 			wait = true;

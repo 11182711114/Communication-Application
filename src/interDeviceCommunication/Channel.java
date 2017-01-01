@@ -51,13 +51,13 @@ public class Channel implements Comparable<Channel>, Runnable {
 		active = true;
 		new Thread(con).start();
 		while (active) {
-			
-			if(inOut.checkForOutput("testDevice")){
-				
+
+			if (inOut.checkForOutput("testDevice")) {
+
 				try {
-					OutputDataPacket[] data= inOut.sendDataPackets("testDevice");
+					OutputDataPacket[] data = inOut.sendDataPackets("testDevice");
 					con.send(data);
-					
+
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -66,9 +66,8 @@ public class Channel implements Comparable<Channel>, Runnable {
 			// FIXME Do something check for datatosend
 		}
 	}
-	
-	public void inputPacket(InputDataPacket packet)
-	{
+
+	public void inputPacket(InputDataPacket packet) {
 		inOut.handle(packet);
 	}
 
@@ -84,7 +83,8 @@ public class Channel implements Comparable<Channel>, Runnable {
 	public void exit() {
 		con.close();
 	}
-	public void stop(){
+
+	public void stop() {
 		log.info("Stopping");
 		active = false;
 	}

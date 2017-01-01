@@ -1,7 +1,5 @@
 package application;
 
-
-
 import java.io.File;
 import java.net.Socket;
 import java.util.List;
@@ -29,13 +27,14 @@ public class ChannelHandler {
 		this.channelsSet = channelsSet;
 		fMon = new FolderMonitor(monitorDir);
 	}
-	public ChannelHandler(Set<Channel> channelsSet, List<Channel> cons, File monitorDir,Discovery disc) {
+
+	public ChannelHandler(Set<Channel> channelsSet, List<Channel> cons, File monitorDir, Discovery disc) {
 		this.channels = cons;
 		this.channelsSet = channelsSet;
 		fMon = new FolderMonitor(monitorDir);
 		this.disc = disc;
 	}
-	
+
 	public void addChannel(Channel c) {
 		new Thread(c).start();
 		channels.add(c);
@@ -62,13 +61,14 @@ public class ChannelHandler {
 		log.info("Starting ChannelHandler");
 		new Thread(sListener).start();
 		new Thread(fMon).start();
-		if(disc != null)
+		if (disc != null)
 			new Thread(disc).start();
 	}
-	public void fullStop(){
+
+	public void fullStop() {
 		log.info("Stopping");
 		sListener.stop();
-		for(Channel c : channels){
+		for (Channel c : channels) {
 			c.stop();
 		}
 	}

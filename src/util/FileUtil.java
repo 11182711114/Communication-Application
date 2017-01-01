@@ -15,7 +15,8 @@ import java.util.Scanner;
 public class FileUtil {
 	public static void writeToFile(String toWrite, File toWriteIn) throws IOException {
 		if (!toWriteIn.exists()) {
-			new File(toWriteIn.getAbsolutePath().substring(0, toWriteIn.getAbsolutePath().lastIndexOf(File.separator))).mkdirs();
+			new File(toWriteIn.getAbsolutePath().substring(0, toWriteIn.getAbsolutePath().lastIndexOf(File.separator)))
+					.mkdirs();
 		}
 
 		PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(toWriteIn, true)));
@@ -23,26 +24,28 @@ public class FileUtil {
 		pw.flush();
 		pw.close();
 	}
-	public static String[] readFromFile(File f) throws FileNotFoundException{
+
+	public static String[] readFromFile(File f) throws FileNotFoundException {
 		List<String> output = new ArrayList<>();
 		Scanner sc;
-		
+
 		sc = new Scanner(new BufferedReader(new FileReader(f)));
-		
-		while(sc.hasNextLine())
+
+		while (sc.hasNextLine())
 			output.add(sc.nextLine());
-		
+
 		sc.close();
-		
+
 		String[] tmpOut = shiftArray(output.toArray(new String[0]));
 		tmpOut[0] = f.getName();
-		
+
 		return tmpOut;
 	}
-	private static String[] shiftArray(String[] s){
-		String[] tmp = new String[s.length+1];
-		for(int i = (s.length-1); i>-1;i--){
-			tmp[i+1] = s[i];
+
+	private static String[] shiftArray(String[] s) {
+		String[] tmp = new String[s.length + 1];
+		for (int i = (s.length - 1); i > -1; i--) {
+			tmp[i + 1] = s[i];
 		}
 		return tmp;
 	}

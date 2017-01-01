@@ -35,7 +35,7 @@ public class Connection implements Runnable {
 			Scanner input = new Scanner(socket.getInputStream());
 
 			run = true;
-			
+
 			while (run) {
 				read(input);
 				Thread.sleep(100);
@@ -63,7 +63,7 @@ public class Connection implements Runnable {
 					output.write(d);
 					output.flush();
 				}
-				
+
 			}
 
 			output.close();

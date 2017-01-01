@@ -1,6 +1,5 @@
 package application;
 
-
 import java.io.IOException;
 
 public interface OutPuttable { // f�r m�jligheten av annan I/O hantering

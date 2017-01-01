@@ -22,13 +22,14 @@ public class RoutingTable {
 	public void reset() {
 		routing = new ArrayList<Device>();
 	}
-	public String[] toPrint(){
-		synchronized(routing){
+
+	public String[] toPrint() {
+		synchronized (routing) {
 			String[] devices = new String[routing.size()];
-			if(devices.length==0)
+			if (devices.length == 0)
 				return null;
-			
-			for(int i = 0; i<routing.size();i++){
+
+			for (int i = 0; i < routing.size(); i++) {
 				devices[i] = routing.get(i).toPrint();
 			}
 			return devices;
@@ -37,7 +38,7 @@ public class RoutingTable {
 
 	public String[] getDevicesAsStrings() {
 		String[] tmp = new String[routing.size()];
-		for(int i = 0; i<tmp.length;i++){
+		for (int i = 0; i < tmp.length; i++) {
 			tmp[i] = routing.get(i).toPrint();
 		}
 		return tmp;

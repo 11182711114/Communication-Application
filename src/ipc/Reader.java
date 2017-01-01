@@ -11,42 +11,40 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class Reader implements InPuttable{
-	
-	public Reader(){
-		
+public class Reader implements InPuttable {
+
+	public Reader() {
+
 	}
 
 	@Override
-	public String[] read(File file) throws IOException{
-		
-		ArrayList <String> lineList = new ArrayList<>();
-		//l�s rad f�r rad
-		//spara i en List
-		//returnera en String[]
-		
-		try(BufferedReader br = new BufferedReader(new FileReader(file))) {
-		    for(String line; (line = br.readLine()) != null; ) {
-		    	
-		    	lineList.add(line);
-		        // process the line.
-		    }
-		     
-		    // line is not visible here.
-		}// catch?? ist�llet f�r throw?
-		
-		String[] lines = new String [lineList.size()];
-		lineList.toArray(lines);	
-		
-		
-		
+	public String[] read(File file) throws IOException {
+
+		ArrayList<String> lineList = new ArrayList<>();
+		// l�s rad f�r rad
+		// spara i en List
+		// returnera en String[]
+
+		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+			for (String line; (line = br.readLine()) != null;) {
+
+				lineList.add(line);
+				// process the line.
+			}
+
+			// line is not visible here.
+		} // catch?? ist�llet f�r throw?
+
+		String[] lines = new String[lineList.size()];
+		lineList.toArray(lines);
+
 		return lines;
-		
-//		1st version
-//		fileReader = new FileReader(file);
-//		char[] chars = new char [(int) file.length()];
-//		fileReader.read(chars);
-//		content = new String (chars);
-//		fileReader.close();
+
+		// 1st version
+		// fileReader = new FileReader(file);
+		// char[] chars = new char [(int) file.length()];
+		// fileReader.read(chars);
+		// content = new String (chars);
+		// fileReader.close();
 	}
 }
