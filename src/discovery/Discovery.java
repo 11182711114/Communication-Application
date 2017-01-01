@@ -148,6 +148,7 @@ public class Discovery implements Runnable {
 		return false;
 	}
 	private void printRoutingTable(File toPrintIn) throws IOException{
+		log.info("Printing Routing table");
 		String[] rt = RoutingTableOutputGenerator.generateRoutingTableAsStringArray(routingTable);
 		util.FileUtil.writeToFile(rt, toPrintIn);
 	}
