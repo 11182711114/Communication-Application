@@ -2,8 +2,8 @@ package interDeviceCommunication;
 
 import java.io.FileNotFoundException;
 
-import application.InputDataPacket;
-import application.OutputDataPacket;
+import dataPacket.InputDataPacket;
+import dataPacket.OutputDataPacket;
 import ipc.IO;
 import log.Logger;
 

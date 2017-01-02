@@ -3,7 +3,7 @@ package ipc;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import application.OutPuttable;
+import dataPacket.OutPuttable;
 
 public class Writer implements OutPuttable {
 

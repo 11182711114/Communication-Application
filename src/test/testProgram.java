@@ -1,6 +1,6 @@
 package test;
 
-import application.InputDataPacket;
+import dataPacket.InputDataPacket;
 import ipc.IO;
 
 public class testProgram {

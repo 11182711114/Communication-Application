@@ -3,7 +3,7 @@ package discovery;
 import java.util.ArrayList;
 import java.util.List;
 
-import application.Device;
+import interDeviceCommunication.Device;
 
 public class RoutingTable {
 	private List<Device> routing;

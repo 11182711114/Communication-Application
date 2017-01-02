@@ -2,7 +2,7 @@ package discovery;
 
 import java.util.List;
 
-import application.Device;
+import interDeviceCommunication.Device;
 
 public class RoutingTableOutputGenerator {
 

@@ -4,7 +4,7 @@ package ipc;
 //import java.io.FileInputStream;
 import java.util.ArrayList;
 
-import application.InPuttable;
+import dataPacket.InPuttable;
 
 import java.io.BufferedReader;
 import java.io.File;

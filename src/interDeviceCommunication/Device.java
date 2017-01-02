@@ -1,4 +1,4 @@
-package application;
+package interDeviceCommunication;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;

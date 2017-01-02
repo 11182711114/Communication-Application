@@ -7,8 +7,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-import application.InputDataPacket;
-import application.OutputDataPacket;
+import dataPacket.InputDataPacket;
+import dataPacket.OutputDataPacket;
 import log.Logger;
 
 //OBS formatera!
@@ -23,7 +23,6 @@ public class Connection implements Runnable {
 
 	public Connection(Socket s) {
 		socket = s;
-
 	}
 
 	@Override

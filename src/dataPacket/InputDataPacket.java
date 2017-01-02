@@ -1,4 +1,4 @@
-package application;
+package dataPacket;
 
 public class InputDataPacket extends DataPacket {
 	@Override

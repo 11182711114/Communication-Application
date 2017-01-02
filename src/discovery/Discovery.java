@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import application.Device;
+import interDeviceCommunication.Device;
 import log.Logger;
 import parsers.DeviceParser;
 import parsers.NmapParser;

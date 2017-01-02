@@ -12,6 +12,7 @@ import java.util.Map;
 import discovery.Discovery;
 import discovery.RoutingTable;
 import interDeviceCommunication.Channel;
+import interDeviceCommunication.Device;
 import interDeviceCommunication.PortListener;
 import log.LogWriter;
 import log.Logger;
@@ -25,8 +26,8 @@ public class CommunicationApplication {
 	private boolean doDisc = false;
 	private File discoveryOutput = new File("./hosts/ComApp.hosts");
 	private String network = "192.168.1.*";
-	private String deviceId;
 	private File configFile = new File("./ComApp.conf");
+	private String deviceId;
 	
 	private ChannelHandler cH;
 

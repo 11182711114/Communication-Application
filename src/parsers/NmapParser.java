@@ -5,7 +5,7 @@ import java.net.UnknownHostException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import application.Device;
+import interDeviceCommunication.Device;
 
 public class NmapParser implements DeviceParser {
 
