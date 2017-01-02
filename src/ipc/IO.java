@@ -2,14 +2,14 @@ package ipc;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import application.InputDataPacket;
-import application.OutputDataPacket;
-
 import util.FileUtil;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+
+import dataPacket.InputDataPacket;
+import dataPacket.OutputDataPacket;
 
 
 public class IO {
