@@ -28,7 +28,7 @@ public class CommunicationApplication {
 	private File discoveryOutput = new File("./hosts/ComApp.hosts");
 	private String network = "192.168.1.*";
 	private String deviceId;
-	private File configFile = new File("./config");
+	private File configFile = new File("./ComApp.conf");
 	
 	private ChannelHandler cH;
 
