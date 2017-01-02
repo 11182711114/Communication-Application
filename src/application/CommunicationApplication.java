@@ -1,11 +1,15 @@
 package application;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Map;
+import java.util.Set;
 
 import discovery.Discovery;
 import discovery.RoutingTable;
@@ -23,6 +27,8 @@ public class CommunicationApplication {
 	private boolean doDisc = false;
 	private File discoveryOutput = new File("./hosts/ComApp.hosts");
 	private String network = "192.168.1.*";
+	private String deviceId;
+	private File configFile = new File("./config");
 	
 	private ChannelHandler cH;
 
@@ -81,6 +87,18 @@ public class CommunicationApplication {
 			System.exit(0);
 		}
 		startLogger();
+		try {
+			String[] configFileOutput = util.FileUtil.readFromFile(configFile);
+			Map<String,String> config = new HashMap<String,String>();
+			for(String s : configFileOutput){
+				String[] keyValue = s.split("=");
+				config.put(keyValue[0], keyValue[1]);
+			}
+			deviceId = config.get("deviceId");
+			
+		} catch (FileNotFoundException e) {
+			log.error("No config file found");
+		}
 	}
 
 	private void start() {
