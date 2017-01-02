@@ -85,6 +85,7 @@ public class CommunicationApplication {
 			System.exit(0);
 		}
 		startLogger();
+		// Try to load config file
 		try {
 			log.info("Loading config file");
 			String[] configFileOutput = util.FileUtil.readFromFile(configFile);
