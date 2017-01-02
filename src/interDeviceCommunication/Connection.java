@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import dataPacket.InputDataPacket;
 import dataPacket.OutputDataPacket;
@@ -18,8 +20,11 @@ public class Connection implements Runnable {
 	private Socket socket;
 	private boolean run;
 	private Channel channel;
-
-	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
+	
+	private String connectionType;
+	
+	
+	private Logger log = Logger.getLogger(this.getClass().getSimpleName() + "@" + channel.getComID());
 
 	public Connection(Socket s) {
 		socket = s;
@@ -76,8 +81,17 @@ public class Connection implements Runnable {
 				String input = scanner.nextLine();
 
 				packet.parseData(input);
-
+				
+				Pattern p = Pattern.compile("(\\<[a-z]{1}\\>)");
+				Matcher m = p.matcher(input);
+				if (m.find() && m.group()=="<TYPE>"){
+					String type = input.substring(m.end());
+					log.trace("Setting connectionType to: " + type);
+					setConnectionType(type);
+				}
+				
 				if (input.equals("<END>")) {
+					log.trace("End tag found");
 					channel.inputPacket(packet);
 					packet = new InputDataPacket();
 				}
@@ -92,5 +106,13 @@ public class Connection implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public String getConnectionType() {
+		return connectionType;
+	}
+
+	public void setConnectionType(String connectionType) {
+		this.connectionType = connectionType;
 	}
 }

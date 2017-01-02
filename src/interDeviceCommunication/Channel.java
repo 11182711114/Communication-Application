@@ -48,7 +48,9 @@ public class Channel implements Comparable<Channel>, Runnable {
 		active = true;
 		new Thread(con).start();
 		while (active) {
-
+			if (con.getConnectionType() == "DevIdExch"){
+				
+			}
 			if (inOut.checkForOutput("testDevice")) {
 
 				try {
@@ -56,11 +58,10 @@ public class Channel implements Comparable<Channel>, Runnable {
 					con.send(data);
 
 				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-			// FIXME Do something check for datatosend
+			// TODO Do something check for datatosend
 		}
 	}
 
