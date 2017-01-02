@@ -27,7 +27,7 @@ public class Connection implements Runnable {
 	private String connectionType;
 	
 	
-	private Logger log = Logger.getLogger(this.getClass().getSimpleName() + "@" + channel.getComID());
+	private Logger log;
 
 	public Connection(Socket s) {
 		socket = s;
@@ -35,10 +35,12 @@ public class Connection implements Runnable {
 	
 	public void setChannel(Channel channel){
 		this.channel = channel;
+		log = Logger.getLogger(this.getClass().getSimpleName() + "@" + channel.getComID());
 	}
 
 	@Override
 	public void run() {
+		log.info("Starting connection");
 		try {
 			Scanner input = new Scanner(socket.getInputStream());
 
@@ -61,6 +63,10 @@ public class Connection implements Runnable {
 	public void changeSocket(Socket newSocket) {
 		socket = newSocket;
 	}
+	
+	public String deviceId(){
+		return socket.getInetAddress().getHostAddress();
+	}
 
 	public void send(OutputDataPacket[] packets) {
 		try {
@@ -69,6 +75,7 @@ public class Connection implements Runnable {
 				String[] data = p.toSend();
 				
 				for (String d : data) {
+					log.debug("writeOutput " + d);
 					output.write(d);
 //					output.flush();
 				}
@@ -89,10 +96,12 @@ public class Connection implements Runnable {
 
 			while (scanner.hasNext()) {
 				String input = scanner.nextLine();
+				log.debug("readInput " + input);
 				packet.parseData(input);
 				
 				if (input.equals("<END>")) {
 					log.trace("End tag found");
+					channel.setComID(packet.getComID());
 					channel.inputPacket(packet);
 					packet = new InputDataPacket();
 				}
