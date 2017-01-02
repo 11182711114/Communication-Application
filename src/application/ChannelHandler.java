@@ -11,7 +11,7 @@ import interDeviceCommunication.Connection;
 import interDeviceCommunication.PortListener;
 import ipc.FolderMonitor;
 import ipc.IO;
-import util.Logger;
+import log.Logger;
 
 public class ChannelHandler {
 	private Logger log = Logger.getLogger(this.getClass().getSimpleName());

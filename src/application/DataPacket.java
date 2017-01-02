@@ -3,7 +3,7 @@ package application;
 import java.util.ArrayList;
 import java.util.List;
 
-import util.Logger;
+import log.Logger;
 
 public abstract class DataPacket {
 	private String comID;

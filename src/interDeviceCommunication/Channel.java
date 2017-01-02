@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import application.InputDataPacket;
 import application.OutputDataPacket;
 import ipc.IO;
-import util.Logger;
+import log.Logger;
 
 public class Channel implements Comparable<Channel>, Runnable {
 

@@ -7,7 +7,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import util.Logger;
+import log.Logger;
 
 public class FolderMonitor implements Runnable {
 	private Logger log = Logger.getLogger(this.getClass().getSimpleName());

@@ -5,14 +5,11 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
-import application.DataPacket;
 import application.InputDataPacket;
 import application.OutputDataPacket;
-import util.Logger;
+import log.Logger;
 
 //OBS formatera!
 

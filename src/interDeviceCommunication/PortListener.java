@@ -6,7 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import application.ChannelHandler;
-import util.Logger;
+import log.Logger;
 
 //OBS formatera!
 

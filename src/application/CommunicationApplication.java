@@ -13,8 +13,8 @@ import discovery.Discovery;
 import discovery.RoutingTable;
 import interDeviceCommunication.Channel;
 import interDeviceCommunication.PortListener;
-import util.LogWriter;
-import util.Logger;
+import log.LogWriter;
+import log.Logger;
 
 public class CommunicationApplication {
 	// PROGRAM OPTIONS - DEFAULT VALUES
