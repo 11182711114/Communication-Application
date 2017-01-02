@@ -9,8 +9,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.Set;
-
 import discovery.Discovery;
 import discovery.RoutingTable;
 import interDeviceCommunication.Channel;
@@ -32,7 +30,7 @@ public class CommunicationApplication {
 	
 	private ChannelHandler cH;
 
-	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
+	private Logger log;
 
 	public static void main(String[] args) {
 		CommunicationApplication app = new CommunicationApplication();
@@ -118,6 +116,7 @@ public class CommunicationApplication {
 		LogWriter lw = LogWriter.getInstance();
 		if (lw != null)
 			new Thread(lw).start();
+		 log = Logger.getLogger(this.getClass().getSimpleName());
 	}
 
 	private void startContinuousOperation() {

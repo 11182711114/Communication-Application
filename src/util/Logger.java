@@ -7,11 +7,12 @@ import java.text.SimpleDateFormat;
 
 public class Logger {
 
-	private LogWriter lw = LogWriter.getInstance();
+	private LogWriter lw;
 	private String context;
 
 	private Logger(String context) {
 		this.context = context;
+		lw = LogWriter.getInstance();
 	}
 
 	public static Logger getLogger(String who) {
