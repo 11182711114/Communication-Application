@@ -15,7 +15,7 @@ public class RoutingTableOutputGenerator {
 		
 		DateFormat df = new SimpleDateFormat("y-M-d HH:mm:ss");
 		String timeOutput = df.format(System.currentTimeMillis());
-		tmp[0] = "START \n" + "Valid as of: " + timeOutput;
+		tmp[0] = "START \n" + "Time=" + timeOutput;
 		for (int i = 0; i < tmp.length-2; i++) {
 			tmp[i+1] = devices.get(i).toPrint();
 		}
