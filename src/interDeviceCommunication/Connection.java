@@ -6,9 +6,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import dataPacket.DataPacket;
 import dataPacket.InputDataPacket;
 import dataPacket.OutputDataPacket;
 import log.Logger;
@@ -29,6 +32,10 @@ public class Connection implements Runnable {
 	public Connection(Socket s) {
 		socket = s;
 	}
+	
+	public void setChannel(Channel channel){
+		this.channel = channel;
+	}
 
 	@Override
 	public void run() {
@@ -39,7 +46,7 @@ public class Connection implements Runnable {
 
 			while (run) {
 				read(input);
-				Thread.sleep(100);
+				Thread.sleep(1000);
 			}
 
 		} catch (InterruptedException e) {
@@ -60,11 +67,13 @@ public class Connection implements Runnable {
 			BufferedWriter output = new BufferedWriter(new PrintWriter(socket.getOutputStream(), true));
 			for (OutputDataPacket p : packets) {
 				String[] data = p.toSend();
+				
 				for (String d : data) {
 					output.write(d);
-					output.flush();
+//					output.flush();
 				}
 
+				output.flush();
 			}
 
 			output.close();
@@ -75,20 +84,12 @@ public class Connection implements Runnable {
 
 	private void read(Scanner scanner) {
 		if (scanner.hasNext()) {
+			
 			InputDataPacket packet = new InputDataPacket();
 
 			while (scanner.hasNext()) {
 				String input = scanner.nextLine();
-
 				packet.parseData(input);
-				
-				Pattern p = Pattern.compile("(\\<[a-z]{1}\\>)");
-				Matcher m = p.matcher(input);
-				if (m.find() && m.group()=="<TYPE>"){
-					String type = input.substring(m.end());
-					log.trace("Setting connectionType to: " + type);
-					setConnectionType(type);
-				}
 				
 				if (input.equals("<END>")) {
 					log.trace("End tag found");
@@ -106,13 +107,5 @@ public class Connection implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public String getConnectionType() {
-		return connectionType;
-	}
-
-	public void setConnectionType(String connectionType) {
-		this.connectionType = connectionType;
 	}
 }

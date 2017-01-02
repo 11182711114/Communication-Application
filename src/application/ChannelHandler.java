@@ -45,7 +45,7 @@ public class ChannelHandler {
 		log.info("Making new channel based on passed socket");
 
 		Connection conTmp = new Connection(s);
-		IO ioTmp = new IO();
+		IO ioTmp = new IO(" ");
 		Channel tmp = new Channel(conTmp, ioTmp);
 
 		log.debug("Adding channel to channel chain");
