@@ -13,18 +13,12 @@ import java.util.ArrayList;
 
 
 public class IO {
-
-//	private Channel ch;
+	private final String directoryPath;		// needs to be Linux compatible  = "./files"?
 	
-/*
-	static int totalKeyCount= 1;
-	ArrayList<Writer>  writerCollection = new ArrayList<>();	
-	ArrayList<Reader>  readerCollection = new ArrayList<>();
+	public IO (String directoryPath){
+		this.directoryPath = directoryPath;
+	}
 	
-	Map <String, File> input = new HashMap<>() ;
-	Map <String, File> output = new HashMap<>();
-	
-*/	
 	private int getFileCount(String path){
 		
 		File dir = new File (path);
@@ -42,16 +36,16 @@ public class IO {
 		String timeDescription = "Time: " +time.toString();
 		
 		
-		String pathname = "./files";		// needs to be Linux compatible
-		String directory = dp.getDeviceID();
+		
+		String deviceDir = dp.getDeviceID();
 		String comDir = dp.getComID();
 		
-		pathname = pathname + "\\" + directory + "\\" + comDir;
+		String fullPathname = directoryPath + "\\Input\\" + deviceDir + "\\" + comDir;
 		
 		
-		String fileName = getFileCount(pathname) + ".txt"; 
+		String fileName = getFileCount(fullPathname) + ".txt"; 
 		
-		File theFile = new File(pathname, fileName);
+		File theFile = new File(fullPathname, fileName);
 		
 		try{
 			FileUtil.writeToFile(dateDescription, theFile);
@@ -67,8 +61,6 @@ public class IO {
 			}catch(IOException e){
 			e.printStackTrace();
 		}
-		
-		//input.put("theKey", theFile);				//bullshit code but shows order. if saved in Maps
 	}
 	
 	private OutputDataPacket createOutputDataPacket(String[] data){
@@ -80,9 +72,9 @@ public class IO {
 		return toSend;
 	}
 	
-	public boolean checkForOutput(String deviceID)
+	public boolean checkForOutput(String deviceID, String comID)
 	{
-		File dir = new File("C:\\Users\\Johan\\IoT\\git\\Communication-Application\\files\\" + deviceID + "\\pending");
+		File dir = new File(directoryPath+ "Output\\send\\" + deviceID + "\\"+comID);
 		
 		if(dir.exists())
 		{
@@ -95,11 +87,11 @@ public class IO {
 		return false;
 	}
 	
-	public OutputDataPacket[] sendDataPackets(String deviceID) throws FileNotFoundException
+	public OutputDataPacket[] sendDataPackets(String deviceID, String comID) throws FileNotFoundException
 	{
 		ArrayList<OutputDataPacket> packets = new ArrayList<>();
 		
-		File dir = new File("C:\\Users\\Johan\\IoT\\git\\Communication-Application\\files\\" + deviceID + "\\pending");
+		File dir = new File(directoryPath+ "Output\\send\\" + deviceID + "\\"+comID);
 		
 		for(File f : dir.listFiles()){
 			String[] fileContent = FileUtil.readFromFile(f);
@@ -108,30 +100,17 @@ public class IO {
 				
 				OutputDataPacket thePacket = createOutputDataPacket(fileContent);
 				packets.add(thePacket);
-				moveToSend(f, deviceID);
+				moveToSend(f, deviceID, comID);
 			}
 		}
 		
 		return packets.toArray(new OutputDataPacket[0]);
-		// ./ root for program / file/ dev1/
 	}
 	
 	
-	public void moveToSend(File f, String deviceID){
+	public void moveToSend(File f, String deviceID, String comID){
 		
+		f.renameTo(new File(directoryPath+ "Output\\sent\\" + deviceID + "\\" + comID + "\\" + f.getName()));
 		
-		f.renameTo(new File("C:\\Users\\Johan\\IoT\\git\\Communication-Application\\files\\" + deviceID + "\\sent\\" +f.getName()));
 	}
-	
-/*	Not currently relevant.
- 
-	public void createWriter(){
-		Writer writer = new Writer();
-		writerCollection.add(writer);
-	}
-	public void createReader(){
-		Reader reader = new Reader();
-		readerCollection.add(reader);	
-	}
-*/
 }
