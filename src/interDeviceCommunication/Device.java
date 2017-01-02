@@ -47,7 +47,7 @@ public class Device implements Comparable<Device> {
 	}
 
 	public String toPrint() {
-		return "ID: " + deviceID + " IP: " + ip.toString().substring(1);
+		return "IP: " + ip.toString().substring(1);
 	}
 
 }
