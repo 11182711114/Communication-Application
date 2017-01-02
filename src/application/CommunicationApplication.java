@@ -95,6 +95,7 @@ public class CommunicationApplication {
 				config.put(keyValue[0], keyValue[1]);
 			}
 			deviceId = config.get("deviceId");
+			log.debug("Setting deviceId: " + deviceId);
 			
 		} catch (FileNotFoundException e) {
 			log.error("No config file found");
