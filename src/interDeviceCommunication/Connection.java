@@ -28,6 +28,10 @@ public class Connection implements Runnable {
 		socket = s;
 
 	}
+	
+	public void setChannel(Channel channel){
+		this.channel = channel;
+	}
 
 	@Override
 	public void run() {
@@ -38,7 +42,7 @@ public class Connection implements Runnable {
 			
 			while (run) {
 				read(input);
-				Thread.sleep(100);
+				Thread.sleep(1000);
 			}
 
 		} catch (InterruptedException e) {
@@ -59,11 +63,12 @@ public class Connection implements Runnable {
 			BufferedWriter output = new BufferedWriter(new PrintWriter(socket.getOutputStream(), true));
 			for (OutputDataPacket p : packets) {
 				String[] data = p.toSend();
+				
 				for (String d : data) {
 					output.write(d);
-					output.flush();
+//					output.flush();
 				}
-				
+				output.flush();
 			}
 
 			output.close();
@@ -74,11 +79,11 @@ public class Connection implements Runnable {
 
 	private void read(Scanner scanner) {
 		if (scanner.hasNext()) {
+			
 			InputDataPacket packet = new InputDataPacket();
 
 			while (scanner.hasNext()) {
 				String input = scanner.nextLine();
-
 				packet.parseData(input);
 
 				if (input.equals("<END>")) {

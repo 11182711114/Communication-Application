@@ -74,7 +74,7 @@ public class IO {
 	
 	public boolean checkForOutput(String deviceID, String comID)
 	{
-		File dir = new File(directoryPath+ "Output\\send\\" + deviceID + "\\"+comID);
+		File dir = new File(directoryPath+ "Output\\Send\\" + deviceID + "\\"+comID);
 		
 		if(dir.exists())
 		{
@@ -83,7 +83,6 @@ public class IO {
 				return true;
 			}
 		}
-		
 		return false;
 	}
 	
@@ -91,7 +90,7 @@ public class IO {
 	{
 		ArrayList<OutputDataPacket> packets = new ArrayList<>();
 		
-		File dir = new File(directoryPath+ "Output\\send\\" + deviceID + "\\"+comID);
+		File dir = new File(directoryPath+ "Output\\Send\\" + deviceID + "\\"+comID);
 		
 		for(File f : dir.listFiles()){
 			String[] fileContent = FileUtil.readFromFile(f);
@@ -110,7 +109,7 @@ public class IO {
 	
 	public void moveToSend(File f, String deviceID, String comID){
 		
-		f.renameTo(new File(directoryPath+ "Output\\sent\\" + deviceID + "\\" + comID + "\\" + f.getName()));
+		f.renameTo(new File(directoryPath+ "Output\\Sent\\" + deviceID + "\\" + comID + "\\" + f.getName()));
 		
 	}
 }
