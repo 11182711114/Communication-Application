@@ -94,7 +94,7 @@ public class CommunicationApplication {
 			for(String s : configFileOutput){
 				log.trace("Trying to parse config string: " + s);
 				String[] keyValue = s.split("=");
-				if(!keyValue[0].isEmpty() || !keyValue[1].isEmpty())
+				if(keyValue.length==2 && (!keyValue[0].isEmpty() || !keyValue[1].isEmpty()))
 					config.put(keyValue[0], keyValue[1]);
 			}
 			deviceId = config.get("deviceId");
