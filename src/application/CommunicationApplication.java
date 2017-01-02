@@ -88,9 +88,11 @@ public class CommunicationApplication {
 		}
 		startLogger();
 		try {
+			log.info("Loading config file");
 			String[] configFileOutput = util.FileUtil.readFromFile(configFile);
 			Map<String,String> config = new HashMap<String,String>();
 			for(String s : configFileOutput){
+				log.trace("Trying to parse config string: " + s);
 				String[] keyValue = s.split("=");
 				config.put(keyValue[0], keyValue[1]);
 			}
