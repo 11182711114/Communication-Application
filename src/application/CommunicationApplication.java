@@ -28,7 +28,7 @@ public class CommunicationApplication {
 	private String network = "192.168.1.*";
 	private File configFile = new File("./ComApp.conf");
 	private String deviceId;
-	private boolean logAppend = false;
+	private boolean logAppend = true;
 	
 	private ChannelHandler cH;
 
@@ -120,6 +120,7 @@ public class CommunicationApplication {
 
 	private void startLogger() {
 		LogWriter.setLogFile(logFile);
+		LogWriter.setAppend(logAppend);
 		LogWriter lw = LogWriter.getInstance();
 		if (lw != null)
 			new Thread(lw).start();
