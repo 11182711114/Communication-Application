@@ -111,8 +111,9 @@ public class FolderMonitor implements Runnable {
 					if(comIdFolder.isDirectory()){
 						log.trace("ComId folder found: " + comIdFolder.getAbsolutePath());
 						if(!knownDirectories.contains(comIdFolder)){
-							log.trace("Folder is new, adding to collection: " + comIdFolder.getAbsolutePath());
-							directories.add(comIdFolder);
+							
+							//							log.trace("Folder is new, adding to known collection: " + comIdFolder.getAbsolutePath());
+							knownDirectories.add(comIdFolder);
 						}
 					}
 				}
