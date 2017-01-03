@@ -17,11 +17,4 @@ public class DeviceIdExtractor {
 		
 		return output;
 	}
-	private static String getRelativePath(String path, String otherPath){
-		String[] splitPath = path.split(File.separator);
-		String[] splitOtherPath = otherPath.split(File.separator);
-		
-		
-		return otherPath;
-	}
 }
