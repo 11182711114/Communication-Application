@@ -126,7 +126,7 @@ public class ChannelHandler {
 			channels.removeAll(inActive);
 			if(inActive.size() > 0)
 			{
-				log.debug(inActive.size() + "Channels removed");
+				log.debug(inActive.size() + " Channels removed");
 			}
 			
 		}
