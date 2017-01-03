@@ -94,6 +94,7 @@ public class Connection implements Runnable {
 				}
 
 //				output.flush();
+				output.close();
 			}
 		} catch (IOException e) {
 			log.exception(e);
