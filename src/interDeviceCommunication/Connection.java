@@ -23,8 +23,7 @@ public class Connection implements Runnable {
 	private InetAddress ip;
 	private boolean run;
 	private Channel channel;
-	
-	private PrintWriter output;
+
 	
 	private Logger log;
 
@@ -85,8 +84,7 @@ public class Connection implements Runnable {
 			log.debug("Checking if socket is conneced before writing: " + socket.isConnected());
 //			if(!socket.isConnected())
 //				socket.connect(new InetSocketAddress(ip,port));
-			if(output == null)
-				output = new PrintWriter(socket.getOutputStream(), true);
+				PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
 			
 			for (OutputDataPacket p : packets) {
 				String[] data = p.toSend();
