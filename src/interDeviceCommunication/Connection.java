@@ -15,12 +15,9 @@ import log.Logger;
 public class Connection implements Runnable {
 
 	private Socket socket;
-	private int port;
-	private InetAddress ip;
 	private boolean run;
 	private Channel channel;
 
-	
 	private Logger log;
 
 	public Connection(Socket s) {
@@ -108,11 +105,9 @@ public class Connection implements Runnable {
 			e.printStackTrace();
 		}
 	}
-	public void setPort(int port) {
-		this.port = port;		
+	public void setPort(int port) {		
 	}
 	public void setIp(InetAddress ip) {
-		this.ip = ip;
 		
 	}
 }
