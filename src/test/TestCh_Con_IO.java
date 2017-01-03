@@ -16,7 +16,7 @@ import util.FileUtil;
 public class TestCh_Con_IO {
 	static Logger log; 
 
-	public static void runTest(){
+	public void runTest(){
 		
 		try {
 			
