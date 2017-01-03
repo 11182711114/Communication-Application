@@ -70,7 +70,7 @@ public class Connection implements Runnable {
 				String[] data = p.toSend();
 				
 				for (String d : data) {
-					log.debug("writeOutput " + d);
+					log.trace("writeOutput " + d);
 					output.write(d);
 				}
 				output.flush();
@@ -86,9 +86,8 @@ public class Connection implements Runnable {
 			InputDataPacket packet = new InputDataPacket();
 
 			while (scanner.hasNext()) {
-				System.out.println("read2");
 				String input = scanner.nextLine();
-				log.debug("readInput " + input);
+				log.trace("readInput " + input);
 				packet.parseData(input);
 				
 				if (input.equals("<END>")) {
