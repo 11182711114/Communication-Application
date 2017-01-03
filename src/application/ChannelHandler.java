@@ -72,12 +72,14 @@ public class ChannelHandler {
 
 		log.debug("monitorDir: " + monitorDir + " comFolder: " + comFolder);
 		String deviceId = DeviceIdExtractor.extractFromFolder(monitorDir, comFolder);
-		log.debug("Extracting ip from: "+ comFolder.getCanonicalPath() + " resulted in deviceId: " + deviceId);
+		log.debug("Extracting ip from: "+ comFolder.getAbsolutePath() + " resulted in deviceId: " + deviceId);
 		InetAddress ip = InetAddress.getByName(deviceId);
 		Connection con = new Connection(new Socket(ip,sListener.getServerSocketPort()));
-
-		Channel chan = new Channel(con,io);
 		
+		log.debug("Making new channel!");
+		Channel chan = new Channel(con,io);
+
+		log.debug("Trying to add and start channel!");
 		addAndStartChannel(chan);
 	}
 
