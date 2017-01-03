@@ -37,7 +37,6 @@ public class TestProgram {
 		try {
 			FileUtil.writeToFile("TestData",new File("./files/127.0.0.1/testCom/Output/Send/TestFile.txt" ));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

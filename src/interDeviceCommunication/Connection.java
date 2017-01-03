@@ -37,21 +37,7 @@ public class Connection implements Runnable {
 	}
 
 	@Override
-	public void run() {
-		log.debug("Checking if socket is connected: " + socket.isConnected());
-		if(!socket.isConnected()){
-			try {
-				log.debug("Connecting socket with ip: " + ip + ":" + port);
-				socket.connect(new InetSocketAddress(ip,port));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		if(port == 0 || ip == null){
-			port = socket.getPort();
-			ip = socket.getInetAddress();
-		}
-			
+	public void run() {			
 			
 		log.info("Starting connection");
 		try {			
@@ -91,6 +77,7 @@ public class Connection implements Runnable {
 				
 				for (String d : data) {
 					log.debug("writeOutput " + d);
+					System.out.println(d);
 					output.write(d);
 				}
 				output.flush();
@@ -107,6 +94,7 @@ public class Connection implements Runnable {
 
 			while (scanner.hasNext()) {
 				String input = scanner.nextLine();
+				System.out.println(input);
 				log.debug("readInput " + input);
 				packet.parseData(input);
 				

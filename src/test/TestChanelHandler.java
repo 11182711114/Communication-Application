@@ -2,6 +2,7 @@ package test;
 
 import java.io.File;
 import java.io.IOException;
+
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -20,10 +21,8 @@ public class TestChanelHandler
 		try 
 		{
 			PortListener pL = createPortListener(handler);
-			new Thread(pL).start();
 			handler.setPortListener(pL);
-			File f = new File("./files/127.0.0.1/testCom/" );
-			handler.passComFolder(f);
+			handler.start();
 			
 		} catch (IOException e) 
 		{
