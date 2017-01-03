@@ -2,6 +2,7 @@ package application;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.HashSet;
 import java.util.List;
@@ -14,6 +15,7 @@ import interDeviceCommunication.PortListener;
 import ipc.FolderMonitor;
 import ipc.IO;
 import log.Logger;
+import util.DeviceIdExtractor;
 
 public class ChannelHandler {
 	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
@@ -29,13 +31,13 @@ public class ChannelHandler {
 		this.channels = cons;
 		this.channelsSet = channelsSet;
 		this.monitorDir = monitorDir;
-		fMon = new FolderMonitor(monitorDir, new HashSet<File>());
+		fMon = new FolderMonitor(monitorDir, new HashSet<File>(),this);
 	}
 
 	public ChannelHandler(Set<Channel> channelsSet, List<Channel> cons, File monitorDir, Discovery disc) {
 		this.channels = cons;
 		this.channelsSet = channelsSet;
-		fMon = new FolderMonitor(monitorDir, new HashSet<File>());
+		fMon = new FolderMonitor(monitorDir, new HashSet<File>(),this);
 		this.disc = disc;
 	}
 
@@ -62,11 +64,15 @@ public class ChannelHandler {
 	public void passComFolder(File comFolder) throws IOException{
 		log.info("Making new channel based on passed ComIdFolder");
 		IO io = new IO(comFolder.getCanonicalPath());
-		
-		Channel chan = new Channel(null,io);
+
+		String deviceId = DeviceIdExtractor.extractFromFolder(monitorDir, comFolder);
+		log.debug("Extracting ip from: "+ comFolder.getCanonicalPath() + " resulted in deviceId: " + deviceId);
+		InetAddress ip = InetAddress.getByName(deviceId);
+		Connection con = new Connection(new Socket(ip,sListener.getServerSocketPort()));
+
+		Channel chan = new Channel(con,io);
 		
 		addAndStartChannel(chan);
-		
 	}
 
 	/** Sets ChannelHandlers PortListener

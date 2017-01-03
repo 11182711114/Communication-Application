@@ -1,7 +1,10 @@
 package ipc;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Set;
+
+import application.ChannelHandler;
 import log.Logger;
 
 public class FolderMonitor implements Runnable {
@@ -12,13 +15,15 @@ public class FolderMonitor implements Runnable {
 	private File parentDir;
 //	private List<File> directories;
 	private Set<File> knownDirectories;
+	private ChannelHandler cH;
 //	private List<String[]> readFiles;
 
 	private boolean active = false;
 
-	public FolderMonitor(File parent, Set<File> knownFiles) {
+	public FolderMonitor(File parent, Set<File> knownFiles, ChannelHandler cH) {
 		parentDir = parent;
 		knownDirectories = knownFiles;
+		this.cH = cH;
 //		readFiles = new ArrayList<>();
 	}
 
@@ -105,9 +110,13 @@ public class FolderMonitor implements Runnable {
 					if(comIdFolder.isDirectory()){
 						log.trace("ComId folder found: " + comIdFolder.getAbsolutePath());
 						if(!knownDirectories.contains(comIdFolder)){
-							
-							//							log.trace("Folder is new, adding to known collection: " + comIdFolder.getAbsolutePath());
-							knownDirectories.add(comIdFolder);
+							try {
+								cH.passComFolder(comIdFolder);
+								log.trace("Adding to known collection: " + comIdFolder.getAbsolutePath());
+								knownDirectories.add(comIdFolder);
+							} catch (IOException e) {
+								log.error("New folder was deleted while trying to make a new channel");
+							}
 						}
 					}
 				}

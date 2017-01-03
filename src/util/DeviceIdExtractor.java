@@ -11,12 +11,17 @@ public class DeviceIdExtractor {
 	 * @throws IOException
 	 */
 	public static String extractFromFolder(File parent, File folder) throws IOException{
-		String output = "";
-		
-		String parentPath = parent.getCanonicalPath();
-		
-		
+		String[] parentPath = parent.getCanonicalPath().split(File.separator);
+		String[] folderPath = folder.getCanonicalPath().split(File.separator);
+		String output = folderPath[parentPath.length];
 		
 		return output;
+	}
+	private static String getRelativePath(String path, String otherPath){
+		String[] splitPath = path.split(File.separator);
+		String[] splitOtherPath = otherPath.split(File.separator);
+		
+		
+		return otherPath;
 	}
 }
