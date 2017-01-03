@@ -76,7 +76,7 @@ public class Channel implements Comparable<Channel>, Runnable {
 	public void inputComID(String comID)
 	{
 		this.comID = comID;
-		inOut = new IO(workingDirectory.getAbsolutePath() + "/" +comID + "/");
+		inOut = new IO(new File(workingDirectory.getAbsolutePath() + "/" +comID + "/"));
 	}
 
 	@Override

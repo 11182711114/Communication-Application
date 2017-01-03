@@ -25,7 +25,7 @@ public class TestCh_Con_IO {
 			
 			ServerSocket ss = new ServerSocket(8080);
 			Socket s = new Socket(InetAddress.getByName("127.0.0.1"), 8080);
-			IO io = new IO("./files/127.0.0.1/testCom/");
+			IO io = new IO(new File("./files/127.0.0.1/testCom/"));
 			Connection con = new Connection(s);
 			Channel ch= new Channel(con, io);
 			
