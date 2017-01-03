@@ -14,7 +14,7 @@ import log.LogWriter;
 import log.Logger;
 import util.FileUtil;
 
-public class testProgram {
+public class TestCh_Con_IO {
 	static Logger log; 
 
 	public static void main(String[] args){
