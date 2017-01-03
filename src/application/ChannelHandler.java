@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.SocketImpl;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -42,6 +42,14 @@ public class ChannelHandler {
 		fMon = new FolderMonitor(monitorDir, new HashSet<File>(),this);
 		this.monitorDir = monitorDir;
 		this.disc = disc;
+		this.port = port;
+	}
+
+	public ChannelHandler(Set<Channel> channelsSet, List<Channel> cons, File monitorDir, int port) {
+		this.channels = cons;
+		this.channelsSet = channelsSet;
+		fMon = new FolderMonitor(monitorDir, new HashSet<File>(),this);
+		this.monitorDir = monitorDir;
 		this.port = port;
 	}
 

@@ -2,6 +2,7 @@ package interDeviceCommunication;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -57,10 +58,8 @@ public class Connection implements Runnable {
 
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-			close();
 		} catch (IOException e) {
 			e.printStackTrace();
-			close();
 		}
 	}
 
@@ -75,16 +74,17 @@ public class Connection implements Runnable {
 	public void send(OutputDataPacket[] packets) {
 		try {
 			log.debug("Checking if socket is conneced before writing: " + socket.isConnected());
-			BufferedWriter output = new BufferedWriter(new PrintWriter(socket.getOutputStream(), true));
+			PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
+			
 			for (OutputDataPacket p : packets) {
 				String[] data = p.toSend();
 				
 				for (String d : data) {
 					log.debug("writeOutput " + d);
-					output.write(d);
+					output.println(d);
 				}
 
-				output.flush();
+//				output.flush();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

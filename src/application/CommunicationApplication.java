@@ -157,13 +157,21 @@ public class CommunicationApplication {
 			cH.start();
 		} else {
 
+			log.debug("Making ChannelHandler with monitorDir: " + monitorDir + " network: " + network);
 			cH = new ChannelHandler(
-					new HashSet<Channel>(), 
-					new LinkedList<Channel>(), 
-					monitorDir
+					new HashSet<Channel>(),
+					new LinkedList<Channel>(),
+					monitorDir,
+					listenPort
 			);
+			
 			try {
-				cH.setPortListener(new PortListener(cH, new ServerSocket(listenPort)));
+				cH.setPortListener(
+						new PortListener(
+								cH,
+								new ServerSocket(listenPort)
+						)
+				);
 			} catch (IOException e) {
 				log.exception(e);
 			}
