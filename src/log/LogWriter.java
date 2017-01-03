@@ -41,8 +41,11 @@ public class LogWriter implements Runnable {
 	@Override
 	public void run() {
 		active = true;
-		if(!append)
-			logFile.delete();
+		if(!append){
+			if(logFile.exists()){
+				logFile.delete();
+			}
+		}
 		while (active) {
 			try {
 				String toWrite = writeBuffer.take().toWrite();
