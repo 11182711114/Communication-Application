@@ -16,7 +16,7 @@ public class TestProgram {
 		startLogger();
 		fileSetup();
 		
-		//new TestChanelHandler().runTest();
+		new TestChanelHandler().runTest();
 	}
 	
 	private static void startLogger() {
