@@ -17,6 +17,7 @@ public class DeviceIdExtractor {
 		for(String s : parentPath){
 			System.out.print(s + ",");
 		}
+		System.out.println();
 		String[] folderPath = folder.getAbsolutePath().split(File.separator);
 		for(String s : folderPath){
 			System.out.print(s + ",");
