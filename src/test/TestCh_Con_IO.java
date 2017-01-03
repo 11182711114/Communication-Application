@@ -21,7 +21,7 @@ public class TestCh_Con_IO {
 			{
 				f.delete();
 			}
-			FileUtil.writeToFile("kiss",new File("./files/127.0.0.1/testCom/Output/Send/bajs.txt" ));
+			FileUtil.writeToFile("TestData",new File("./files/127.0.0.1/testCom/Output/Send/TestFile.txt" ));
 			
 			ServerSocket ss = new ServerSocket(8080);
 			Socket s = new Socket(InetAddress.getByName("127.0.0.1"), 8080);

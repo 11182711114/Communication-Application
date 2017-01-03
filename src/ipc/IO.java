@@ -19,7 +19,7 @@ public class IO {
 	
 	public IO (File directoryPath){
 		this.directoryPath = directoryPath.getAbsolutePath() + File.separator;
-		comID = directoryPath.getAbsolutePath().substring(directoryPath.getAbsolutePath().lastIndexOf("/")+1);
+		comID = directoryPath.getAbsolutePath().substring(directoryPath.getAbsolutePath().lastIndexOf(File.separator)+1);
 		log = Logger.getLogger(this.getClass().getSimpleName() + "@" + comID);
 	}
 	
