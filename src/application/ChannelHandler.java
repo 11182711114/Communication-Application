@@ -69,6 +69,9 @@ public class ChannelHandler {
 		
 	}
 
+	/** Sets ChannelHandlers PortListener
+	 * @param pl - The PortListener to set
+	 */
 	public void setPortListener(PortListener pl) {
 		log.debug("Setting port listener to port: " + pl.getServerSocketPort());
 		this.sListener = pl;
