@@ -123,17 +123,37 @@ public class CommunicationApplication {
 
 	private void startContinuousOperation() {
 		if (doDisc) {
-			cH = new ChannelHandler(new HashSet<Channel>(), new LinkedList<Channel>(), monitorDir,
-					new Discovery(new RoutingTable(new ArrayList<Device>()), network, discoveryOutput));
+			cH = new ChannelHandler(
+					new HashSet<Channel>(),
+					new LinkedList<Channel>(),
+					monitorDir,
+					new Discovery(
+							new RoutingTable(
+									new ArrayList<Device>()
+							),
+							network,
+							discoveryOutput
+					)
+			);
+			
 			try {
-				cH.setPortListener(new PortListener(cH, new ServerSocket(listenPort)));
+				cH.setPortListener(
+						new PortListener(
+								cH,
+								new ServerSocket(listenPort)
+						)
+				);
 			} catch (IOException e) {
 				log.exception(e);
 			}
 			cH.start();
 		} else {
 
-			cH = new ChannelHandler(new HashSet<Channel>(), new LinkedList<Channel>(), monitorDir);
+			cH = new ChannelHandler(
+					new HashSet<Channel>(), 
+					new LinkedList<Channel>(), 
+					monitorDir
+			);
 			try {
 				cH.setPortListener(new PortListener(cH, new ServerSocket(listenPort)));
 			} catch (IOException e) {

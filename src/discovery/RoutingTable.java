@@ -7,7 +7,6 @@ import interDeviceCommunication.Device;
 
 public class RoutingTable {
 	private List<Device> routing;
-	// {$deviceID,$IP}
 
 	public RoutingTable(List<Device> table) {
 		this.routing = table;

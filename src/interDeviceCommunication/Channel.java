@@ -43,7 +43,6 @@ public class Channel implements Comparable<Channel>, Runnable {
 		while (active) {
 			if(inOut != null){
 				log.trace("checking for output");
-				String deviceId = con.deviceId();
 				if(inOut.checkForOutput()){
 					
 					try {
