@@ -92,8 +92,7 @@ public class Connection implements Runnable {
 					log.debug("writeOutput " + d);
 					output.println(d);
 				}
-
-//				output.flush();
+				output.flush();
 			}
 			output.close();
 		} catch (IOException e) {
