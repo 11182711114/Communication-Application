@@ -63,7 +63,7 @@ public class ChannelHandler {
 	 */
 	public void passComFolder(File comFolder) throws IOException{
 		log.info("Making new channel based on passed ComIdFolder");
-		IO io = new IO(comFolder.getAbsolutePath() + "/");
+		IO io = new IO(comFolder);
 
 		String deviceId = DeviceIdExtractor.extractFromFolder(monitorDir, comFolder);
 		log.debug("Extracting ip from: "+ comFolder.getCanonicalPath() + " resulted in deviceId: " + deviceId);
