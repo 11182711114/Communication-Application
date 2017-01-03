@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Scanner;
 import dataPacket.InputDataPacket;
 import dataPacket.OutputDataPacket;
@@ -87,7 +88,7 @@ public class Connection implements Runnable {
 //				output.flush();
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.exception(e);
 		}
 	}
 
