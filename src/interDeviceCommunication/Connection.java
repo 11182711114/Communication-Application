@@ -82,7 +82,6 @@ public class Connection implements Runnable {
 				for (String d : data) {
 					log.debug("writeOutput " + d);
 					output.write(d);
-//					output.flush();
 				}
 
 				output.flush();
