@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketImpl;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,6 +27,7 @@ public class ChannelHandler {
 	private FolderMonitor fMon;
 	private Discovery disc;
 	private File monitorDir;
+	private int port;
 
 	public ChannelHandler(Set<Channel> channelsSet, List<Channel> cons, File monitorDir) {
 		this.channels = cons;
@@ -34,12 +36,13 @@ public class ChannelHandler {
 		fMon = new FolderMonitor(monitorDir, new HashSet<File>(),this);
 	}
 
-	public ChannelHandler(Set<Channel> channelsSet, List<Channel> cons, File monitorDir, Discovery disc) {
+	public ChannelHandler(Set<Channel> channelsSet, List<Channel> cons, File monitorDir, Discovery disc, int port) {
 		this.channels = cons;
 		this.channelsSet = channelsSet;
 		fMon = new FolderMonitor(monitorDir, new HashSet<File>(),this);
 		this.monitorDir = monitorDir;
 		this.disc = disc;
+		this.port = port;
 	}
 
 	public void addAndStartChannel(Channel c) {
@@ -72,12 +75,16 @@ public class ChannelHandler {
 
 		log.debug("monitorDir: " + monitorDir + " comFolder: " + comFolder);
 		String deviceId = DeviceIdExtractor.extractFromFolder(monitorDir, comFolder);
-		log.debug("Extracting ip from: "+ comFolder.getCanonicalPath() + " resulted in deviceId: " + deviceId);
+		log.debug("Extracting ip from: "+ comFolder.getAbsolutePath() + " resulted in deviceId: " + deviceId);
 		InetAddress ip = InetAddress.getByName(deviceId);
-		Connection con = new Connection(new Socket(ip,sListener.getServerSocketPort()));
-
-		Channel chan = new Channel(con,io);
+		Connection con = new Connection(new Socket());
+		con.setIp(ip);
+		con.setPort(port);
 		
+		log.debug("Making new channel!");
+		Channel chan = new Channel(con,io);
+
+		log.debug("Trying to add and start channel!");
 		addAndStartChannel(chan);
 	}
 
