@@ -24,6 +24,8 @@ public class Connection implements Runnable {
 	private boolean run;
 	private Channel channel;
 	
+	private PrintWriter output;
+	
 	private Logger log;
 
 	public Connection(Socket s) {
@@ -53,7 +55,7 @@ public class Connection implements Runnable {
 			
 			
 		log.info("Starting connection");
-		try {
+		try {			
 			Scanner input = new Scanner(socket.getInputStream());
 
 			run = true;
@@ -83,7 +85,8 @@ public class Connection implements Runnable {
 			log.debug("Checking if socket is conneced before writing: " + socket.isConnected());
 			if(!socket.isConnected())
 				socket.connect(new InetSocketAddress(ip,port));
-			PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
+
+			output = new PrintWriter(socket.getOutputStream(), true);
 			
 			for (OutputDataPacket p : packets) {
 				String[] data = p.toSend();
@@ -94,7 +97,6 @@ public class Connection implements Runnable {
 				}
 				output.flush();
 			}
-			output.close();
 		} catch (IOException e) {
 			log.exception(e);
 		}
