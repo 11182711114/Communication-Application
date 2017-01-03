@@ -1,13 +1,7 @@
 package ipc;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import log.Logger;
 
 public class FolderMonitor implements Runnable {

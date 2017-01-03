@@ -1,7 +1,9 @@
 package application;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.Socket;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -27,17 +29,17 @@ public class ChannelHandler {
 		this.channels = cons;
 		this.channelsSet = channelsSet;
 		this.monitorDir = monitorDir;
-		fMon = new FolderMonitor(monitorDir);
+		fMon = new FolderMonitor(monitorDir, new HashSet<File>());
 	}
 
 	public ChannelHandler(Set<Channel> channelsSet, List<Channel> cons, File monitorDir, Discovery disc) {
 		this.channels = cons;
 		this.channelsSet = channelsSet;
-		fMon = new FolderMonitor(monitorDir);
+		fMon = new FolderMonitor(monitorDir, new HashSet<File>());
 		this.disc = disc;
 	}
 
-	public void addChannel(Channel c) {
+	public void addAndStartChannel(Channel c) {
 		new Thread(c).start();
 		channels.add(c);
 		channelsSet.add(c);
@@ -50,10 +52,20 @@ public class ChannelHandler {
 		Channel tmp = new Channel(conTmp, monitorDir);
 
 		log.debug("Adding channel to channel chain");
-		addChannel(tmp);
+		addAndStartChannel(tmp);
 	}
 	
-	public void passComFolder(){
+	/** Creates a new Channel from a passed directory
+	 * @param comFolder - the folder
+	 * @throws IOException when the folder does not exist
+	 */
+	public void passComFolder(File comFolder) throws IOException{
+		log.info("Making new channel based on passed ComIdFolder");
+		IO io = new IO(comFolder.getCanonicalPath());
+		
+		Channel chan = new Channel(null,io);
+		
+		addAndStartChannel(chan);
 		
 	}
 

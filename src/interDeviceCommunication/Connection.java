@@ -5,12 +5,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import dataPacket.DataPacket;
 import dataPacket.InputDataPacket;
 import dataPacket.OutputDataPacket;
 import log.Logger;
@@ -22,9 +16,6 @@ public class Connection implements Runnable {
 	private Socket socket;
 	private boolean run;
 	private Channel channel;
-	
-	private String connectionType;
-	
 	
 	private Logger log;
 
