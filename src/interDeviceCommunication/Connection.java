@@ -1,4 +1,3 @@
-
 package interDeviceCommunication;
 
 import java.io.BufferedWriter;
