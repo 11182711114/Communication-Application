@@ -34,8 +34,10 @@ public class Connection implements Runnable {
 
 	@Override
 	public void run() {
+		log.debug("Checking if socket is connected: " + socket.isConnected());
 		if(!socket.isConnected()){
 			try {
+				log.debug("Connecting socket with ip: " + ip + ":" + port);
 				socket.connect(new InetSocketAddress(ip,port));
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -60,10 +62,6 @@ public class Connection implements Runnable {
 			e.printStackTrace();
 			close();
 		}
-	}
-
-	private void startSocket() {
-		
 	}
 
 	public void changeSocket(Socket newSocket) {
