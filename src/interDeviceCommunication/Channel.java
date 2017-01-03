@@ -68,10 +68,15 @@ public class Channel implements Comparable<Channel>, Runnable {
 
 	public void inputPacket(InputDataPacket packet) {
 		if(inOut == null){
-			comID = packet.getComID();
-			inOut = new IO(workingDirectory.getAbsolutePath() + "/" +comID + "/");
+			inputComID(packet.getComID());
 		}
 		inOut.handle(packet);
+	}
+	
+	public void inputComID(String comID)
+	{
+		this.comID = comID;
+		inOut = new IO(new File(workingDirectory.getAbsolutePath() + "/" +comID + "/"));
 	}
 
 	@Override
