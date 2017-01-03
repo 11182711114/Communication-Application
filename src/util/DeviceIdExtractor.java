@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class DeviceIdExtractor {
-	/** Extracts from
+	/** Extracts from Folder
 	 * @param parent - the parent folder
 	 * @param folder - the folder from which to extract
 	 * @return the deviceId
