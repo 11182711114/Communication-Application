@@ -87,8 +87,6 @@ public class Connection implements Runnable {
 
 				output.flush();
 			}
-
-			output.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
