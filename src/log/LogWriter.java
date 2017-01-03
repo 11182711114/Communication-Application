@@ -2,8 +2,7 @@ package log;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.PriorityBlockingQueue;
-
+import java.util.concurrent.LinkedBlockingQueue;
 import log.Logger.LogLineStorage;
 import util.FileUtil;
 
@@ -32,7 +31,7 @@ public class LogWriter implements Runnable {
 	private File logFile;
 	private boolean active;
 
-	private PriorityBlockingQueue<LogLineStorage> writeBuffer = new PriorityBlockingQueue<>();
+	private LinkedBlockingQueue<LogLineStorage> writeBuffer = new LinkedBlockingQueue<>();
 
 	public LogWriter(File logFileLocation, boolean append) {
 		logFile = logFileLocation;
