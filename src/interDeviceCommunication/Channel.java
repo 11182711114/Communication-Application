@@ -31,7 +31,7 @@ public class Channel implements Comparable<Channel>, Runnable {
 	
 	public Channel(Connection con, File workingDirectory) {
 		this.con = con;
-		this.workingDirectory = workingDirectory;
+		this.workingDirectory = new File(workingDirectory.getAbsolutePath() + File.separator + con.deviceId());
 	}
 	
 	@Override
