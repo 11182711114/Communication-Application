@@ -38,19 +38,24 @@ public class ChannelHandler {
 		this.channels = cons;
 		this.channelsSet = channelsSet;
 		fMon = new FolderMonitor(monitorDir, new HashSet<File>(),this);
+		this.monitorDir = monitorDir;
 		this.disc = disc;
 	}
 
 	public void addAndStartChannel(Channel c) {
+		log.debug("Attempting to start channel");
 		new Thread(c).start();
 		channels.add(c);
 		channelsSet.add(c);
 	}
 
-	public void passSocket(Socket s) {
+	/** Making a new Channel from a passed socket
+	 * @param passedSocket - the socket to pass
+	 */
+	public void passSocket(Socket passedSocket) {
 		log.info("Making new channel based on passed socket");
 
-		Connection conTmp = new Connection(s);
+		Connection conTmp = new Connection(passedSocket);
 		Channel tmp = new Channel(conTmp, monitorDir);
 
 		log.debug("Adding channel to channel chain");
@@ -65,6 +70,7 @@ public class ChannelHandler {
 		log.info("Making new channel based on passed ComIdFolder");
 		IO io = new IO(comFolder);
 
+		log.debug("monitorDir: " + monitorDir + " comFolder: " + comFolder);
 		String deviceId = DeviceIdExtractor.extractFromFolder(monitorDir, comFolder);
 		log.debug("Extracting ip from: "+ comFolder.getCanonicalPath() + " resulted in deviceId: " + deviceId);
 		InetAddress ip = InetAddress.getByName(deviceId);

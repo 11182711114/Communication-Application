@@ -123,6 +123,7 @@ public class CommunicationApplication {
 
 	private void startContinuousOperation() {
 		if (doDisc) {
+			log.debug("Making ChannelHandler with monitorDir: " + monitorDir + " network: " + network + " discoveryOutput: " + discoveryOutput);
 			cH = new ChannelHandler(
 					new HashSet<Channel>(),
 					new LinkedList<Channel>(),
