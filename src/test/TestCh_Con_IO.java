@@ -9,18 +9,13 @@ import java.net.Socket;
 import interDeviceCommunication.Channel;
 import interDeviceCommunication.Connection;
 import ipc.IO;
-import log.LogWriter;
-import log.Logger;
 import util.FileUtil;
 
 public class TestCh_Con_IO {
-	static Logger log; 
 
 	public void runTest(){
 		
 		try {
-			
-			startLogger();
 			
 			for(File f : new File("./files/127.0.0.1/testCom/Output/Sent/").listFiles())
 			{
@@ -59,12 +54,5 @@ public class TestCh_Con_IO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	private static void startLogger() {
-		LogWriter.setLogFile(new File("./files/log.txt"));
-		LogWriter lw = LogWriter.getInstance();
-		if (lw != null)
-			new Thread(lw).start();
-		log = Logger.getLogger("theLog");
 	}
 }
