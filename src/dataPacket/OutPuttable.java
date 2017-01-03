@@ -1,5 +1,4 @@
-package application;
-
+package dataPacket;
 
 import java.io.IOException;
 

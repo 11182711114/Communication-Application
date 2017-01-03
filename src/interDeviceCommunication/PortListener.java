@@ -6,35 +6,33 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import application.ChannelHandler;
-import util.Logger;
+import log.Logger;
 
 //OBS formatera!
 
 public class PortListener implements Runnable {
+	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
 
-	private Logger log = util.Logger.getInstance();
-	private String nameForLog = this.getClass().getSimpleName();
-
-	private ChannelHandler HANDLER;
-	private ServerSocket SOCKET;
+	private ChannelHandler handler;
+	private ServerSocket serverSocket;
 	private boolean active;
 
 	public PortListener(ChannelHandler h, ServerSocket s) {
-		HANDLER = h;
-		SOCKET = s;
+		handler = h;
+		serverSocket = s;
 	}
 
 	@Override
 	public void run() {
-		log.info("Starting port listener", nameForLog);
+		log.info("Starting port listener");
 		active = true;
 		while (active) {
-			if (SOCKET == null)
+			if (serverSocket == null)
 				return;
 			try {
-				Socket newSocket = SOCKET.accept();
-				log.debug("Passing conversation to new socket", nameForLog);
-				HANDLER.passSocket(newSocket);
+				Socket newSocket = serverSocket.accept();
+				log.debug("Passing conversation to new socket");
+				handler.passSocket(newSocket);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -46,7 +44,7 @@ public class PortListener implements Runnable {
 	}
 
 	public int getServerSocketPort() {
-		return SOCKET.getLocalPort();
+		return serverSocket.getLocalPort();
 	}
 
 }

@@ -4,7 +4,7 @@ import sys
 
 usage = "\"-v\" verbose mode\n \"-q\" quiet mode\n \"-b $branch\" branch\n \"-pU $projectRoot\" project URL root\n \"-CP $compilePath\" Compile path, e.g. \"src/**/*.java\""
 branch = "fredrik"
-outputDir = os.getcwd()+"/app/"
+outputDir = os.getcwd()+"/./"
 currentDir = os.getcwd() + "/"
 projectRoot = "https://github.com/11182711114/Communication-Application"
 compilePath = "src/**/*.java"

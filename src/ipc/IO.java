@@ -1,53 +1,53 @@
 package ipc;
-import java.io.File;			
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import application.DataPacket;
-import application.InputDataPacket;
-import application.OutputDataPacket;
-import interDeviceCommunication.Channel;
 import util.FileUtil;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 
+import dataPacket.InputDataPacket;
+import dataPacket.OutputDataPacket;
+import log.Logger;
 
 public class IO {
-
-	private Channel ch;
-	static int totalKeyCount= 1;
-	ArrayList<Writer>  writerCollection = new ArrayList<>();	
-	ArrayList<Reader>  readerCollection = new ArrayList<>();
+	private final String directoryPath;		// needs to be Linux compatible  = "./files"?
+	private final String comID;
+	private Logger log; 
 	
-	Map <String, File> input = new HashMap<>() ;
-	Map <String, File> output = new HashMap<>();
+	public IO (String directoryPath){
+		this.directoryPath = directoryPath;
+		String temp = directoryPath.substring(0, directoryPath.lastIndexOf("/"));
+		comID = temp.substring(temp.lastIndexOf("/")+1);
+		log = Logger.getLogger(this.getClass().getSimpleName() + "@" + comID);
+	}
 	
-
-	public void setChannel(Channel ch){
-		this.ch = ch;
+	private int getFileCount(String path){
+		
+		File dir = new File (path);
+		if(!dir.exists()){
+			return 1;
+		}
+		return dir.listFiles().length+1;
 	}
 	
 	
 	public void handle(InputDataPacket dp){
 		LocalDate date = LocalDate.now();
 		String dateDescription = "Date: " + date.toString();
-		
 		LocalTime time = LocalTime.now();
 		String timeDescription = "Time: " +time.toString();
 		
 		
+		String fullPathname = directoryPath + "Input/";
 		
 		
+		String fileName = getFileCount(fullPathname) + ".txt"; 
 		
-		String pathname = "C:\\Users\\Johan\\IoT\\git\\Communication-Application\\Saves";		// needs to be Linux compatible
-		String directory = dp.getDeviceID();
-		String fileName = dp.getComID() + ".txt"; //+what? (+"_" + packetID)
+		File theFile = new File(fullPathname, fileName);
 		
-		pathname = pathname + "\\" + directory;
-		
-		File theFile = new File(pathname, fileName);
 		try{
 			FileUtil.writeToFile(dateDescription, theFile);
 			FileUtil.writeToFile(timeDescription, theFile);
@@ -62,27 +62,59 @@ public class IO {
 			}catch(IOException e){
 			e.printStackTrace();
 		}
-		
-		input.put("theKey", theFile);				//bullshit code but shows order. if saved in Maps
 	}
 	
-
+	private OutputDataPacket createOutputDataPacket(String[] data){
+		OutputDataPacket toSend = new OutputDataPacket();		// Send to Channel
+		toSend.setComID(comID);
+		for(int i = 1 ; i< data.length ; i++){
+			toSend.parseData(data[i]);	
+		}
 		
-		
-		
+		return toSend;
+	}
 	
+	public boolean checkForOutput()
+	{
+		File dir = new File(directoryPath + "Output/Send/");
+		
+		if(dir.exists())
+		{
+			if(dir.listFiles().length > 0)
+			{
+				log.debug("Output: return true" );
+				return true;
+			}
+		}
+		return false;
+	}
 	
-	public void sendDP(){
-		DataPacket toSend = new OutputDataPacket();		// Send to Channel
+	public OutputDataPacket[] sendDataPackets() throws FileNotFoundException
+	{
+		ArrayList<OutputDataPacket> packets = new ArrayList<>();
+		
+		File dir = new File(directoryPath + "Output/Send/");
+		
+		for(File f : dir.listFiles()){
+			String[] fileContent = FileUtil.readFromFile(f);
+			
+			if(fileContent.length >1){
+				OutputDataPacket thePacket = createOutputDataPacket(fileContent);
+				packets.add(thePacket);
+				moveToSent(f);
+			}
+		}	
+		return packets.toArray(new OutputDataPacket[0]);
 	}
 	
 	
-	public void createWriter(){
-		Writer writer = new Writer();
-		writerCollection.add(writer);
+	public void moveToSent(File f){
+		
+		f.renameTo(new File(directoryPath + "Output/Sent/" + f.getName()));
+		
 	}
-	public void createReader(){
-		Reader reader = new Reader();
-		readerCollection.add(reader);	
+	
+	public String getComID(){
+		return comID;
 	}
 }

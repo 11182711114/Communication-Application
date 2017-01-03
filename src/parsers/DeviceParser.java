@@ -2,7 +2,7 @@ package parsers;
 
 import java.net.UnknownHostException;
 
-import application.Device;
+import interDeviceCommunication.Device;
 
 public interface DeviceParser {
 	Device parse(String s) throws UnknownHostException, IllegalArgumentException;

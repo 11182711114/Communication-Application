@@ -1,5 +1,4 @@
-package application;
-
+package interDeviceCommunication;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -48,7 +47,7 @@ public class Device implements Comparable<Device> {
 	}
 
 	public String toPrint() {
-		return "ID: " + deviceID + " IP:" + ip;
+		return "ID: " + deviceID + " IP: " + ip.toString().substring(1);
 	}
 
 }
