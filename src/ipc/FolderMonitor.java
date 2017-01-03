@@ -108,8 +108,8 @@ public class FolderMonitor implements Runnable {
 				log.trace("DeviceId folder found: " + devIdFolder.getAbsolutePath());
 				for(File comIdFolder : devIdFolder.listFiles()){
 					if(comIdFolder.isDirectory()){
-						log.trace("ComId folder found: " + comIdFolder.getAbsolutePath());
 						if(!knownDirectories.contains(comIdFolder)){
+							log.trace("New ComId folder found: " + comIdFolder.getAbsolutePath());
 							try {
 								cH.passComFolder(comIdFolder);
 								log.trace("Adding to known collection: " + comIdFolder.getAbsolutePath());
