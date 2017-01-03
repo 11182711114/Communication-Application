@@ -52,6 +52,10 @@ public class ChannelHandler {
 		log.debug("Adding channel to channel chain");
 		addChannel(tmp);
 	}
+	
+	public void passComFolder(){
+		
+	}
 
 	public void setPortListener(PortListener pl) {
 		log.debug("Setting port listener to port: " + pl.getServerSocketPort());
