@@ -43,10 +43,8 @@ public class Connection implements Runnable {
 
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-			close();
 		} catch (IOException e) {
 			e.printStackTrace();
-			close();
 		}
 	}
 
@@ -66,14 +64,14 @@ public class Connection implements Runnable {
 				
 				for (String d : data) {
 					log.debug("writeOutput " + d);
+					System.out.println(d);
 					output.write(d);
-//					output.flush();
 				}
 
 				output.flush();
 			}
 
-			output.close();
+			//output.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -86,6 +84,7 @@ public class Connection implements Runnable {
 
 			while (scanner.hasNext()) {
 				String input = scanner.nextLine();
+				System.out.println(input);
 				log.debug("readInput " + input);
 				packet.parseData(input);
 				

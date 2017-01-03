@@ -23,7 +23,7 @@ public class OutputDataPacket extends DataPacket {
 			toSend.add(d);
 		}
 
-		toSend.add("<END>");
+		toSend.add("<END>" + "\n");
 
 		return toSend.toArray(new String[toSend.size()]);
 	}
