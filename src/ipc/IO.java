@@ -18,10 +18,8 @@ public class IO {
 	private Logger log; 
 	
 	public IO (File directoryPath){
-		this.directoryPath = directoryPath.getAbsolutePath();
-		System.out.println(directoryPath);
-		String temp = this.directoryPath.substring(0, this.directoryPath.lastIndexOf(File.separator));
-		comID = temp.substring(temp.lastIndexOf("/")+1);
+		this.directoryPath = directoryPath.getAbsolutePath() + File.separator;
+		comID = directoryPath.getAbsolutePath().substring(directoryPath.getAbsolutePath().lastIndexOf("/")+1);
 		log = Logger.getLogger(this.getClass().getSimpleName() + "@" + comID);
 	}
 	
