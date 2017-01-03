@@ -30,10 +30,9 @@ public class Connection implements Runnable {
 	}
 
 	@Override
-	public void run() {			
-			
+	public void run() {
 		log.info("Starting connection");
-		try {			
+		try {
 			Scanner input = new Scanner(socket.getInputStream());
 
 			run = true;
@@ -50,8 +49,12 @@ public class Connection implements Runnable {
 		}
 	}
 
-	public void changeSocket(Socket newSocket) {
-		socket = newSocket;
+	public boolean checkConnection() throws IOException {
+		
+		if(socket.getInetAddress().isReachable(5000)){
+			return true;
+		}
+		return false;
 	}
 	
 	public String deviceId(){
@@ -83,6 +86,7 @@ public class Connection implements Runnable {
 			InputDataPacket packet = new InputDataPacket();
 
 			while (scanner.hasNext()) {
+				System.out.println("read2");
 				String input = scanner.nextLine();
 				log.debug("readInput " + input);
 				packet.parseData(input);

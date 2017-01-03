@@ -2,6 +2,7 @@ package interDeviceCommunication;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import dataPacket.InputDataPacket;
 import dataPacket.OutputDataPacket;
@@ -41,18 +42,24 @@ public class Channel implements Comparable<Channel>, Runnable {
 		con.setChannel(this);
 		new Thread(con).start();
 		while (active) {
+			try {
+				active = con.checkConnection();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
 			if(inOut != null){
 				log.trace("checking for output");
 				if(inOut.checkForOutput()){
 					
 					try {
-				
 						OutputDataPacket[] data= inOut.sendDataPackets();
 						con.send(data);
 
 					} catch (FileNotFoundException e) {
 						e.printStackTrace();
-					}
+					} 
 				}
 				try {
 					Thread.sleep(1000);
@@ -64,6 +71,10 @@ public class Channel implements Comparable<Channel>, Runnable {
 				
 			}
 		}
+	}
+	
+	public boolean returnActive(){
+		return active;
 	}
 
 	public void inputPacket(InputDataPacket packet) {

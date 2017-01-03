@@ -4,10 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import discovery.Discovery;
 import interDeviceCommunication.Channel;
@@ -116,13 +118,24 @@ public class ChannelHandler {
 		log.debug("Setting port listener to port: " + pl.getServerSocketPort());
 		this.sListener = pl;
 	}
+	
+	private void checkChannels(){
+		
+		while(true){
+			ArrayList<Channel> inActive = (ArrayList<Channel>) channels.stream().filter(c -> !c.returnActive()).collect(Collectors.toList());
+			channels.removeAll(inActive);
+			log.debug(inActive.size() + "Channels removed");
+		}
+	}
 
 	public void start() {
 		log.info("Starting ChannelHandler");
 		new Thread(sListener).start();
 		new Thread(fMon).start();
-		if (disc != null)
+		if (disc != null){
 			new Thread(disc).start();
+			}
+		checkChannels();
 	}
 
 	public void fullStop() {
