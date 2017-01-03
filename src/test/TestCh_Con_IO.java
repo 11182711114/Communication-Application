@@ -1,7 +1,6 @@
 package test;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -17,7 +16,7 @@ import util.FileUtil;
 public class TestCh_Con_IO {
 	static Logger log; 
 
-	public static void main(String[] args){
+	public static void runTest(){
 		
 		try {
 			
