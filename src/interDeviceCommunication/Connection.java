@@ -84,14 +84,14 @@ public class Connection implements Runnable {
 			log.debug("Checking if socket is conneced before writing: " + socket.isConnected());
 //			if(!socket.isConnected())
 //				socket.connect(new InetSocketAddress(ip,port));
-				PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
+				BufferedWriter output = new BufferedWriter(new PrintWriter(socket.getOutputStream(), true));
 			
 			for (OutputDataPacket p : packets) {
 				String[] data = p.toSend();
 				
 				for (String d : data) {
 					log.debug("writeOutput " + d);
-					output.println(d);
+					output.write(d);
 				}
 				output.flush();
 			}
