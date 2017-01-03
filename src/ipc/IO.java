@@ -14,8 +14,7 @@ import dataPacket.OutputDataPacket;
 import log.Logger;
 
 public class IO {
-	private final String directoryPath; // needs to be Linux compatible =
-										// "./files"?
+	private final String directoryPath;
 	private final String comID;
 	private Logger log;
 
