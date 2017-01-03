@@ -29,6 +29,7 @@ public class CommunicationApplication {
 	private File configFile = new File("./ComApp.conf");
 	private String deviceId;
 	private boolean logAppend = true;
+	private File statusFile = new File("./status");
 	
 	private ChannelHandler cH;
 
@@ -81,6 +82,11 @@ public class CommunicationApplication {
 					
 				case "-L":
 					logAppend = Boolean.parseBoolean(args[i+1]);
+					break;
+				case "-S":
+					statusFile = new File(args[i+1]);
+					break;
+				default:
 					break;
 				}
 			}
@@ -156,7 +162,6 @@ public class CommunicationApplication {
 			}
 			cH.start();
 		} else {
-
 			log.debug("Making ChannelHandler with monitorDir: " + monitorDir + " network: " + network);
 			cH = new ChannelHandler(
 					new HashSet<Channel>(),
