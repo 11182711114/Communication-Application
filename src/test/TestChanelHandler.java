@@ -24,8 +24,8 @@ public class TestChanelHandler
 			PortListener pL = createPortListener(handler);
 			new Thread(pL).start();
 			handler.setPortListener(pL);
-			Socket socket = new Socket(InetAddress.getByName("127.0.0.1"), 8080);
-			handler.passSocket(socket);
+			File f = new File("./files/127.0.0.1/testCom/" );
+			handler.passComFolder(f);
 			
 		} catch (IOException e) 
 		{

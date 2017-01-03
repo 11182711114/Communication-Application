@@ -17,9 +17,10 @@ public class IO {
 	private final String comID;
 	private Logger log; 
 	
-	public IO (String directoryPath){
-		this.directoryPath = directoryPath;
-		String temp = directoryPath.substring(0, directoryPath.lastIndexOf("/"));
+	public IO (File directoryPath){
+		this.directoryPath = directoryPath.getAbsolutePath();
+		System.out.println(directoryPath);
+		String temp = this.directoryPath.substring(0, this.directoryPath.lastIndexOf(File.separator));
 		comID = temp.substring(temp.lastIndexOf("/")+1);
 		log = Logger.getLogger(this.getClass().getSimpleName() + "@" + comID);
 	}

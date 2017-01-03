@@ -13,7 +13,7 @@ public class TestProgram {
 	{
 		startLogger();
 		
-		new TestCh_Con_IO().runTest();
+		new TestChanelHandler().runTest();
 	}
 	
 	private static void startLogger() {
