@@ -10,13 +10,18 @@ import java.util.ArrayList;
 
 import dataPacket.InputDataPacket;
 import dataPacket.OutputDataPacket;
-
+import log.Logger;
 
 public class IO {
 	private final String directoryPath;		// needs to be Linux compatible  = "./files"?
+	private final String comID;
+	private Logger log; 
 	
 	public IO (String directoryPath){
 		this.directoryPath = directoryPath;
+		String temp = directoryPath.substring(0, directoryPath.lastIndexOf("/"));
+		comID = temp.substring(temp.lastIndexOf("/")+1);
+		log = Logger.getLogger(this.getClass().getSimpleName() + "@" + comID);
 	}
 	
 	private int getFileCount(String path){
@@ -36,11 +41,7 @@ public class IO {
 		String timeDescription = "Time: " +time.toString();
 		
 		
-		
-		String deviceDir = dp.getDeviceID();
-		String comDir = dp.getComID();
-		
-		String fullPathname = directoryPath + "\\Input\\" + deviceDir + "\\" + comDir;
+		String fullPathname = directoryPath + "Input/";
 		
 		
 		String fileName = getFileCount(fullPathname) + ".txt"; 
@@ -65,6 +66,7 @@ public class IO {
 	
 	private OutputDataPacket createOutputDataPacket(String[] data){
 		OutputDataPacket toSend = new OutputDataPacket();		// Send to Channel
+		toSend.setComID(comID);
 		for(int i = 1 ; i< data.length ; i++){
 			toSend.parseData(data[i]);	
 		}
@@ -72,44 +74,47 @@ public class IO {
 		return toSend;
 	}
 	
-	public boolean checkForOutput(String deviceID, String comID)
+	public boolean checkForOutput()
 	{
-		File dir = new File(directoryPath+ "Output\\Send\\" + deviceID + "\\"+comID);
+		File dir = new File(directoryPath + "Output/Send/");
 		
 		if(dir.exists())
 		{
 			if(dir.listFiles().length > 0)
 			{
+				log.debug("Output: return true" );
 				return true;
 			}
 		}
 		return false;
 	}
 	
-	public OutputDataPacket[] sendDataPackets(String deviceID, String comID) throws FileNotFoundException
+	public OutputDataPacket[] sendDataPackets() throws FileNotFoundException
 	{
 		ArrayList<OutputDataPacket> packets = new ArrayList<>();
 		
-		File dir = new File(directoryPath+ "Output\\Send\\" + deviceID + "\\"+comID);
+		File dir = new File(directoryPath + "Output/Send/");
 		
 		for(File f : dir.listFiles()){
 			String[] fileContent = FileUtil.readFromFile(f);
 			
 			if(fileContent.length >1){
-				
 				OutputDataPacket thePacket = createOutputDataPacket(fileContent);
 				packets.add(thePacket);
-				moveToSend(f, deviceID, comID);
+				moveToSent(f);
 			}
-		}
-		
+		}	
 		return packets.toArray(new OutputDataPacket[0]);
 	}
 	
 	
-	public void moveToSend(File f, String deviceID, String comID){
+	public void moveToSent(File f){
 		
-		f.renameTo(new File(directoryPath+ "Output\\Sent\\" + deviceID + "\\" + comID + "\\" + f.getName()));
+		f.renameTo(new File(directoryPath + "Output/Sent/" + f.getName()));
 		
+	}
+	
+	public String getComID(){
+		return comID;
 	}
 }

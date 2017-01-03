@@ -21,10 +21,12 @@ public class ChannelHandler {
 	private PortListener sListener;
 	private FolderMonitor fMon;
 	private Discovery disc;
+	private File monitorDir;
 
 	public ChannelHandler(Set<Channel> channelsSet, List<Channel> cons, File monitorDir) {
 		this.channels = cons;
 		this.channelsSet = channelsSet;
+		this.monitorDir = monitorDir;
 		fMon = new FolderMonitor(monitorDir);
 	}
 
@@ -45,8 +47,7 @@ public class ChannelHandler {
 		log.info("Making new channel based on passed socket");
 
 		Connection conTmp = new Connection(s);
-		IO ioTmp = new IO(" ");
-		Channel tmp = new Channel(conTmp, ioTmp);
+		Channel tmp = new Channel(conTmp, monitorDir);
 
 		log.debug("Adding channel to channel chain");
 		addChannel(tmp);
