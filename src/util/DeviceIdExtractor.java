@@ -11,8 +11,9 @@ public class DeviceIdExtractor {
 	 * @throws IOException
 	 */
 	public static String extractFromFolder(File parent, File folder) throws IOException{
-		String[] parentPath = parent.getAbsolutePath().split("\\" + File.separator);
-		String[] folderPath = folder.getAbsolutePath().split("\\" + File.separator);
+		String fileSep = "\\" + File.separator;
+		String[] parentPath = parent.getAbsolutePath().split(fileSep);
+		String[] folderPath = folder.getAbsolutePath().split(fileSep);
 		String output = folderPath[parentPath.length];
 		
 		return output;
