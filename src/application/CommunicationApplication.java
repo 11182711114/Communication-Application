@@ -140,7 +140,8 @@ public class CommunicationApplication {
 							),
 							network,
 							discoveryOutput
-					)
+					),
+					listenPort
 			);
 			
 			try {

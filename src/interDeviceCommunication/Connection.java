@@ -3,6 +3,8 @@ package interDeviceCommunication;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.Scanner;
 import dataPacket.InputDataPacket;
@@ -14,6 +16,8 @@ import log.Logger;
 public class Connection implements Runnable {
 
 	private Socket socket;
+	private int port;
+	private InetAddress ip;
 	private boolean run;
 	private Channel channel;
 	
@@ -30,6 +34,14 @@ public class Connection implements Runnable {
 
 	@Override
 	public void run() {
+		if(!socket.isConnected()){
+			try {
+				socket.connect(new InetSocketAddress(ip,port));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		log.info("Starting connection");
 		try {
 			Scanner input = new Scanner(socket.getInputStream());
@@ -48,6 +60,10 @@ public class Connection implements Runnable {
 			e.printStackTrace();
 			close();
 		}
+	}
+
+	private void startSocket() {
+		
 	}
 
 	public void changeSocket(Socket newSocket) {
@@ -106,5 +122,12 @@ public class Connection implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	public void setPort(int port) {
+		this.port = port;		
+	}
+	public void setIp(InetAddress ip) {
+		this.ip = ip;
+		
 	}
 }
