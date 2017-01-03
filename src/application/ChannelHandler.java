@@ -38,6 +38,7 @@ public class ChannelHandler {
 		this.channels = cons;
 		this.channelsSet = channelsSet;
 		fMon = new FolderMonitor(monitorDir, new HashSet<File>(),this);
+		this.monitorDir = monitorDir;
 		this.disc = disc;
 	}
 
