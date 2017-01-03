@@ -124,7 +124,11 @@ public class ChannelHandler {
 		while(true){
 			ArrayList<Channel> inActive = (ArrayList<Channel>) channels.stream().filter(c -> !c.returnActive()).collect(Collectors.toList());
 			channels.removeAll(inActive);
-			log.debug(inActive.size() + "Channels removed");
+			if(inActive.size() > 0)
+			{
+				log.debug(inActive.size() + " Channels removed");
+			}
+			
 		}
 	}
 
