@@ -83,6 +83,7 @@ public class ChannelHandler {
 		
 		log.debug("Making new channel!");
 		Channel chan = new Channel(con,io);
+		chan.setComID(io.getComID());
 
 		log.debug("Trying to add and start channel!");
 		addAndStartChannel(chan);

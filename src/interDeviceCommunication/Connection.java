@@ -74,6 +74,7 @@ public class Connection implements Runnable {
 
 	public void send(OutputDataPacket[] packets) {
 		try {
+			log.debug("Checking if socket is conneced before writing: " + socket.isConnected());
 			BufferedWriter output = new BufferedWriter(new PrintWriter(socket.getOutputStream(), true));
 			for (OutputDataPacket p : packets) {
 				String[] data = p.toSend();
@@ -81,13 +82,10 @@ public class Connection implements Runnable {
 				for (String d : data) {
 					log.debug("writeOutput " + d);
 					output.write(d);
-//					output.flush();
 				}
 
 				output.flush();
 			}
-
-			output.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
