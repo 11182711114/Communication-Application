@@ -28,6 +28,7 @@ public class CommunicationApplication {
 	private String network = "192.168.1.*";
 	private File configFile = new File("./ComApp.conf");
 	private String deviceId;
+	private boolean logAppend = false;
 	
 	private ChannelHandler cH;
 
@@ -76,6 +77,10 @@ public class CommunicationApplication {
 					
 				case "-network":
 					network = args[i + 1];
+					break;
+					
+				case "-L":
+					logAppend = Boolean.parseBoolean(args[i+1]);
 					break;
 				}
 			}
