@@ -83,8 +83,8 @@ public class Connection implements Runnable {
 	public void send(OutputDataPacket[] packets) {
 		try {
 			log.debug("Checking if socket is conneced before writing: " + socket.isConnected());
-			if(!socket.isConnected())
-				socket.connect(new InetSocketAddress(ip,port));
+//			if(!socket.isConnected())
+//				socket.connect(new InetSocketAddress(ip,port));
 			if(output == null)
 				output = new PrintWriter(socket.getOutputStream(), true);
 			
