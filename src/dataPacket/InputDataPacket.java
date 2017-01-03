@@ -3,7 +3,12 @@ package dataPacket;
 public class InputDataPacket extends DataPacket {
 	@Override
 	public void parseData(String line) {
-		String markup = line.substring(line.indexOf("<"), line.indexOf(">") + 1);
+		int start = line.indexOf("<");
+		int end = line.indexOf(">") + 1;
+		if(start == -1 || end == -1)
+			return;
+		
+		String markup = line.substring(start, end);
 		String data = line.substring(line.indexOf(">") + 1).trim();
 
 		switch (markup) {
