@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.net.SocketException;
 import java.util.Scanner;
 import dataPacket.InputDataPacket;
@@ -45,7 +46,12 @@ public class Connection implements Runnable {
 				e.printStackTrace();
 			}
 		}
-		
+		if(port == 0 || ip == null){
+			port = socket.getPort();
+			ip = socket.getInetAddress();
+		}
+			
+			
 		log.info("Starting connection");
 		try {
 			Scanner input = new Scanner(socket.getInputStream());
@@ -75,6 +81,8 @@ public class Connection implements Runnable {
 	public void send(OutputDataPacket[] packets) {
 		try {
 			log.debug("Checking if socket is conneced before writing: " + socket.isConnected());
+			if(!socket.isConnected())
+				socket.connect(new InetSocketAddress(ip,port));
 			PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
 			
 			for (OutputDataPacket p : packets) {
