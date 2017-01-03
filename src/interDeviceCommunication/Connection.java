@@ -23,8 +23,8 @@ public class Connection implements Runnable {
 	public Connection(Socket s) {
 		socket = s;
 	}
-	
-	public void setChannel(Channel channel){
+
+	public void setChannel(Channel channel) {
 		this.channel = channel;
 		log = Logger.getLogger(this.getClass().getSimpleName() + "@" + channel.getComID());
 	}
@@ -50,14 +50,14 @@ public class Connection implements Runnable {
 	}
 
 	public boolean checkConnection() throws IOException {
-		
-		if(socket.getInetAddress().isReachable(5000)){
+
+		if (socket.getInetAddress().isReachable(5000)) {
 			return true;
 		}
 		return false;
 	}
-	
-	public String deviceId(){
+
+	public String deviceId() {
 		return socket.getInetAddress().getHostAddress();
 	}
 
@@ -65,10 +65,10 @@ public class Connection implements Runnable {
 		try {
 			log.debug("Checking if socket is conneced before writing: " + socket.isConnected());
 			BufferedWriter output = new BufferedWriter(new PrintWriter(socket.getOutputStream(), true));
-			
+
 			for (OutputDataPacket p : packets) {
 				String[] data = p.toSend();
-				
+
 				for (String d : data) {
 					log.trace("writeOutput " + d);
 					output.write(d);
@@ -82,14 +82,14 @@ public class Connection implements Runnable {
 
 	private void read(Scanner scanner) {
 		if (scanner.hasNext()) {
-			
+
 			InputDataPacket packet = new InputDataPacket();
 
 			while (scanner.hasNext()) {
 				String input = scanner.nextLine();
 				log.trace("readInput " + input);
 				packet.parseData(input);
-				
+
 				if (input.equals("<END>")) {
 					log.trace("End tag found");
 					channel.setComID(packet.getComID());
@@ -108,9 +108,11 @@ public class Connection implements Runnable {
 			e.printStackTrace();
 		}
 	}
-	public void setPort(int port) {		
+
+	public void setPort(int port) {
 	}
+
 	public void setIp(InetAddress ip) {
-		
+
 	}
 }

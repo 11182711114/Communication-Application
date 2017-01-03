@@ -15,10 +15,10 @@ public class RoutingTable {
 	public void addDevice(Device d) {
 		routing.add(d);
 	}
-	
-	public void updateDevices(Device[] devices){
+
+	public void updateDevices(Device[] devices) {
 		routing.clear();
-		for(Device d : devices){
+		for (Device d : devices) {
 			routing.add(d);
 		}
 	}

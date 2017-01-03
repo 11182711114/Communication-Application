@@ -6,7 +6,6 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -35,13 +34,13 @@ public class ChannelHandler {
 		this.channels = cons;
 		this.channelsSet = channelsSet;
 		this.monitorDir = monitorDir;
-		fMon = new FolderMonitor(monitorDir, new HashSet<File>(),this);
+		fMon = new FolderMonitor(monitorDir, new HashSet<File>(), this);
 	}
 
 	public ChannelHandler(Set<Channel> channelsSet, List<Channel> cons, File monitorDir, Discovery disc, int port) {
 		this.channels = cons;
 		this.channelsSet = channelsSet;
-		fMon = new FolderMonitor(monitorDir, new HashSet<File>(),this);
+		fMon = new FolderMonitor(monitorDir, new HashSet<File>(), this);
 		this.monitorDir = monitorDir;
 		this.disc = disc;
 		this.port = port;
@@ -50,7 +49,7 @@ public class ChannelHandler {
 	public ChannelHandler(Set<Channel> channelsSet, List<Channel> cons, File monitorDir, int port) {
 		this.channels = cons;
 		this.channelsSet = channelsSet;
-		fMon = new FolderMonitor(monitorDir, new HashSet<File>(),this);
+		fMon = new FolderMonitor(monitorDir, new HashSet<File>(), this);
 		this.monitorDir = monitorDir;
 		this.port = port;
 	}
@@ -62,8 +61,11 @@ public class ChannelHandler {
 		channelsSet.add(c);
 	}
 
-	/** Making a new Channel from a passed socket
-	 * @param passedSocket - the socket to pass
+	/**
+	 * Making a new Channel from a passed socket
+	 * 
+	 * @param passedSocket
+	 *            - the socket to pass
 	 */
 	public void passSocket(Socket passedSocket) {
 		log.info("Making new channel based on passed socket");
@@ -74,61 +76,70 @@ public class ChannelHandler {
 		log.debug("Adding channel to channel chain");
 		addAndStartChannel(tmp);
 	}
-	
-	/** Creates a new Channel from a passed directory
-	 * @param comFolder - the folder
-	 * @throws IOException when the folder does not exist
+
+	/**
+	 * Creates a new Channel from a passed directory
+	 * 
+	 * @param comFolder
+	 *            - the folder
+	 * @throws IOException
+	 *             when the folder does not exist
 	 */
-	public void passComFolder(File comFolder) throws IOException{
-//		log.info("Making new channel based on passed ComIdFolder");
-//		IO io = new IO(comFolder);
-//
-//		log.debug("monitorDir: " + monitorDir + " comFolder: " + comFolder);
-//		String deviceId = DeviceIdExtractor.extractFromFolder(monitorDir, comFolder);
-//		log.debug("Extracting ip from: "+ comFolder.getAbsolutePath() + " resulted in deviceId: " + deviceId);
-//		InetAddress ip = InetAddress.getByName(deviceId);
-//		Connection con = new Connection(new Socket());
-//		con.setIp(ip);
-//		con.setPort(port);
-//		
-//		log.debug("Making new channel!");
-//		Channel chan = new Channel(con,io);
-//		chan.setComID(io.getComID());
-//
-//		log.debug("Trying to add and start channel!");
-//		addAndStartChannel(chan);
+	public void passComFolder(File comFolder) throws IOException {
+		// log.info("Making new channel based on passed ComIdFolder");
+		// IO io = new IO(comFolder);
+		//
+		// log.debug("monitorDir: " + monitorDir + " comFolder: " + comFolder);
+		// String deviceId = DeviceIdExtractor.extractFromFolder(monitorDir,
+		// comFolder);
+		// log.debug("Extracting ip from: "+ comFolder.getAbsolutePath() + "
+		// resulted in deviceId: " + deviceId);
+		// InetAddress ip = InetAddress.getByName(deviceId);
+		// Connection con = new Connection(new Socket());
+		// con.setIp(ip);
+		// con.setPort(port);
+		//
+		// log.debug("Making new channel!");
+		// Channel chan = new Channel(con,io);
+		// chan.setComID(io.getComID());
+		//
+		// log.debug("Trying to add and start channel!");
+		// addAndStartChannel(chan);
 		log.info("Making new channel based on passed ComIdFolder");
 		IO io = new IO(comFolder);
 
 		log.debug("monitorDir: " + monitorDir + " comFolder: " + comFolder);
 		String deviceId = DeviceIdExtractor.extractFromFolder(monitorDir, comFolder);
-		log.debug("Extracting ip from: "+ comFolder.getCanonicalPath() + " resulted in deviceId: " + deviceId);
+		log.debug("Extracting ip from: " + comFolder.getCanonicalPath() + " resulted in deviceId: " + deviceId);
 		InetAddress ip = InetAddress.getByName(deviceId);
-		Connection con = new Connection(new Socket(ip,sListener.getServerSocketPort()));
+		Connection con = new Connection(new Socket(ip, sListener.getServerSocketPort()));
 
-		Channel chan = new Channel(con,io);
-		
+		Channel chan = new Channel(con, io);
+
 		addAndStartChannel(chan);
 	}
 
-	/** Sets ChannelHandlers PortListener
-	 * @param pl - The PortListener to set
+	/**
+	 * Sets ChannelHandlers PortListener
+	 * 
+	 * @param pl
+	 *            - The PortListener to set
 	 */
 	public void setPortListener(PortListener pl) {
 		log.debug("Setting port listener to port: " + pl.getServerSocketPort());
 		this.sListener = pl;
 	}
-	
-	private void checkChannels(){
-		
-		while(true){
-			ArrayList<Channel> inActive = (ArrayList<Channel>) channels.stream().filter(c -> !c.returnActive()).collect(Collectors.toList());
+
+	private void checkChannels() {
+
+		while (true) {
+			ArrayList<Channel> inActive = (ArrayList<Channel>) channels.stream().filter(c -> !c.returnActive())
+					.collect(Collectors.toList());
 			channels.removeAll(inActive);
-			if(inActive.size() > 0)
-			{
+			if (inActive.size() > 0) {
 				log.debug(inActive.size() + " Channels removed");
 			}
-			
+
 		}
 	}
 
@@ -136,9 +147,9 @@ public class ChannelHandler {
 		log.info("Starting ChannelHandler");
 		new Thread(sListener).start();
 		new Thread(fMon).start();
-		if (disc != null){
+		if (disc != null) {
 			new Thread(disc).start();
-			}
+		}
 		checkChannels();
 	}
 
