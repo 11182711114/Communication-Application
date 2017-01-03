@@ -65,6 +65,7 @@ public class ChannelHandler {
 		log.info("Making new channel based on passed ComIdFolder");
 		IO io = new IO(comFolder);
 
+		log.debug("monitorDir: " + monitorDir + " comFolder: " + comFolder);
 		String deviceId = DeviceIdExtractor.extractFromFolder(monitorDir, comFolder);
 		log.debug("Extracting ip from: "+ comFolder.getCanonicalPath() + " resulted in deviceId: " + deviceId);
 		InetAddress ip = InetAddress.getByName(deviceId);
