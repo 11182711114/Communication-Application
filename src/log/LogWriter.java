@@ -10,9 +10,10 @@ import util.FileUtil;
 public class LogWriter implements Runnable {
 
 	private static File logFileStatic;
-
+	private static boolean append = true;
+	
 	private static class LogWriterHolder {
-		private static final LogWriter INSTANCE = new LogWriter(logFileStatic);
+		private static final LogWriter INSTANCE = new LogWriter(logFileStatic, append);
 	}
 
 	public static LogWriter getInstance() {
@@ -24,19 +25,24 @@ public class LogWriter implements Runnable {
 	public static void setLogFile(File f) {
 		logFileStatic = f;
 	}
+	public static void setAppend(boolean app){
+		append = app;
+	}
 
 	private File logFile;
 	private boolean active;
 
 	private PriorityBlockingQueue<LogLineStorage> writeBuffer = new PriorityBlockingQueue<>();
 
-	public LogWriter(File logFileLocation) {
+	public LogWriter(File logFileLocation, boolean append) {
 		logFile = logFileLocation;
 	}
 
 	@Override
 	public void run() {
 		active = true;
+		if(!append)
+			logFile.delete();
 		while (active) {
 			try {
 				String toWrite = writeBuffer.take().toWrite();
