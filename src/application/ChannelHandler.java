@@ -7,7 +7,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import discovery.Discovery;
 import interDeviceCommunication.Channel;
@@ -99,11 +98,13 @@ public class ChannelHandler implements Runnable{
 
 	private void checkChannels() {
 			ArrayList<Channel> inactive = new ArrayList<>();
-			for(Channel c : channels){
-				if(c.getActive())
-					inactive.add(c);
+			synchronized(channels){
+				for(Channel c : channels){
+					if(c.getActive())
+						inactive.add(c);
+				}
+				channels.removeAll(inactive);
 			}
-			channels.removeAll(inactive);
 			if (inactive.size() > 0) {
 				log.debug(inactive.size() + " Channels removed");
 		}
