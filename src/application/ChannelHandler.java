@@ -98,11 +98,14 @@ public class ChannelHandler implements Runnable{
 	}
 
 	private void checkChannels() {
-			ArrayList<Channel> inActive = (ArrayList<Channel>) channels.stream().filter(c -> !c.returnActive())
-					.collect(Collectors.toList());
-			channels.removeAll(inActive);
-			if (inActive.size() > 0) {
-				log.debug(inActive.size() + " Channels removed");
+			ArrayList<Channel> inactive = new ArrayList<>();
+			for(Channel c : channels){
+				if(c.getActive())
+					inactive.add(c);
+			}
+			channels.removeAll(inactive);
+			if (inactive.size() > 0) {
+				log.debug(inactive.size() + " Channels removed");
 		}
 	}
 

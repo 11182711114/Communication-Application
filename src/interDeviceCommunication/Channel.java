@@ -72,7 +72,7 @@ public class Channel implements Runnable {
 		}
 	}
 
-	public boolean returnActive() {
+	public boolean getActive() {
 		return active;
 	}
 
