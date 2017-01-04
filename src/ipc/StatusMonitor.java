@@ -2,6 +2,7 @@ package ipc;
 
 import java.io.File;
 
+import application.CommunicationApplication;
 import log.Logger;
 
 public class StatusMonitor implements Runnable {
@@ -11,13 +12,16 @@ public class StatusMonitor implements Runnable {
 
 	public static final String ACTIVE_CODE = "ACTIVE";
 	public static final String INACTIVE_CODE = "INACTIVE";
+	public static final String SHUTDOWN_CODE = "SHUTDOWN";
 
 	private boolean programActive;
 	private File folderToMonitor;
 	private boolean active;
+	private CommunicationApplication ca;
 
-	public StatusMonitor(File folderToMonitor) {
+	public StatusMonitor(File folderToMonitor, CommunicationApplication ca) {
 		this.folderToMonitor = folderToMonitor;
+		this.ca = ca;
 	}
 
 	@Override
@@ -29,15 +33,20 @@ public class StatusMonitor implements Runnable {
 			for (File f : folderToMonitor.listFiles()) {
 				switch (f.getName()) {
 				case ACTIVE_CODE:
-					if (!programActive == true) {
-						log.trace("New status found, setting programActive: true");
-						programActive = true;
+					if (ca.getStatus() != ACTIVE_CODE) {
+						log.trace("New status: " + ACTIVE_CODE);
+						ca.setStatus(ACTIVE_CODE);
 					}
 					break;
 				case INACTIVE_CODE:
-					if (!programActive == false) {
-						log.trace("New status found, setting programActive: false");
-						programActive = false;
+					if (ca.getStatus() != INACTIVE_CODE) {
+						log.trace("New status: " + INACTIVE_CODE);
+						ca.setStatus(INACTIVE_CODE);
+					}
+				case SHUTDOWN_CODE:
+					if (ca.getStatus() != SHUTDOWN_CODE) {
+						log.trace("New status: " + SHUTDOWN_CODE);
+						ca.setStatus(SHUTDOWN_CODE);
 					}
 				}
 

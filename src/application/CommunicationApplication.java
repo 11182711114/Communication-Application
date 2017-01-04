@@ -140,6 +140,7 @@ public class CommunicationApplication {
 	private void startContinuousOperation() {
 		do{
 			if(status == StatusMonitor.ACTIVE_CODE){
+				log.debug("Program is active");
 				if (doDisc) {
 					log.debug(
 							"Making ChannelHandler with monitorDir: " +	monitorDir + 
@@ -177,13 +178,30 @@ public class CommunicationApplication {
 					new Thread(cH).start();
 				}
 			} else if (status == StatusMonitor.INACTIVE_CODE){
-				if(cH != null && cH.getActive() == true)
-					cH.stop();
+				log.debug("Program is inactive");
+				stopChannelHandler();
+			} else if (status == StatusMonitor.SHUTDOWN_CODE){
+				shutdown();
 			}
 		}while(true);
 	}
-	
+	private void shutdown(){
+		log.info("Shutting down");
+		stopChannelHandler();
+		System.exit(0);
+		
+	}
+	private void stopChannelHandler(){
+		if(cH != null && cH.getActive() == true){
+			log.debug("ChannelHandler is active, shutting it down");
+			cH.stop();
+		}
+	}
 	public void setStatus(String newStatus){
 		this.status = newStatus;		
+	}
+
+	public String getStatus() {
+		return status;
 	}
 }
