@@ -26,7 +26,6 @@ public class PortListener implements Runnable {
 	public void run() {
 		log.info("Starting port listener");
 		active = true;
-		if(active){
 			while (active) {
 				if (serverSocket == null)
 					return;
@@ -38,7 +37,7 @@ public class PortListener implements Runnable {
 					log.exception(e);
 				}
 			}
-		}else {
+		if (!active){
 			try {
 				log.debug("Closing serverSocket");
 				serverSocket.close();
