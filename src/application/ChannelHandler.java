@@ -6,7 +6,6 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -87,25 +86,6 @@ public class ChannelHandler {
 	 *             when the folder does not exist
 	 */
 	public void passComFolder(File comFolder) throws IOException {
-		// log.info("Making new channel based on passed ComIdFolder");
-		// IO io = new IO(comFolder);
-		//
-		// log.debug("monitorDir: " + monitorDir + " comFolder: " + comFolder);
-		// String deviceId = DeviceIdExtractor.extractFromFolder(monitorDir,
-		// comFolder);
-		// log.debug("Extracting ip from: "+ comFolder.getAbsolutePath() + "
-		// resulted in deviceId: " + deviceId);
-		// InetAddress ip = InetAddress.getByName(deviceId);
-		// Connection con = new Connection(new Socket());
-		// con.setIp(ip);
-		// con.setPort(port);
-		//
-		// log.debug("Making new channel!");
-		// Channel chan = new Channel(con,io);
-		// chan.setComID(io.getComID());
-		//
-		// log.debug("Trying to add and start channel!");
-		// addAndStartChannel(chan);
 		log.info("Making new channel based on passed ComIdFolder");
 		IO io = new IO(comFolder);
 

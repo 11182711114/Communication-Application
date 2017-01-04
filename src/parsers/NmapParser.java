@@ -25,17 +25,6 @@ public class NmapParser implements DeviceParser {
 		if (!s.contains(relLine))
 			throw new IllegalArgumentException("The given string\"" + s + "\" cannot be parsed into a valid device");
 
-		// int openPar = s.indexOf("(") + 1;
-		// int closePar = s.indexOf(")") - 1;
-		// if(openPar<0 || closePar<0)
-		// throw new IllegalArgumentException("The given string\"" + s + "\"
-		// cannot be parsed into a valid device");
-		//
-		// InetAddress ip =
-		// InetAddress.getByName(s.substring(openPar,closePar));
-
-		// Pattern ipRegex =
-		// Pattern.compile("([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3})");
 		Pattern ipRegex = Pattern.compile("(([0-9]{1,3}\\.){3}[0-9]{1,3})");
 		Matcher m = ipRegex.matcher(s);
 		if (!m.find())
@@ -62,14 +51,6 @@ public class NmapParser implements DeviceParser {
 	public Device parse(String deviceID, String s) throws UnknownHostException, IllegalArgumentException {
 		if (!s.contains(relLine))
 			throw new IllegalArgumentException("The given string\"" + s + "\" cannot be parsed into a valid device");
-
-		// int openPar = s.indexOf("(") + 1;
-		// int closePar = s.indexOf(")") - 1;
-		// if(openPar<0 || closePar<0)
-		// throw new IllegalArgumentException("The given string\"" + s + "\"
-		// cannot be parsed into a valid device");
-		// InetAddress ip =
-		// InetAddress.getByName(s.substring(openPar,closePar));
 
 		Pattern ipRegex = Pattern.compile("(([0-9]{1,3}\\.){3}[0-9]{1,3})");
 		Matcher m = ipRegex.matcher(s);
