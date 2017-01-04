@@ -111,6 +111,7 @@ public class ChannelHandler implements Runnable{
 
 	public void stop() {
 		log.info("Stopping");
+		active = false;
 		sListener.stop();
 		fMon.stop();
 		disc.stop();
