@@ -9,16 +9,14 @@ import dataPacket.OutputDataPacket;
 import ipc.IO;
 import log.Logger;
 
-public class Channel implements Comparable<Channel>, Runnable {
-
-	private String comID;
+public class Channel implements Runnable {
 	private boolean active;
 
 	private Connection con;
 	private IO inOut;
 	private File workingDirectory;
 
-	private Logger log = Logger.getLogger(this.getClass().getSimpleName() + "@" + comID);
+	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
 
 	/**
 	 * Handles Connections and IO operations.
@@ -57,7 +55,7 @@ public class Channel implements Comparable<Channel>, Runnable {
 				if (inOut.checkForOutput()) {
 
 					try {
-						OutputDataPacket[] data = inOut.sendDataPackets();
+						OutputDataPacket[] data = inOut.getOutput();
 						con.send(data);
 
 					} catch (FileNotFoundException e) {
@@ -67,10 +65,8 @@ public class Channel implements Comparable<Channel>, Runnable {
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				// TODO Do something check for datatosend
 
 			}
 		}
@@ -84,25 +80,11 @@ public class Channel implements Comparable<Channel>, Runnable {
 		if (inOut == null) {
 			inputComID(packet.getComID());
 		}
-		inOut.handle(packet);
+		inOut.handleInput(packet);
 	}
 
 	public void inputComID(String comID) {
-		this.comID = comID;
 		inOut = new IO(new File(workingDirectory.getAbsolutePath() + "/" + comID + "/"));
-	}
-
-	@Override
-	public int compareTo(Channel c) {
-		return comID.equals(c.getComID()) ? 1 : 0;
-	}
-
-	public String getComID() {
-		return comID;
-	}
-
-	public void setComID(String comID) {
-		this.comID = comID;
 	}
 
 	public void exit() {
