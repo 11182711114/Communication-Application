@@ -10,7 +10,6 @@ import dataPacket.InputDataPacket;
 import dataPacket.OutputDataPacket;
 import log.Logger;
 
-//OBS formatera!
 
 public class Connection implements Runnable {
 
@@ -26,7 +25,7 @@ public class Connection implements Runnable {
 
 	public void setChannel(Channel channel) {
 		this.channel = channel;
-		log = Logger.getLogger(this.getClass().getSimpleName() + "@" + channel.getComID());
+		log = Logger.getLogger(this.getClass().getSimpleName());
 	}
 
 	@Override
@@ -92,7 +91,6 @@ public class Connection implements Runnable {
 
 				if (input.equals("<END>")) {
 					log.trace("End tag found");
-					channel.setComID(packet.getComID());
 					channel.inputPacket(packet);
 					packet = new InputDataPacket();
 				}
