@@ -7,7 +7,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import discovery.Discovery;
@@ -23,42 +22,28 @@ public class ChannelHandler {
 	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
 
 	private List<Channel> channels;
-	private Set<Channel> channelsSet;
 	private PortListener sListener;
 	private FolderMonitor fMon;
 	private Discovery disc;
 	private File monitorDir;
-	private int port;
 
-	public ChannelHandler(Set<Channel> channelsSet, List<Channel> cons, File monitorDir) {
+	public ChannelHandler(List<Channel> cons, File monitorDir, Discovery disc) {
 		this.channels = cons;
-		this.channelsSet = channelsSet;
-		this.monitorDir = monitorDir;
-		fMon = new FolderMonitor(monitorDir, new HashSet<File>(), this);
-	}
-
-	public ChannelHandler(Set<Channel> channelsSet, List<Channel> cons, File monitorDir, Discovery disc, int port) {
-		this.channels = cons;
-		this.channelsSet = channelsSet;
 		fMon = new FolderMonitor(monitorDir, new HashSet<File>(), this);
 		this.monitorDir = monitorDir;
 		this.disc = disc;
-		this.port = port;
 	}
 
-	public ChannelHandler(Set<Channel> channelsSet, List<Channel> cons, File monitorDir, int port) {
+	public ChannelHandler(List<Channel> cons, File monitorDir) {
 		this.channels = cons;
-		this.channelsSet = channelsSet;
 		fMon = new FolderMonitor(monitorDir, new HashSet<File>(), this);
 		this.monitorDir = monitorDir;
-		this.port = port;
 	}
 
 	public void addAndStartChannel(Channel c) {
 		log.debug("Attempting to start channel");
 		new Thread(c).start();
 		channels.add(c);
-		channelsSet.add(c);
 	}
 
 	/**
