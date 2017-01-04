@@ -8,8 +8,6 @@ import java.net.Socket;
 import application.ChannelHandler;
 import log.Logger;
 
-//OBS formatera!
-
 public class PortListener implements Runnable {
 	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
 

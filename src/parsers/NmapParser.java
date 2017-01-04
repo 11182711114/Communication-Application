@@ -47,20 +47,6 @@ public class NmapParser implements DeviceParser {
 	 * @throws IllegalArgumentException
 	 *             - if the given string cannot be parsed
 	 */
-	@Override
-	public Device parse(String deviceID, String s) throws UnknownHostException, IllegalArgumentException {
-		if (!s.contains(relLine))
-			throw new IllegalArgumentException("The given string\"" + s + "\" cannot be parsed into a valid device");
 
-		Pattern ipRegex = Pattern.compile("(([0-9]{1,3}\\.){3}[0-9]{1,3})");
-		Matcher m = ipRegex.matcher(s);
-		if (!m.find())
-			throw new IllegalArgumentException("The given string\"" + s + "\" cannot be parsed into a valid device");
-
-		InetAddress ip = InetAddress.getByName(m.group());
-
-		Device d = new Device(ip, deviceID);
-		return d;
-	}
 
 }

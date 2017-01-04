@@ -4,20 +4,14 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 public class Device implements Comparable<Device> {
-	private String deviceID;
 	private InetAddress ip;
 
-	public Device(InetAddress ip, String deviceID) {
-		this.deviceID = deviceID;
-		this.ip = ip;
-	}
 
 	public Device(InetAddress ip) {
 		this.ip = ip;
 	}
 
-	public Device(String deviceID, String IP) {
-		this.deviceID = deviceID;
+	public Device(String IP) {
 		try {
 			this.ip = InetAddress.getByName(IP);
 		} catch (UnknownHostException e) {
@@ -26,11 +20,7 @@ public class Device implements Comparable<Device> {
 	}
 
 	public String getDeviceID() {
-		return deviceID;
-	}
-
-	public void setDeviceID(String deviceID) {
-		this.deviceID = deviceID;
+		return ip.getHostAddress();
 	}
 
 	public InetAddress getIP() {
@@ -43,7 +33,7 @@ public class Device implements Comparable<Device> {
 
 	@Override
 	public int compareTo(Device d) {
-		return this.deviceID.compareTo(d.getDeviceID());
+		return this.getDeviceID().compareTo(d.getDeviceID());
 	}
 
 	public String toPrint() {
