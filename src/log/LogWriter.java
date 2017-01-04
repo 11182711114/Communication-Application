@@ -55,28 +55,6 @@ public class LogWriter implements Runnable {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			// Queue<LogLineStorage> wb = log.getWriteBuffer();
-			// if (wb != null) {
-			// synchronized(wb){ //Non atomic calls to wb, not really necessary
-			// if (wb.isEmpty()) {
-			// try {
-			// Thread.sleep(ttw);
-			// } catch (InterruptedException e) {
-			// e.printStackTrace();
-			// }
-			// } else {
-			// if (logFile == null)
-			// return;
-			//
-			// try {
-			// FileUtil.writeToFile(wb.poll().toWrite(), logFile);
-			// } catch (IOException e) {
-			// e.printStackTrace();
-			// }
-			// }
-			// }
-			// }
-
 		}
 	}
 
