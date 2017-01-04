@@ -6,6 +6,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 import discovery.Discovery;
@@ -99,9 +100,11 @@ public class ChannelHandler implements Runnable{
 	private void checkChannels() {
 			ArrayList<Channel> inactive = new ArrayList<>();
 			synchronized(channels){
-				for(Channel c : channels){
-					if(c.getActive())
+				for(Iterator<Channel> iterator = channels.iterator(); iterator.hasNext(); ){
+					Channel c = iterator.next();
+					if(c.getActive()){
 						inactive.add(c);
+					}
 				}
 				channels.removeAll(inactive);
 			}
