@@ -143,6 +143,7 @@ public class CommunicationApplication {
 	private void startContinuousOperation() {
 		do{
 			if(changedStatus){
+				log.info("New status: " + status);
 				if(status == StatusMonitor.ACTIVE_CODE){
 					log.debug("Program is active");
 					if (doDisc) {
