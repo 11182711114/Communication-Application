@@ -4,43 +4,43 @@ import java.io.File;
 
 import log.Logger;
 
-public class StatusMonitor implements Runnable{
+public class StatusMonitor implements Runnable {
 	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
-	
+
 	private static final long SCAN_INTERVAL_IN_MS = 1000;
-	
+
 	private static final String ACTIVE_CODE = "ACTIVE";
 	private static final String INACTIVE_CODE = "INACTIVE";
-	
+
 	private boolean programActive;
 	private File folderToMonitor;
 	private boolean active;
-	
-	public StatusMonitor(File folderToMonitor){
+
+	public StatusMonitor(File folderToMonitor) {
 		this.folderToMonitor = folderToMonitor;
 	}
-	
+
 	@Override
 	public void run() {
 		log.info("Starting operation");
 		active = true;
-		while(active){
+		while (active) {
 			log.trace("Starting scan");
-			for(File f : folderToMonitor.listFiles()){
-				switch(f.getName()){
+			for (File f : folderToMonitor.listFiles()) {
+				switch (f.getName()) {
 				case ACTIVE_CODE:
-					if(!programActive == true){
+					if (!programActive == true) {
 						log.trace("New status found, setting programActive: true");
 						programActive = true;
 					}
 					break;
 				case INACTIVE_CODE:
-					if(!programActive == false){
+					if (!programActive == false) {
 						log.trace("New status found, setting programActive: false");
 						programActive = false;
 					}
 				}
-				
+
 			}
 			try {
 				Thread.sleep(SCAN_INTERVAL_IN_MS);
@@ -48,9 +48,9 @@ public class StatusMonitor implements Runnable{
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
-	
+
 	public boolean isProgramActive() {
 		return programActive;
 	}

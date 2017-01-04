@@ -19,7 +19,7 @@ import parsers.NmapParser;
  */
 public class Discovery implements Runnable {
 	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
-	
+
 	private static final long PROCESS_MAX_TIME_IN_MS = 150000;
 	private static final long TIME_BETWEEN_SCANS_IN_MS = 10000;
 
@@ -28,12 +28,13 @@ public class Discovery implements Runnable {
 	private String command = "nmap", arg1 = "-sn", network = "192.168.1.*", end = "Nmap done:";
 	private RoutingTable routingTable;
 	private File toWriteIn;
-	
+
 	public Discovery(RoutingTable rt, String network, File toWriteIn) {
 		this.routingTable = rt;
 		this.network = network;
 		this.toWriteIn = toWriteIn;
 	}
+
 	public Discovery(RoutingTable rt, String network) {
 		this.routingTable = rt;
 		this.network = network;
@@ -59,20 +60,20 @@ public class Discovery implements Runnable {
 
 			log.debug("Starting Discovery main loop");
 			Scanner sc = null;
-			try{
+			try {
 				String[] command = pb.command().toArray(new String[0]);
 				String com = "";
 				for (String s : command) {
 					com += s + " ";
 				}
 				log.debug("Starting nmap process: " + com);
-				
+
 				Process process = pb.start();
 				sc = new Scanner(new InputStreamReader(process.getInputStream()));
 
 				long startTime = System.currentTimeMillis();
 				boolean endFound = false;
-				
+
 				while (!endFound) {
 					// kill the process if it takes longer than 150s
 					long currentTime = System.currentTimeMillis();
@@ -83,13 +84,13 @@ public class Discovery implements Runnable {
 						process.destroy();
 						break;
 					}
-					endFound = scanData(sc,shellOutput);
+					endFound = scanData(sc, shellOutput);
 				}
-				
+
 				Device[] devices = parseDevices(shellOutput);
 				routingTable.updateDevices(devices);
 				printRoutingTable(toWriteIn);
-				
+
 				Thread.sleep(TIME_BETWEEN_SCANS_IN_MS);
 			} catch (IOException e) {
 				log.exception(e);
@@ -101,11 +102,15 @@ public class Discovery implements Runnable {
 			}
 		}
 	}
-	/** Parses a List<String> into devices
-	 * @param toParse - a List<String> to attempt to parse into Devices
+
+	/**
+	 * Parses a List<String> into devices
+	 * 
+	 * @param toParse
+	 *            - a List<String> to attempt to parse into Devices
 	 * @return an array of Device containing all parsable devices from toParse
 	 */
-	private Device[] parseDevices(List<String> toParse){
+	private Device[] parseDevices(List<String> toParse) {
 		// FIXME clean
 		List<Device> devices = new ArrayList<>();
 		log.trace("Parsing shelloutput for valid devices");
@@ -125,9 +130,14 @@ public class Discovery implements Runnable {
 		}
 		return devices.toArray(new Device[0]);
 	}
-	/**Scans lines from a Scanner and adds them to a List<String>
-	 * @param sc - the Scanner from which to read
-	 * @param shellOutput - the List<String> to add the lines
+
+	/**
+	 * Scans lines from a Scanner and adds them to a List<String>
+	 * 
+	 * @param sc
+	 *            - the Scanner from which to read
+	 * @param shellOutput
+	 *            - the List<String> to add the lines
 	 * @return true if end is found, false otherwise
 	 */
 	private boolean scanData(Scanner sc, List<String> shellOutput) {
@@ -147,7 +157,8 @@ public class Discovery implements Runnable {
 		}
 		return false;
 	}
-	private void printRoutingTable(File toPrintIn) throws IOException{
+
+	private void printRoutingTable(File toPrintIn) throws IOException {
 		log.info("Printing Routing table");
 		String[] rt = RoutingTableOutputGenerator.generateRoutingTableAsStringArray(routingTable);
 		util.FileUtil.writeToFile(rt, toPrintIn);

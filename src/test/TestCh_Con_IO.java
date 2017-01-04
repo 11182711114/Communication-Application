@@ -13,43 +13,40 @@ import util.FileUtil;
 
 public class TestCh_Con_IO {
 
-	public void runTest(){
-		
+	public void runTest() {
+
 		try {
-			
-			for(File f : new File("./files/127.0.0.1/testCom/Output/Sent/").listFiles())
-			{
+
+			for (File f : new File("./files/127.0.0.1/testCom/Output/Sent/").listFiles()) {
 				f.delete();
 			}
-			FileUtil.writeToFile("TestData",new File("./files/127.0.0.1/testCom/Output/Send/TestFile.txt" ));
-			
+			FileUtil.writeToFile("TestData", new File("./files/127.0.0.1/testCom/Output/Send/TestFile.txt"));
+
 			ServerSocket ss = new ServerSocket(8080);
 			Socket s = new Socket(InetAddress.getByName("127.0.0.1"), 8080);
 			IO io = new IO(new File("./files/127.0.0.1/testCom/"));
 			Connection con = new Connection(s);
-			Channel ch= new Channel(con, io);
-			
-			
-			new Thread(){
-				@Override 
-				public void run(){
+			Channel ch = new Channel(con, io);
+
+			new Thread() {
+				@Override
+				public void run() {
 					try {
 						Socket s2 = ss.accept();
 						Connection con2 = new Connection(s2);
 						Channel ch2 = new Channel(con2, new File("./files/127.0.0.1/"));
-						
+
 						ch2.run();
 						ss.close();
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					
+
 				}
 			}.start();
 			new Thread(ch).start();
-			
-			
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

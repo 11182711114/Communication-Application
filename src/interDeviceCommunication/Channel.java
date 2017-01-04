@@ -22,19 +22,22 @@ public class Channel implements Comparable<Channel>, Runnable {
 
 	/**
 	 * Handles Connections and IO operations.
-	 * @param Con - connection between two devices
-	 * @param inOut - IPC between two processes
+	 * 
+	 * @param Con
+	 *            - connection between two devices
+	 * @param inOut
+	 *            - IPC between two processes
 	 */
 	public Channel(Connection con, IO inOut) {
 		this.con = con;
 		this.inOut = inOut;
 	}
-	
+
 	public Channel(Connection con, File workingDirectory) {
 		this.con = con;
 		this.workingDirectory = new File(workingDirectory.getAbsolutePath() + File.separator + con.deviceId());
 	}
-	
+
 	@Override
 	public void run() {
 		log.info("Starting channel");
@@ -48,18 +51,18 @@ public class Channel implements Comparable<Channel>, Runnable {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			
-			if(inOut != null){
+
+			if (inOut != null) {
 				log.trace("checking for output");
-				if(inOut.checkForOutput()){
-					
+				if (inOut.checkForOutput()) {
+
 					try {
-						OutputDataPacket[] data= inOut.sendDataPackets();
+						OutputDataPacket[] data = inOut.sendDataPackets();
 						con.send(data);
 
 					} catch (FileNotFoundException e) {
 						e.printStackTrace();
-					} 
+					}
 				}
 				try {
 					Thread.sleep(1000);
@@ -68,26 +71,25 @@ public class Channel implements Comparable<Channel>, Runnable {
 					e.printStackTrace();
 				}
 				// TODO Do something check for datatosend
-				
+
 			}
 		}
 	}
-	
-	public boolean returnActive(){
+
+	public boolean returnActive() {
 		return active;
 	}
 
 	public void inputPacket(InputDataPacket packet) {
-		if(inOut == null){
+		if (inOut == null) {
 			inputComID(packet.getComID());
 		}
 		inOut.handle(packet);
 	}
-	
-	public void inputComID(String comID)
-	{
+
+	public void inputComID(String comID) {
 		this.comID = comID;
-		inOut = new IO(new File(workingDirectory.getAbsolutePath() + "/" +comID + "/"));
+		inOut = new IO(new File(workingDirectory.getAbsolutePath() + "/" + comID + "/"));
 	}
 
 	@Override
@@ -98,8 +100,8 @@ public class Channel implements Comparable<Channel>, Runnable {
 	public String getComID() {
 		return comID;
 	}
-	
-	public void setComID(String comID){
+
+	public void setComID(String comID) {
 		this.comID = comID;
 	}
 
