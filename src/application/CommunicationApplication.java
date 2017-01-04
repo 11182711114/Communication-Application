@@ -30,7 +30,7 @@ public class CommunicationApplication {
 	private String deviceId;
 	private boolean logAppend = true;
 	private File statusFile = new File("./status");
-	
+
 	private ChannelHandler cH;
 
 	private Logger log;
@@ -67,24 +67,24 @@ public class CommunicationApplication {
 					if (!monitorDir.exists())
 						monitorDir.mkdirs();
 					break;
-					
+
 				case "-disc":
 					doDisc = true;
 					File discOutTmp = new File(args[i + 1] + File.separator + discoveryOutput.getName());
 					discoveryOutput = discOutTmp;
-					if(!discoveryOutput.exists())
+					if (!discoveryOutput.exists())
 						discoveryOutput.mkdirs();
 					break;
-					
+
 				case "-network":
 					network = args[i + 1];
 					break;
-					
+
 				case "-L":
-					logAppend = Boolean.parseBoolean(args[i+1]);
+					logAppend = Boolean.parseBoolean(args[i + 1]);
 					break;
 				case "-S":
-					statusFile = new File(args[i+1]);
+					statusFile = new File(args[i + 1]);
 					break;
 				default:
 					break;
@@ -101,16 +101,16 @@ public class CommunicationApplication {
 		try {
 			log.info("Loading config file");
 			String[] configFileOutput = util.FileUtil.readFromFile(configFile);
-			Map<String,String> config = new HashMap<String,String>();
-			for(String s : configFileOutput){
+			Map<String, String> config = new HashMap<String, String>();
+			for (String s : configFileOutput) {
 				log.trace("Trying to parse config string: " + s);
 				String[] keyValue = s.split("=");
-				if(keyValue.length==2 && (!keyValue[0].isEmpty() || !keyValue[1].isEmpty()))
+				if (keyValue.length == 2 && (!keyValue[0].isEmpty() || !keyValue[1].isEmpty()))
 					config.put(keyValue[0], keyValue[1]);
 			}
 			deviceId = config.get("deviceId");
 			log.debug("Setting deviceId: " + deviceId);
-			
+
 		} catch (FileNotFoundException e) {
 			log.error("No config file found");
 		}
@@ -130,53 +130,28 @@ public class CommunicationApplication {
 		LogWriter lw = LogWriter.getInstance();
 		if (lw != null)
 			new Thread(lw).start();
-		 log = Logger.getLogger(this.getClass().getSimpleName());
+		log = Logger.getLogger(this.getClass().getSimpleName());
 	}
 
 	private void startContinuousOperation() {
 		if (doDisc) {
-			log.debug("Making ChannelHandler with monitorDir: " + monitorDir + " network: " + network + " discoveryOutput: " + discoveryOutput);
-			cH = new ChannelHandler(
-					new HashSet<Channel>(),
-					new LinkedList<Channel>(),
-					monitorDir,
-					new Discovery(
-							new RoutingTable(
-									new ArrayList<Device>()
-							),
-							network,
-							discoveryOutput
-					),
-					listenPort
-			);
-			
+			log.debug("Making ChannelHandler with monitorDir: " + monitorDir + " network: " + network
+					+ " discoveryOutput: " + discoveryOutput);
+			cH = new ChannelHandler(new HashSet<Channel>(), new LinkedList<Channel>(), monitorDir,
+					new Discovery(new RoutingTable(new ArrayList<Device>()), network, discoveryOutput), listenPort);
+
 			try {
-				cH.setPortListener(
-						new PortListener(
-								cH,
-								new ServerSocket(listenPort)
-						)
-				);
+				cH.setPortListener(new PortListener(cH, new ServerSocket(listenPort)));
 			} catch (IOException e) {
 				log.exception(e);
 			}
 			cH.start();
 		} else {
 			log.debug("Making ChannelHandler with monitorDir: " + monitorDir + " network: " + network);
-			cH = new ChannelHandler(
-					new HashSet<Channel>(),
-					new LinkedList<Channel>(),
-					monitorDir,
-					listenPort
-			);
-			
+			cH = new ChannelHandler(new HashSet<Channel>(), new LinkedList<Channel>(), monitorDir, listenPort);
+
 			try {
-				cH.setPortListener(
-						new PortListener(
-								cH,
-								new ServerSocket(listenPort)
-						)
-				);
+				cH.setPortListener(new PortListener(cH, new ServerSocket(listenPort)));
 			} catch (IOException e) {
 				log.exception(e);
 			}

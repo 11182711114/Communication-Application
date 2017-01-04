@@ -10,7 +10,7 @@ public class LogWriter implements Runnable {
 
 	private static File logFileStatic;
 	private static boolean append = true;
-	
+
 	private static class LogWriterHolder {
 		private static final LogWriter INSTANCE = new LogWriter(logFileStatic, append);
 	}
@@ -24,7 +24,8 @@ public class LogWriter implements Runnable {
 	public static void setLogFile(File f) {
 		logFileStatic = f;
 	}
-	public static void setAppend(boolean app){
+
+	public static void setAppend(boolean app) {
 		append = app;
 	}
 
@@ -40,8 +41,8 @@ public class LogWriter implements Runnable {
 	@Override
 	public void run() {
 		active = true;
-		if(!append){
-			if(logFile.exists()){
+		if (!append) {
+			if (logFile.exists()) {
 				logFile.delete();
 			}
 		}

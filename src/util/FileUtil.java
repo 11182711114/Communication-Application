@@ -57,7 +57,7 @@ public class FileUtil {
 		}
 
 		PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(toWriteIn, true)));
-		for(String s : rt){
+		for (String s : rt) {
 			pw.println(s);
 		}
 		pw.flush();
