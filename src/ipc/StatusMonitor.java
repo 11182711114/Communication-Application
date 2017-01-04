@@ -49,7 +49,6 @@ public class StatusMonitor implements Runnable {
 						ca.setStatus(SHUTDOWN_CODE);
 					}
 				}
-
 			}
 			try {
 				Thread.sleep(SCAN_INTERVAL_IN_MS);

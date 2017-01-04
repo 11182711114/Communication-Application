@@ -89,6 +89,7 @@ public class CommunicationApplication {
 					break;
 				case "-S":
 					statusFile = new File(args[i + 1]);
+					statusMon = new StatusMonitor(statusFile,this);
 					break;
 				default:
 					break;
