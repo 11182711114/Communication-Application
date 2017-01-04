@@ -109,7 +109,7 @@ public class ChannelHandler implements Runnable{
 		}
 	}
 
-	public void fullStop() {
+	public void stop() {
 		log.info("Stopping");
 		sListener.stop();
 		fMon.stop();

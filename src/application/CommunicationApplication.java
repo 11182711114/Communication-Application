@@ -141,10 +141,20 @@ public class CommunicationApplication {
 		do{
 			if(status == StatusMonitor.ACTIVE_CODE){
 				if (doDisc) {
-					log.debug("Making ChannelHandler with monitorDir: " + monitorDir + " network: " + network
-							+ " discoveryOutput: " + discoveryOutput);
-					cH = new ChannelHandler(new LinkedList<Channel>(), monitorDir,
-							new Discovery(new RoutingTable(new ArrayList<Device>()), network, discoveryOutput));
+					log.debug(
+							"Making ChannelHandler with monitorDir: " +	monitorDir + 
+							" network: " + 	network + 
+							" discoveryOutput: " + discoveryOutput
+					);
+					cH = new ChannelHandler(
+							new LinkedList<Channel>(),
+							monitorDir,
+							new Discovery(
+									new RoutingTable(new ArrayList<Device>()
+							),
+							network,
+							discoveryOutput)
+					);
 		
 					try {
 						cH.setPortListener(new PortListener(cH, new ServerSocket(listenPort)));
@@ -153,7 +163,10 @@ public class CommunicationApplication {
 					}
 					new Thread(cH).start();
 				} else {
-					log.debug("Making ChannelHandler with monitorDir: " + monitorDir + " network: " + network);
+					log.debug(
+							"Making ChannelHandler with monitorDir: " + monitorDir + 
+							" network: " + network
+					);
 					cH = new ChannelHandler(new LinkedList<Channel>(), monitorDir);
 		
 					try {
@@ -165,7 +178,7 @@ public class CommunicationApplication {
 				}
 			} else if (status == StatusMonitor.INACTIVE_CODE){
 				if(cH != null && cH.getActive() == true)
-					cH.fullStop();
+					cH.stop();
 			}
 		}while(true);
 	}
