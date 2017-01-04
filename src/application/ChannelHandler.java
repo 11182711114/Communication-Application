@@ -19,7 +19,7 @@ import ipc.IO;
 import log.Logger;
 import util.DeviceIdExtractor;
 
-public class ChannelHandler {
+public class ChannelHandler implements Runnable{
 	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
 
 	private List<Channel> channels;
@@ -29,6 +29,7 @@ public class ChannelHandler {
 	private Discovery disc;
 	private File monitorDir;
 	private int port;
+	private boolean active;
 
 	public ChannelHandler(Set<Channel> channelsSet, List<Channel> cons, File monitorDir) {
 		this.channels = cons;
@@ -112,8 +113,7 @@ public class ChannelHandler {
 	}
 
 	private void checkChannels() {
-
-		while (true) {
+		while (active) {
 			ArrayList<Channel> inActive = (ArrayList<Channel>) channels.stream().filter(c -> !c.returnActive())
 					.collect(Collectors.toList());
 			channels.removeAll(inActive);
@@ -124,7 +124,24 @@ public class ChannelHandler {
 		}
 	}
 
-	public void start() {
+	public void fullStop() {
+		log.info("Stopping");
+		sListener.stop();
+		fMon.stop();
+		disc.stop();
+		for (Channel c : channels) {
+			c.stop();
+		}
+	}
+
+	public boolean getActive() {
+		return active;
+	}
+
+	@Override
+	public void run() {
+		active = true;
+		
 		log.info("Starting ChannelHandler");
 		new Thread(sListener).start();
 		new Thread(fMon).start();
@@ -132,13 +149,5 @@ public class ChannelHandler {
 			new Thread(disc).start();
 		}
 		checkChannels();
-	}
-
-	public void fullStop() {
-		log.info("Stopping");
-		sListener.stop();
-		for (Channel c : channels) {
-			c.stop();
-		}
 	}
 }

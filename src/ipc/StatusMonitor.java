@@ -9,8 +9,8 @@ public class StatusMonitor implements Runnable {
 
 	private static final long SCAN_INTERVAL_IN_MS = 1000;
 
-	private static final String ACTIVE_CODE = "ACTIVE";
-	private static final String INACTIVE_CODE = "INACTIVE";
+	public static final String ACTIVE_CODE = "ACTIVE";
+	public static final String INACTIVE_CODE = "INACTIVE";
 
 	private boolean programActive;
 	private File folderToMonitor;

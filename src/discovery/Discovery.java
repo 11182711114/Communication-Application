@@ -169,4 +169,8 @@ public class Discovery implements Runnable {
 		active = act;
 		return active;
 	}
+
+	public void stop() {
+		active = false;		
+	}
 }

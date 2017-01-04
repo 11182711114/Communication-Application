@@ -14,6 +14,7 @@ import discovery.RoutingTable;
 import interDeviceCommunication.Channel;
 import interDeviceCommunication.Device;
 import interDeviceCommunication.PortListener;
+import ipc.StatusMonitor;
 import log.LogWriter;
 import log.Logger;
 
@@ -30,6 +31,9 @@ public class CommunicationApplication {
 	private String deviceId;
 	private boolean logAppend = true;
 	private File statusFile = new File("./status");
+	
+	private StatusMonitor statusMon;
+	private String status;
 
 	private ChannelHandler cH;
 
@@ -134,28 +138,39 @@ public class CommunicationApplication {
 	}
 
 	private void startContinuousOperation() {
-		if (doDisc) {
-			log.debug("Making ChannelHandler with monitorDir: " + monitorDir + " network: " + network
-					+ " discoveryOutput: " + discoveryOutput);
-			cH = new ChannelHandler(new HashSet<Channel>(), new LinkedList<Channel>(), monitorDir,
-					new Discovery(new RoutingTable(new ArrayList<Device>()), network, discoveryOutput), listenPort);
-
-			try {
-				cH.setPortListener(new PortListener(cH, new ServerSocket(listenPort)));
-			} catch (IOException e) {
-				log.exception(e);
+		do{
+			if(status == StatusMonitor.ACTIVE_CODE){
+				if (doDisc) {
+					log.debug("Making ChannelHandler with monitorDir: " + monitorDir + " network: " + network
+							+ " discoveryOutput: " + discoveryOutput);
+					cH = new ChannelHandler(new HashSet<Channel>(), new LinkedList<Channel>(), monitorDir,
+							new Discovery(new RoutingTable(new ArrayList<Device>()), network, discoveryOutput), listenPort);
+		
+					try {
+						cH.setPortListener(new PortListener(cH, new ServerSocket(listenPort)));
+					} catch (IOException e) {
+						log.exception(e);
+					}
+					new Thread(cH).start();
+				} else {
+					log.debug("Making ChannelHandler with monitorDir: " + monitorDir + " network: " + network);
+					cH = new ChannelHandler(new HashSet<Channel>(), new LinkedList<Channel>(), monitorDir, listenPort);
+		
+					try {
+						cH.setPortListener(new PortListener(cH, new ServerSocket(listenPort)));
+					} catch (IOException e) {
+						log.exception(e);
+					}
+					new Thread(cH).start();
+				}
+			} else if (status == StatusMonitor.INACTIVE_CODE){
+				if(cH != null && cH.getActive() == true)
+					cH.fullStop();
 			}
-			cH.start();
-		} else {
-			log.debug("Making ChannelHandler with monitorDir: " + monitorDir + " network: " + network);
-			cH = new ChannelHandler(new HashSet<Channel>(), new LinkedList<Channel>(), monitorDir, listenPort);
-
-			try {
-				cH.setPortListener(new PortListener(cH, new ServerSocket(listenPort)));
-			} catch (IOException e) {
-				log.exception(e);
-			}
-			cH.start();
-		}
+		}while(true);
+	}
+	
+	public void setStatus(String newStatus){
+		this.status = newStatus;		
 	}
 }
