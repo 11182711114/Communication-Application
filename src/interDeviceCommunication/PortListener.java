@@ -26,15 +26,23 @@ public class PortListener implements Runnable {
 	public void run() {
 		log.info("Starting port listener");
 		active = true;
-		while (active) {
-			if (serverSocket == null)
-				return;
+		if(active){
+			while (active) {
+				if (serverSocket == null)
+					return;
+				try {
+					Socket newSocket = serverSocket.accept();
+					log.debug("Passing conversation to new socket");
+					handler.passSocket(newSocket);
+				} catch (IOException e) {
+					log.exception(e);
+				}
+			}
+		}else {
 			try {
-				Socket newSocket = serverSocket.accept();
-				log.debug("Passing conversation to new socket");
-				handler.passSocket(newSocket);
+				serverSocket.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				log.exception(e);
 			}
 		}
 	}
