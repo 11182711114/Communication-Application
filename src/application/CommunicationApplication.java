@@ -31,9 +31,7 @@ public class CommunicationApplication {
 	private String deviceId;
 	private boolean logAppend = true;
 	private File statusFile = new File("./status");
-	
-	private StatusMonitor statusMon;
-	private String status;
+	private String status = StatusMonitor.INACTIVE_CODE; //default inactive
 
 	private ChannelHandler cH;
 
@@ -89,7 +87,7 @@ public class CommunicationApplication {
 					break;
 				case "-S":
 					statusFile = new File(args[i + 1]);
-					statusMon = new StatusMonitor(statusFile,this);
+					new Thread(new StatusMonitor(statusFile,this)).start();
 					break;
 				default:
 					break;
