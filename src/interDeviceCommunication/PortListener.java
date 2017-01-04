@@ -40,6 +40,7 @@ public class PortListener implements Runnable {
 			}
 		}else {
 			try {
+				log.debug("Closing serverSocket");
 				serverSocket.close();
 			} catch (IOException e) {
 				log.exception(e);

@@ -183,8 +183,8 @@ public class CommunicationApplication {
 						new Thread(cH).start();
 					}
 				} else if (status == StatusMonitor.INACTIVE_CODE){
-					log.debug("Program is inactive");
 					stopChannelHandler();
+					log.debug("Program is inactive");
 				} else if (status == StatusMonitor.SHUTDOWN_CODE){
 					shutdown();
 				}
