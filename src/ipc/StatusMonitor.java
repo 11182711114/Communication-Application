@@ -45,12 +45,14 @@ public class StatusMonitor implements Runnable {
 						ca.setChangedStatus(true);
 						ca.setStatus(INACTIVE_CODE);
 					}
+					break;
 				case SHUTDOWN_CODE:
 					if (ca.getStatus() != SHUTDOWN_CODE) {
 						log.trace("New status: " + SHUTDOWN_CODE);
 						ca.setChangedStatus(true);
 						ca.setStatus(SHUTDOWN_CODE);
 					}
+					break;
 				}
 			}
 			try {
