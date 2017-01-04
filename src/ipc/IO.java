@@ -34,7 +34,7 @@ public class IO {
 		return dir.listFiles().length + 1;
 	}
 
-	public void handle(InputDataPacket dp) {
+	public void handleInput(InputDataPacket dp) {
 		LocalDate date = LocalDate.now();
 		String dateDescription = "Date: " + date.toString();
 		LocalTime time = LocalTime.now();
@@ -84,7 +84,7 @@ public class IO {
 		return false;
 	}
 
-	public OutputDataPacket[] sendDataPackets() throws FileNotFoundException {
+	public OutputDataPacket[] getOutput() throws FileNotFoundException {
 		ArrayList<OutputDataPacket> packets = new ArrayList<>();
 
 		File dir = new File(directoryPath + "Output/Send/");

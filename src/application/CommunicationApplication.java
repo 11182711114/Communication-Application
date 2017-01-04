@@ -137,8 +137,8 @@ public class CommunicationApplication {
 		if (doDisc) {
 			log.debug("Making ChannelHandler with monitorDir: " + monitorDir + " network: " + network
 					+ " discoveryOutput: " + discoveryOutput);
-			cH = new ChannelHandler(new HashSet<Channel>(), new LinkedList<Channel>(), monitorDir,
-					new Discovery(new RoutingTable(new ArrayList<Device>()), network, discoveryOutput), listenPort);
+			cH = new ChannelHandler(new LinkedList<Channel>(), monitorDir,
+					new Discovery(new RoutingTable(new ArrayList<Device>()), network, discoveryOutput));
 
 			try {
 				cH.setPortListener(new PortListener(cH, new ServerSocket(listenPort)));
@@ -148,7 +148,7 @@ public class CommunicationApplication {
 			cH.start();
 		} else {
 			log.debug("Making ChannelHandler with monitorDir: " + monitorDir + " network: " + network);
-			cH = new ChannelHandler(new HashSet<Channel>(), new LinkedList<Channel>(), monitorDir, listenPort);
+			cH = new ChannelHandler(new LinkedList<Channel>(), monitorDir);
 
 			try {
 				cH.setPortListener(new PortListener(cH, new ServerSocket(listenPort)));
