@@ -37,6 +37,7 @@ public class PortListener implements Runnable {
 					log.exception(e);
 				}
 			}
+			System.out.println(active);
 		if (!active){
 			try {
 				log.debug("Closing serverSocket");
