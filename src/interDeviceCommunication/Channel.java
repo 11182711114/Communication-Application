@@ -87,12 +87,9 @@ public class Channel implements Runnable {
 		inOut = new IO(new File(workingDirectory.getAbsolutePath() + "/" + comID + "/"));
 	}
 
-	public void exit() {
-		con.close();
-	}
-
 	public void stop() {
 		log.info("Stopping");
 		active = false;
+		con.close();
 	}
 }
