@@ -19,6 +19,8 @@ import log.LogWriter;
 import log.Logger;
 
 public class CommunicationApplication {
+	private static final long STATUS_CHECK_INTERVAL = 5000;
+	
 	// PROGRAM OPTIONS - DEFAULT VALUES
 	private int listenPort = 10231; // "-port X"
 	private boolean continuous = false; // "-c" = true
@@ -32,7 +34,9 @@ public class CommunicationApplication {
 	private boolean logAppend = true;
 	private File statusFile = new File("./status");
 	private String status = StatusMonitor.INACTIVE_CODE; //default inactive
-
+	
+	private boolean changedStatus = true;
+	
 	private ChannelHandler cH;
 
 	private Logger log;
@@ -138,49 +142,57 @@ public class CommunicationApplication {
 
 	private void startContinuousOperation() {
 		do{
-			if(status == StatusMonitor.ACTIVE_CODE){
-				log.debug("Program is active");
-				if (doDisc) {
-					log.debug(
-							"Making ChannelHandler with monitorDir: " +	monitorDir + 
-							" network: " + 	network + 
-							" discoveryOutput: " + discoveryOutput
-					);
-					cH = new ChannelHandler(
-							new LinkedList<Channel>(),
-							monitorDir,
-							new Discovery(
-									new RoutingTable(new ArrayList<Device>()
-							),
-							network,
-							discoveryOutput)
-					);
-		
-					try {
-						cH.setPortListener(new PortListener(cH, new ServerSocket(listenPort)));
-					} catch (IOException e) {
-						log.exception(e);
+			if(changedStatus){
+				if(status == StatusMonitor.ACTIVE_CODE){
+					log.debug("Program is active");
+					if (doDisc) {
+						log.debug(
+								"Making ChannelHandler with monitorDir: " +	monitorDir + 
+								" network: " + 	network + 
+								" discoveryOutput: " + discoveryOutput
+						);
+						cH = new ChannelHandler(
+								new LinkedList<Channel>(),
+								monitorDir,
+								new Discovery(
+										new RoutingTable(new ArrayList<Device>()
+								),
+								network,
+								discoveryOutput)
+						);
+			
+						try {
+							cH.setPortListener(new PortListener(cH, new ServerSocket(listenPort)));
+						} catch (IOException e) {
+							log.exception(e);
+						}
+						new Thread(cH).start();
+					} else {
+						log.debug(
+								"Making ChannelHandler with monitorDir: " + monitorDir + 
+								" network: " + network
+						);
+						cH = new ChannelHandler(new LinkedList<Channel>(), monitorDir);
+			
+						try {
+							cH.setPortListener(new PortListener(cH, new ServerSocket(listenPort)));
+						} catch (IOException e) {
+							log.exception(e);
+						}
+						new Thread(cH).start();
 					}
-					new Thread(cH).start();
-				} else {
-					log.debug(
-							"Making ChannelHandler with monitorDir: " + monitorDir + 
-							" network: " + network
-					);
-					cH = new ChannelHandler(new LinkedList<Channel>(), monitorDir);
-		
-					try {
-						cH.setPortListener(new PortListener(cH, new ServerSocket(listenPort)));
-					} catch (IOException e) {
-						log.exception(e);
-					}
-					new Thread(cH).start();
+				} else if (status == StatusMonitor.INACTIVE_CODE){
+					log.debug("Program is inactive");
+					stopChannelHandler();
+				} else if (status == StatusMonitor.SHUTDOWN_CODE){
+					shutdown();
 				}
-			} else if (status == StatusMonitor.INACTIVE_CODE){
-				log.debug("Program is inactive");
-				stopChannelHandler();
-			} else if (status == StatusMonitor.SHUTDOWN_CODE){
-				shutdown();
+				changedStatus = false;
+			}
+			try {
+				Thread.sleep(STATUS_CHECK_INTERVAL);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}while(true);
 	}
@@ -202,5 +214,8 @@ public class CommunicationApplication {
 
 	public String getStatus() {
 		return status;
+	}
+	public void setChangedStatus(boolean bol){
+		changedStatus = bol;
 	}
 }

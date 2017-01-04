@@ -35,17 +35,20 @@ public class StatusMonitor implements Runnable {
 				case ACTIVE_CODE:
 					if (ca.getStatus() != ACTIVE_CODE) {
 						log.trace("New status: " + ACTIVE_CODE);
+						ca.setChangedStatus(true);
 						ca.setStatus(ACTIVE_CODE);
 					}
 					break;
 				case INACTIVE_CODE:
 					if (ca.getStatus() != INACTIVE_CODE) {
 						log.trace("New status: " + INACTIVE_CODE);
+						ca.setChangedStatus(true);
 						ca.setStatus(INACTIVE_CODE);
 					}
 				case SHUTDOWN_CODE:
 					if (ca.getStatus() != SHUTDOWN_CODE) {
 						log.trace("New status: " + SHUTDOWN_CODE);
+						ca.setChangedStatus(true);
 						ca.setStatus(SHUTDOWN_CODE);
 					}
 				}
