@@ -2,7 +2,7 @@ import os
 import subprocess
 import sys
 
-usage = "\"-v\" verbose mode\n \"-q\" quiet mode\n \"-b $branch\" branch\n \"-pU $projectRoot\" project URL root\n \"-CP $compilePath\" Compile path, e.g. \"src/**/*.java\""
+usage = "Basic helper script for Communication-Application, will download from github, extract, compile and clean leftover files\n\"-v\" verbose mode\n \"-q\" quiet mode\n \"-b $branch\" branch\n \"-pU $projectRoot\" project URL root\n \"-CP $compilePath\" Compile path, e.g. \"src/**/*.java\""
 branch = "fredrik"
 outputDir = os.getcwd()+"/./"
 currentDir = os.getcwd() + "/"
