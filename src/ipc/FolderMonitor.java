@@ -54,9 +54,11 @@ public class FolderMonitor implements Runnable {
 						if (!knownDirectories.contains(comIdFolder)) {
 							log.trace("New ComId folder found: " + comIdFolder.getAbsolutePath());
 							try {
-								cH.passComFolder(comIdFolder);
-								log.trace("Adding to known collection: " + comIdFolder.getAbsolutePath());
-								knownDirectories.add(comIdFolder);
+								if(cH.passComFolder(comIdFolder))
+								{
+									log.trace("Adding to known collection: " + comIdFolder.getAbsolutePath());
+									knownDirectories.add(comIdFolder);
+								}
 							} catch (IOException e) {
 								log.error("New folder was deleted while trying to make a new channel");
 							}
