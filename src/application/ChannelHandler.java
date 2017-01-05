@@ -71,7 +71,7 @@ public class ChannelHandler implements Runnable{
 	 * @throws IOException
 	 *             when the folder does not exist
 	 */
-	public void passComFolder(File comFolder) throws IOException {
+	public boolean passComFolder(File comFolder) throws IOException {
 		log.info("Making new channel based on passed ComIdFolder");
 		IO io = new IO(comFolder);
 
@@ -79,11 +79,19 @@ public class ChannelHandler implements Runnable{
 		String deviceId = DeviceIdExtractor.extractFromFolder(monitorDir, comFolder);
 		log.debug("Extracting ip from: " + comFolder.getCanonicalPath() + " resulted in deviceId: " + deviceId);
 		InetAddress ip = InetAddress.getByName(deviceId);
-		Connection con = new Connection(new Socket(ip, sListener.getServerSocketPort()));
+		if(ip.isReachable(2000))
+		{
+			Connection con = new Connection(new Socket(ip, sListener.getServerSocketPort()));
 
-		Channel chan = new Channel(con, io);
+			Channel chan = new Channel(con, io);
 
-		addAndStartChannel(chan);
+			addAndStartChannel(chan);
+			return true;
+		}
+		else{
+			return false;
+		}
+
 	}
 
 	/**
