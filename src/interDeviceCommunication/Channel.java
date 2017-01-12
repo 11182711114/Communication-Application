@@ -9,6 +9,7 @@ import dataPacket.OutputDataPacket;
 import ipc.IO;
 import log.Logger;
 
+// FIXME sent files arrive in opposite order, FIX FOR NEXT VERSION
 public class Channel implements Runnable {
 	private boolean active;
 
